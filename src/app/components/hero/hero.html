@@ -1,0 +1,118 @@
+<section id="home" class="hero-section">
+  <!-- Background Video/Image -->
+  <div class="hero-background">
+    <div class="hero-overlay"></div>
+    <div class="animated-bg">
+      <div class="floating-car car-1"></div>
+      <div class="floating-car car-2"></div>
+      <div class="floating-car car-3"></div>
+    </div>
+  </div>
+
+  <div class="hero-container">
+    <!-- Main Content -->
+    <div class="hero-content" data-aos="fade-up" data-aos-duration="1000">
+      <div class="hero-text">
+        <h1 class="hero-title">
+          <span class="title-main">Your Global Vehicle</span>
+          <span class="title-accent">Export & Import</span>
+          <span class="title-sub">Partner</span>
+        </h1>
+        
+        <p class="hero-description">
+          From luxury sedans to commercial trucks, we make international vehicle trading 
+          seamless, secure, and affordable. Your dream vehicle is just one click away.
+        </p>
+
+        <!-- Service Tags -->
+        <div class="service-tags">
+          <span class="service-tag" *ngFor="let service of services">
+            <i class="bi bi-check-circle"></i>
+            {{ service }}
+          </span>
+        </div>
+
+        <!-- CTA Buttons -->
+        <div class="hero-actions">
+          <button class="btn-hero-primary" (click)="openQuoteModal()">
+            <i class="bi bi-calculator"></i>
+            Get Free Quote
+            <div class="btn-glow"></div>
+          </button>
+          
+          <button class="btn-hero-secondary" (click)="openWhatsApp()">
+            <i class="bi bi-whatsapp"></i>
+            Chat with Expert
+          </button>
+        </div>
+
+        <!-- Quick Contact Info -->
+        <div class="quick-contact">
+          <div class="contact-item">
+            <i class="bi bi-telephone-fill"></i>
+            <span>+27 123 456 789</span>
+          </div>
+          <div class="contact-item">
+            <i class="bi bi-envelope-fill"></i>
+            <span>info&#64;drivelink.co.za</span>
+          </div>
+          <div class="contact-item">
+            <i class="bi bi-clock-fill"></i>
+            <span>24/7 Support</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hero Visual -->
+      <div class="hero-visual" data-aos="fade-left" data-aos-duration="1200">
+        <div class="car-showcase">
+          <img appImageResize src="assets/images/hero/hero-car.jpg" alt="Premium Vehicle" class="hero-car-image">
+          <div class="car-details">
+            <div class="detail-card">
+              <i class="bi bi-shield-check"></i>
+              <span>Fully Insured</span>
+            </div>
+            <div class="detail-card">
+              <i class="bi bi-truck"></i>
+              <span>Safe Delivery</span>
+            </div>
+            <div class="detail-card">
+              <i class="bi bi-award"></i>
+              <span>Quality Assured</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats Section -->
+    <div class="hero-stats" data-aos="fade-up" data-aos-delay="300">
+      <div class="stats-container">
+        <div class="stat-item" *ngFor="let stat of stats; let i = index" 
+             data-aos="zoom-in" [attr.data-aos-delay]="400 + (i * 100)">
+          <div class="stat-icon">
+            <i [class]="stat.icon"></i>
+          </div>
+          <div class="stat-content">
+            <h3 class="stat-number">{{ stat.number }}</h3>
+            <p class="stat-label">{{ stat.label }}</p>
+          </div>
+          <div class="stat-glow"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div class="scroll-indicator" (click)="scrollToServices()">
+      <div class="scroll-text">Discover Our Services</div>
+      <div class="scroll-arrow">
+        <i class="bi bi-chevron-down"></i>
+      </div>
+    </div>
+  </div>
+
+  <!-- Particle Animation -->
+  <div class="particles">
+    <div class="particle" *ngFor="let p of [1,2,3,4,5,6,7,8,9,10]"></div>
+  </div>
+</section>

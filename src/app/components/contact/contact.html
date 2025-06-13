@@ -1,0 +1,383 @@
+<section class="contact-section" id="contact">
+  <!-- Background Animation -->
+  <div class="contact-background">
+    <div class="contact-overlay"></div>
+    <div class="animated-bg">
+      <div class="floating-car car-1"></div>
+      <div class="floating-car car-2"></div>
+      <div class="floating-car car-3"></div>
+      <div class="floating-car car-4"></div>
+      <div class="floating-car car-5"></div>
+    </div>
+    <div class="particles">
+      <div class="particle" *ngFor="let particle of [1,2,3,4,5,6,7,8,9,10]"></div>
+    </div>
+  </div>
+
+  <div class="contact-container">
+    <!-- Section Header -->
+    <div class="section-header" data-aos="fade-up">
+      <h2 class="section-title">
+        <span class="title-main">Get In</span>
+        <span class="title-accent">Touch</span>
+      </h2>
+      <p class="section-subtitle">
+        Ready to start your vehicle import/export journey? Our expert team is here to help you every step of the way.
+      </p>
+    </div>
+
+    <div class="contact-content">
+      <!-- Contact Information Cards -->
+      <div class="contact-info-grid" data-aos="fade-right">
+        <div class="contact-card" 
+             *ngFor="let info of contactInfo; let i = index"
+             [attr.data-aos-delay]="i * 100">
+          <div class="contact-card-glow"></div>
+          <div class="contact-icon">
+            <i [class]="info.icon"></i>
+          </div>
+          <div class="contact-content">
+            <h3 class="contact-title">{{ info.title }}</h3>
+            <div class="contact-details">
+              <p *ngFor="let detail of info.details" class="contact-detail">
+                {{ detail }}
+              </p>
+            </div>
+            <button *ngIf="info.action" 
+                    class="contact-action-btn" 
+                    (click)="info.action()">
+              <i class="bi bi-arrow-right"></i>
+              <span>Connect Now</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Contact Form -->
+      <div class="contact-form-section" data-aos="fade-left">
+        <div class="form-header">
+          <h3 class="form-title">Send Us a Message</h3>
+          <p class="form-subtitle">Fill out the form below and we'll get back to you within 24 hours.</p>
+        </div>
+
+        <!-- Success Message -->
+        <div class="success-message" *ngIf="showSuccessMessage" data-aos="fade-in">
+          <div class="success-content">
+            <i class="bi bi-check-circle-fill"></i>
+            <h4>Message Sent Successfully!</h4>
+            <p>Thank you for contacting us. We'll get back to you soon.</p>
+          </div>
+        </div>
+
+        <!-- Contact Form -->
+        <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="contact-form" *ngIf="!showSuccessMessage">
+          <!-- Personal Information Row -->
+          <div class="form-row">
+            <div class="form-group">
+              <label for="name" class="form-label">
+                Full Name <span class="required">*</span>
+              </label>
+              <div class="input-wrapper">
+                <input type="text" 
+                       id="name" 
+                       formControlName="name"
+                       class="form-input"
+                       [class.error]="isFieldInvalid('name')"
+                       placeholder="Enter your full name">
+                <i class="input-icon bi bi-person-fill"></i>
+              </div>
+              <div class="error-message" *ngIf="isFieldInvalid('name')">
+                {{ getFieldError('name') }}
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="email" class="form-label">
+                Email Address <span class="required">*</span>
+              </label>
+              <div class="input-wrapper">
+                <input type="email" 
+                       id="email" 
+                       formControlName="email"
+                       class="form-input"
+                       [class.error]="isFieldInvalid('email')"
+                       placeholder="your.email@example.com"
+                       (blur)="validateRealTimeEmail()">
+                <i class="input-icon bi bi-envelope-fill"></i>
+              </div>
+              <div class="error-message" *ngIf="isFieldInvalid('email')">
+                {{ getFieldError('email') }}
+              </div>
+            </div>
+          </div>
+
+          <!-- Contact Information Row -->
+          <div class="form-row">
+            <div class="form-group">
+              <label for="phone" class="form-label">
+                Phone Number <span class="required">*</span>
+              </label>
+              <div class="input-wrapper">
+                <input type="tel" 
+                       id="phone" 
+                       formControlName="phone"
+                       class="form-input"
+                       [class.error]="isFieldInvalid('phone')"
+                       placeholder="+27 11 123 4567"
+                       (input)="formatPhoneNumber($event)">
+                <i class="input-icon bi bi-telephone-fill"></i>
+              </div>
+              <div class="error-message" *ngIf="isFieldInvalid('phone')">
+                {{ getFieldError('phone') }}
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="service" class="form-label">
+                Service Interest <span class="required">*</span>
+              </label>
+              <div class="select-wrapper">
+                <select id="service" 
+                        formControlName="service"
+                        class="form-select"
+                        [class.error]="isFieldInvalid('service')">
+                  <option value="general">General Inquiry</option>
+                  <option value="import">Vehicle Import</option>
+                  <option value="export">Vehicle Export</option>
+                  <option value="financing">Financing Options</option>
+                  <option value="shipping">Shipping Quote</option>
+                  <option value="documentation">Documentation Help</option>
+                  <option value="support">Technical Support</option>
+                  <option value="callback">Request Callback</option>
+                </select>
+                <i class="select-icon bi bi-chevron-down"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- Subject Field -->
+          <div class="form-group">
+            <label for="subject" class="form-label">
+              Subject <span class="required">*</span>
+            </label>
+            <div class="input-wrapper">
+              <input type="text" 
+                     id="subject" 
+                     formControlName="subject"
+                     class="form-input"
+                     [class.error]="isFieldInvalid('subject')"
+                     placeholder="Brief description of your inquiry">
+              <i class="input-icon bi bi-chat-text-fill"></i>
+            </div>
+            
+            <!-- Subject Suggestions -->
+            <div class="subject-suggestions">
+              <button type="button" 
+                      class="suggestion-btn"
+                      *ngFor="let suggestion of getSubjectSuggestions()"
+                      (click)="selectSuggestedSubject(suggestion)">
+                {{ suggestion }}
+              </button>
+            </div>
+            
+            <div class="error-message" *ngIf="isFieldInvalid('subject')">
+              {{ getFieldError('subject') }}
+            </div>
+          </div>
+
+          <!-- Message Field -->
+          <div class="form-group">
+            <label for="message" class="form-label">
+              Message <span class="required">*</span>
+            </label>
+            <div class="textarea-wrapper">
+              <textarea id="message" 
+                        formControlName="message"
+                        class="form-textarea"
+                        [class.error]="isFieldInvalid('message')"
+                        placeholder="Please provide details about your inquiry, including any specific requirements or questions you may have..."
+                        rows="6"
+                        maxlength="500"></textarea>
+              <i class="textarea-icon bi bi-chat-dots-fill"></i>
+            </div>
+            <div class="textarea-footer">
+              <div class="error-message" *ngIf="isFieldInvalid('message')">
+                {{ getFieldError('message') }}
+              </div>
+              <div class="char-counter">{{ getMessageCharCount() }}</div>
+            </div>
+          </div>
+
+          <!-- Checkboxes -->
+          <div class="checkbox-group">
+            <div class="checkbox-item">
+              <input type="checkbox" 
+                     id="newsletter" 
+                     formControlName="newsletter"
+                     class="checkbox-input">
+              <label for="newsletter" class="checkbox-label">
+                <span class="checkbox-custom"></span>
+                <span class="checkbox-text">
+                  Subscribe to our newsletter for updates and exclusive offers
+                </span>
+              </label>
+            </div>
+
+            <div class="checkbox-item">
+              <input type="checkbox" 
+                     id="terms" 
+                     formControlName="terms"
+                     class="checkbox-input">
+              <label for="terms" class="checkbox-label">
+                <span class="checkbox-custom"></span>
+                <span class="checkbox-text">
+                  I agree to the <a href="#" class="terms-link">Terms of Service</a> and 
+                  <a href="#" class="terms-link">Privacy Policy</a> <span class="required">*</span>
+                </span>
+              </label>
+              <div class="error-message" *ngIf="isFieldInvalid('terms')">
+                You must agree to the terms and conditions
+              </div>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="form-actions">
+            <button type="submit" 
+                    class="submit-btn"
+                    [disabled]="isSubmitting || !contactForm.valid"
+                    [class.loading]="isSubmitting">
+              <span class="btn-content" *ngIf="!isSubmitting">
+                <i class="bi bi-send-fill"></i>
+                Send Message
+              </span>
+              <span class="btn-loading" *ngIf="isSubmitting">
+                <div class="loading-spinner"></div>
+                Sending...
+              </span>
+              <div class="btn-glow"></div>
+            </button>
+
+            <div class="quick-actions">
+              <button type="button" class="quick-action-btn" (click)="requestQuote()">
+                <i class="bi bi-calculator"></i>
+                Quick Quote
+              </button>
+              <button type="button" class="quick-action-btn" (click)="scheduleCallback()">
+                <i class="bi bi-telephone"></i>
+                Schedule Call
+              </button>
+              <button type="button" class="quick-action-btn" (click)="startLiveChat()">
+                <i class="bi bi-chat-dots"></i>
+                Live Chat
+              </button>
+            </div>
+          </div>
+
+          <!-- Error Message -->
+          <div class="form-error" *ngIf="submitError" data-aos="fade-in">
+            <i class="bi bi-exclamation-triangle-fill"></i>
+            <span>{{ submitError }}</span>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Service Areas Section -->
+    <div class="service-areas-section" data-aos="fade-up">
+      <h3 class="areas-title">Our Service Areas</h3>
+      <div class="service-areas-grid">
+        <div class="area-card" 
+             *ngFor="let area of serviceAreas; let i = index"
+             [attr.data-aos-delay]="i * 50">
+          <div class="area-glow"></div>
+          <div class="area-content">
+            <h4 class="area-city">{{ area.city }}</h4>
+            <p class="area-region">{{ area.region }}</p>
+            <span class="area-coverage">{{ area.coverage }}</span>
+          </div>
+          <div class="area-icon">
+            <i class="bi bi-geo-alt-fill"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FAQ Section -->
+    <div class="faq-section" data-aos="fade-up">
+      <h3 class="faq-title">Frequently Asked Questions</h3>
+      <div class="faq-container">
+        <div class="faq-item" 
+             *ngFor="let faq of faqItems; let i = index"
+             [class.active]="faq.isOpen"
+             [attr.data-aos-delay]="i * 100">
+          <div class="faq-question" (click)="toggleFaq(i)">
+            <h4 class="question-text">{{ faq.question }}</h4>
+            <i class="question-icon bi bi-chevron-down" 
+               [class.rotate]="faq.isOpen"></i>
+          </div>
+          <div class="faq-answer" [class.show]="faq.isOpen">
+            <p class="answer-text">{{ faq.answer }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Social Connect Section -->
+    <div class="social-connect-section" data-aos="fade-up">
+      <h3 class="social-title">Connect With Us</h3>
+      <p class="social-subtitle">Follow us on social media for the latest updates and vehicle showcases</p>
+      <div class="social-buttons">
+        <button class="social-btn facebook" (click)="shareOnSocial('facebook')">
+          <i class="bi bi-facebook"></i>
+          <span>Facebook</span>
+        </button>
+        <button class="social-btn twitter" (click)="shareOnSocial('twitter')">
+          <i class="bi bi-twitter-x"></i>
+          <span>Twitter</span>
+        </button>
+        <button class="social-btn linkedin" (click)="shareOnSocial('linkedin')">
+          <i class="bi bi-linkedin"></i>
+          <span>LinkedIn</span>
+        </button>
+        <button class="social-btn whatsapp" (click)="shareOnSocial('whatsapp')">
+          <i class="bi bi-whatsapp"></i>
+          <span>WhatsApp</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Direct Action Buttons -->
+    <div class="direct-actions" data-aos="zoom-in">
+      <div class="action-grid">
+        <button class="action-card whatsapp-action" (click)="openWhatsApp()">
+          <div class="action-glow"></div>
+          <i class="bi bi-whatsapp"></i>
+          <h4>WhatsApp Chat</h4>
+          <p>Instant response guaranteed</p>
+        </button>
+        
+        <button class="action-card phone-action" (click)="callUs()">
+          <div class="action-glow"></div>
+          <i class="bi bi-telephone-fill"></i>
+          <h4>Call Now</h4>
+          <p>Speak to our experts</p>
+        </button>
+        
+        <button class="action-card email-action" (click)="openEmail()">
+          <div class="action-glow"></div>
+          <i class="bi bi-envelope-fill"></i>
+          <h4>Email Us</h4>
+          <p>Detailed inquiries welcome</p>
+        </button>
+        
+        <button class="action-card location-action" (click)="openLocationMap()">
+          <div class="action-glow"></div>
+          <i class="bi bi-geo-alt-fill"></i>
+          <h4>Visit Office</h4>
+          <p>See our locations</p>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>

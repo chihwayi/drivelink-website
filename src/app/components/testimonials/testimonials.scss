@@ -1,0 +1,1003 @@
+// src/app/components/testimonials/testimonials.component.scss
+
+.testimonials-section {
+  position: relative;
+  padding: 8rem 0;
+  overflow: hidden;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+}
+
+// Background and Overlay - Similar to Hero
+.testimonials-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  
+  .testimonials-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      135deg, 
+      rgba(79, 70, 229, 0.85) 0%, 
+      rgba(16, 185, 129, 0.75) 50%,
+      rgba(59, 130, 246, 0.85) 100%
+    );
+    z-index: 2;
+  }
+  
+  .animated-testimonial-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    
+    .floating-testimonial-car {
+      position: absolute;
+      width: 50px;
+      height: 25px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      animation: testimonialFloat 8s ease-in-out infinite;
+      
+      &::before {
+        content: '🚙';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 16px;
+        filter: brightness(1.2);
+      }
+      
+      &.car-1 {
+        top: 15%;
+        left: 8%;
+        animation-delay: 0s;
+      }
+      
+      &.car-2 {
+        top: 25%;
+        right: 12%;
+        animation-delay: 1.5s;
+        
+        &::before {
+          content: '🚗';
+        }
+      }
+      
+      &.car-3 {
+        bottom: 35%;
+        left: 15%;
+        animation-delay: 3s;
+        
+        &::before {
+          content: '🚐';
+        }
+      }
+      
+      &.car-4 {
+        top: 60%;
+        right: 8%;
+        animation-delay: 4.5s;
+        
+        &::before {
+          content: '🏎️';
+        }
+      }
+      
+      &.car-5 {
+        bottom: 20%;
+        left: 45%;
+        animation-delay: 6s;
+        
+        &::before {
+          content: '🚛';
+        }
+      }
+    }
+  }
+}
+
+// Particles - Same as Hero
+.testimonial-particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  
+  .particle {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    animation: testimonialParticleFloat 10s linear infinite;
+    
+    &:nth-child(1) { left: 5%; animation-delay: 0s; }
+    &:nth-child(2) { left: 15%; animation-delay: 1s; }
+    &:nth-child(3) { left: 25%; animation-delay: 2s; }
+    &:nth-child(4) { left: 35%; animation-delay: 3s; }
+    &:nth-child(5) { left: 45%; animation-delay: 4s; }
+    &:nth-child(6) { left: 55%; animation-delay: 5s; }
+    &:nth-child(7) { left: 65%; animation-delay: 6s; }
+    &:nth-child(8) { left: 75%; animation-delay: 7s; }
+    &:nth-child(9) { left: 85%; animation-delay: 8s; }
+    &:nth-child(10) { left: 95%; animation-delay: 9s; }
+  }
+}
+
+.testimonials-container {
+  position: relative;
+  z-index: 3;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  
+  @media (max-width: 768px) {
+    padding: 0 1rem;
+  }
+}
+
+// Section Header
+.testimonials-header {
+  text-align: center;
+  margin-bottom: 4rem;
+  color: white;
+  
+  .section-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 30px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 2rem;
+    transition: all 0.3s ease;
+    
+    &:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
+    
+    i {
+      color: #f59e0b;
+      font-size: 1.1rem;
+    }
+  }
+  
+  .section-title {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    
+    .title-main {
+      display: block;
+      font-size: clamp(2rem, 4vw, 3rem);
+      color: white;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+    
+    .title-accent {
+      display: block;
+      font-size: clamp(2.2rem, 4.5vw, 3.5rem);
+      background: linear-gradient(45deg, #fbbf24, #f59e0b);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin: 0.5rem 0;
+      
+      &::after {
+        content: '';
+        display: block;
+        width: 80px;
+        height: 3px;
+        background: linear-gradient(45deg, #fbbf24, #f59e0b);
+        border-radius: 2px;
+        margin: 1rem auto;
+        animation: titleGlow 2s ease-in-out infinite alternate;
+      }
+    }
+    
+    .title-sub {
+      display: block;
+      font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+      color: rgba(255, 255, 255, 0.9);
+      font-weight: 600;
+    }
+  }
+  
+  .section-description {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.85);
+    max-width: 600px;
+    margin: 0 auto 3rem;
+  }
+}
+
+// Trust Indicators
+.trust-indicators {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  
+  @media (max-width: 768px) {
+    gap: 1rem;
+  }
+  
+  .trust-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    transition: all 0.3s ease;
+    
+    @media (max-width: 768px) {
+      padding: 0.75rem 1rem;
+      gap: 0.75rem;
+    }
+    
+    &:hover {
+      background: rgba(255, 255, 255, 0.15);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+    
+    .trust-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(45deg, #fbbf24, #f59e0b);
+      border-radius: 12px;
+      
+      @media (max-width: 768px) {
+        width: 40px;
+        height: 40px;
+      }
+      
+      i {
+        font-size: 1.5rem;
+        color: white;
+        
+        @media (max-width: 768px) {
+          font-size: 1.2rem;
+        }
+      }
+    }
+    
+    .trust-content {
+      .trust-number {
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: white;
+        margin-bottom: 0.25rem;
+        
+        @media (max-width: 768px) {
+          font-size: 1.2rem;
+        }
+      }
+      
+      .trust-label {
+        font-size: 0.85rem;
+        color: rgba(255, 255, 255, 0.8);
+        margin: 0;
+        
+        @media (max-width: 768px) {
+          font-size: 0.75rem;
+        }
+      }
+    }
+  }
+}
+
+// Testimonials Carousel
+.testimonials-carousel {
+  margin-bottom: 4rem;
+  
+  .swiper {
+    padding: 2rem 0 4rem;
+    overflow: visible;
+    
+    .swiper-slide {
+      width: 350px;
+      height: auto;
+      
+      @media (max-width: 768px) {
+        width: 300px;
+      }
+    }
+  }
+}
+
+// Testimonial Cards
+.testimonial-card {
+  position: relative;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 20px;
+  padding: 2rem;
+  height: 100%;
+  transition: all 0.4s ease;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  
+  @media (max-width: 768px) {
+    padding: 1.5rem;
+  }
+  
+  &:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+    
+    .card-glow {
+      opacity: 1;
+    }
+    
+    .client-avatar .avatar-image {
+      transform: scale(1.1);
+      border-color: #f59e0b;
+    }
+  }
+  
+  .card-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, rgba(251, 191, 36, 0.1), rgba(245, 158, 11, 0.1));
+    opacity: 0;
+    transition: all 0.4s ease;
+    pointer-events: none;
+    border-radius: 20px;
+  }
+  
+  .card-pattern {
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(251, 191, 36, 0.05) 1px, transparent 1px);
+    background-size: 20px 20px;
+    opacity: 0.3;
+    animation: patternRotate 20s linear infinite;
+    pointer-events: none;
+  }
+}
+
+// Card Header
+.testimonial-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  
+  .client-avatar {
+    position: relative;
+    flex-shrink: 0;
+    
+    .avatar-image {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid rgba(251, 191, 36, 0.3);
+      transition: all 0.3s ease;
+    }
+    
+    .avatar-status {
+      position: absolute;
+      bottom: 2px;
+      right: 2px;
+      width: 16px;
+      height: 16px;
+      background: #22c55e;
+      border: 2px solid white;
+      border-radius: 50%;
+      animation: statusPulse 2s infinite;
+    }
+  }
+  
+  .client-info {
+    flex: 1;
+    
+    .client-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #1f2937;
+      margin-bottom: 0.25rem;
+    }
+    
+    .client-position {
+      font-size: 0.9rem;
+      color: #6366f1;
+      font-weight: 600;
+      margin-bottom: 0.125rem;
+    }
+    
+    .client-company {
+      font-size: 0.85rem;
+      color: #6b7280;
+      margin: 0;
+    }
+  }
+  
+  .testimonial-actions {
+    display: flex;
+    gap: 0.5rem;
+    
+    .action-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      background: rgba(99, 102, 241, 0.1);
+      border: 1px solid rgba(99, 102, 241, 0.2);
+      border-radius: 10px;
+      color: #6366f1;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      
+      &:hover {
+        background: #6366f1;
+        color: white;
+        transform: scale(1.1);
+      }
+      
+      i {
+        font-size: 0.9rem;
+      }
+    }
+  }
+}
+
+// Rating
+.testimonial-rating {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  
+  .stars {
+    display: flex;
+    gap: 0.25rem;
+    
+    i {
+      font-size: 1rem;
+      color: #fbbf24;
+      transition: all 0.2s ease;
+      
+      &.bi-star {
+        color: #d1d5db;
+      }
+    }
+  }
+  
+  .rating-text {
+    font-size: 0.85rem;
+    color: #6b7280;
+    font-weight: 500;
+  }
+}
+
+// Testimonial Content
+.testimonial-content {
+  position: relative;
+  margin-bottom: 1.5rem;
+  
+  .quote-icon {
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(45deg, #fbbf24, #f59e0b);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    i {
+      font-size: 1.2rem;
+      color: white;
+    }
+  }
+  
+  .testimonial-text {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #374151;
+    margin: 0;
+    padding-left: 2rem;
+    font-style: italic;
+    position: relative;
+    
+    &::before {
+      content: '"';
+      position: absolute;
+      left: 0;
+      top: -5px;
+      font-size: 2rem;
+      color: #fbbf24;
+      font-weight: bold;
+    }
+    
+    &::after {
+      content: '"';
+      font-size: 2rem;
+      color: #fbbf24;
+      font-weight: bold;
+      margin-left: 4px;
+    }
+  }
+}
+
+// Service Info
+.service-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: rgba(99, 102, 241, 0.05);
+  border-radius: 12px;
+  border: 1px solid rgba(99, 102, 241, 0.1);
+  
+  .service-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #6366f1;
+    
+    i {
+      font-size: 0.9rem;
+    }
+  }
+  
+  .location-info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: #6b7280;
+    
+    i {
+      color: #ef4444;
+    }
+  }
+}
+
+// Card Footer
+.testimonial-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  
+  .testimonial-date {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: #6b7280;
+    
+    i {
+      color: #9ca3af;
+    }
+  }
+  
+  .contact-service-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: linear-gradient(45deg, #6366f1, #8b5cf6);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(99, 102, 241, 0.4);
+    }
+    
+    i {
+      font-size: 0.9rem;
+    }
+  }
+}
+
+// Swiper Navigation
+.swiper-button-next,
+.swiper-button-prev {
+  width: 50px;
+  height: 50px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background: white;
+    transform: scale(1.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  }
+  
+  &::after {
+    font-size: 18px;
+    font-weight: bold;
+    color: #6366f1;
+  }
+  
+  &.swiper-button-disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    
+    &:hover {
+      transform: none;
+    }
+  }
+}
+
+// Swiper Pagination
+.swiper-pagination {
+  bottom: 0 !important;
+  
+  .swiper-pagination-bullet {
+    width: 12px;
+    height: 12px;
+    background: rgba(255, 255, 255, 0.5);
+    opacity: 1;
+    transition: all 0.3s ease;
+    
+    &.swiper-pagination-bullet-active {
+      background: #fbbf24;
+      transform: scale(1.2);
+    }
+  }
+}
+
+// Call to Action
+.testimonials-cta {
+  text-align: center;
+  position: relative;
+  padding: 3rem 2rem;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 25px;
+  margin-top: 4rem;
+  
+  .cta-content {
+    position: relative;
+    z-index: 2;
+    
+    .cta-title {
+      font-size: clamp(1.8rem, 3vw, 2.5rem);
+      font-weight: 800;
+      color: white;
+      margin-bottom: 1rem;
+    }
+    
+    .cta-description {
+      font-size: 1.1rem;
+      color: rgba(255, 255, 255, 0.85);
+      margin-bottom: 2rem;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .cta-actions {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      
+      .btn-cta-primary,
+      .btn-cta-secondary {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 1rem 2rem;
+        border-radius: 15px;
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: none;
+        
+        @media (max-width: 768px) {
+          padding: 0.875rem 1.75rem;
+          font-size: 0.9rem;
+        }
+        
+        i {
+          font-size: 1.1rem;
+        }
+        
+        &:hover {
+          transform: translateY(-3px);
+        }
+      }
+      
+      .btn-cta-primary {
+        background: linear-gradient(45deg, #fbbf24, #f59e0b);
+        color: white;
+        
+        &:hover {
+          box-shadow: 0 10px 30px rgba(251, 191, 36, 0.4);
+        }
+      }
+      
+      .btn-cta-secondary {
+        background: rgba(255, 255, 255, 0.15);
+        color: white;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        
+        &:hover {
+          background: rgba(255, 255, 255, 0.25);
+          box-shadow: 0 10px 30px rgba(255, 255, 255, 0.1);
+        }
+      }
+    }
+  }
+}
+
+// Floating Trust Badges
+.floating-badges {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  
+  .trust-badge {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #374151;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    animation: badgeFloat 6s ease-in-out infinite;
+    
+    i {
+      color: #22c55e;
+      font-size: 1rem;
+    }
+    
+    &.badge-1 {
+      top: 20%;
+      left: -10%;
+      animation-delay: 0s;
+      
+      @media (max-width: 768px) {
+        display: none;
+      }
+    }
+    
+    &.badge-2 {
+      top: 60%;
+      right: -10%;
+      animation-delay: 2s;
+      
+      @media (max-width: 768px) {
+        display: none;
+      }
+    }
+    
+    &.badge-3 {
+      bottom: 20%;
+      left: -5%;
+      animation-delay: 4s;
+      
+      @media (max-width: 768px) {
+        display: none;
+      }
+    }
+  }
+}
+
+// Background Pattern
+.testimonials-pattern {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.3;
+  z-index: 1;
+  
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+// Animations
+@keyframes testimonialFloat {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  25% { transform: translateY(-20px) rotate(5deg); }
+  50% { transform: translateY(-10px) rotate(0deg); }
+  75% { transform: translateY(-25px) rotate(-5deg); }
+}
+
+@keyframes testimonialParticleFloat {
+  0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+}
+
+@keyframes titleGlow {
+  0% { box-shadow: 0 0 5px rgba(251, 191, 36, 0.5); }
+  100% { box-shadow: 0 0 20px rgba(251, 191, 36, 0.8), 0 0 30px rgba(245, 158, 11, 0.6); }
+}
+
+@keyframes patternRotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes statusPulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.2); opacity: 0.8; }
+}
+
+@keyframes badgeFloat {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-15px); }
+}
+
+// Responsive Design
+@media (max-width: 1024px) {
+  .testimonials-section {
+    padding: 6rem 0;
+  }
+  
+  .testimonials-header {
+    margin-bottom: 3rem;
+  }
+  
+  .trust-indicators {
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .testimonials-section {
+    padding: 4rem 0;
+    min-height: auto;
+  }
+  
+  .testimonials-header {
+    margin-bottom: 2rem;
+    
+    .section-description {
+      font-size: 1rem;
+    }
+  }
+  
+  .trust-indicators {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    
+    .trust-item {
+      width: 100%;
+      max-width: 280px;
+      justify-content: center;
+    }
+  }
+  
+  .testimonials-carousel {
+    margin-bottom: 2rem;
+    
+    .swiper {
+      padding: 1rem 0 3rem;
+    }
+  }
+  
+  .testimonials-cta {
+    padding: 2rem 1rem;
+    margin-top: 2rem;
+    
+    .cta-actions {
+      flex-direction: column;
+      align-items: center;
+      
+      .btn-cta-primary,
+      .btn-cta-secondary {
+        width: 100%;
+        max-width: 250px;
+        justify-content: center;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .testimonials-container {
+    padding: 0 0.5rem;
+  }
+  
+  .testimonial-card {
+    padding: 1rem;
+  }
+  
+  .testimonial-header {
+    gap: 0.75rem;
+    
+    .client-avatar .avatar-image {
+      width: 50px;
+      height: 50px;
+    }
+    
+    .testimonial-actions {
+      flex-direction: column;
+      gap: 0.25rem;
+      
+      .action-btn {
+        width: 32px;
+        height: 32px;
+      }
+    }
+  }
+  
+  .service-info {
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: flex-start;
+  }
+  
+  .testimonial-footer {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+    
+    .contact-service-btn {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+}

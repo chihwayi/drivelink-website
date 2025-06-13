@@ -1,0 +1,226 @@
+<!-- src/app/components/process/process.component.html -->
+<section class="process-section" #processSection id="process">
+  <!-- Background Effects -->
+  <div class="process-background">
+    <div class="process-overlay"></div>
+    <div class="animated-bg">
+      <div class="floating-element gear-1">⚙️</div>
+      <div class="floating-element gear-2">🔧</div>
+      <div class="floating-element car-icon-1">🚗</div>
+      <div class="floating-element car-icon-2">🚙</div>
+      <div class="floating-element document-icon">📋</div>
+      <div class="floating-element shipping-icon">🚢</div>
+    </div>
+    <div class="particles">
+      <div class="particle" *ngFor="let i of [1,2,3,4,5,6,7,8,9,10]"></div>
+    </div>
+  </div>
+
+  <div class="process-container">
+    <!-- Section Header -->
+    <div class="section-header" [@fadeInScale]>
+      <div class="header-content">
+        <span class="section-badge">
+          <i class="bi bi-gear-fill"></i>
+          Our Process
+        </span>
+        <h2 class="section-title">
+          <span class="title-main">How We Make</span>
+          <span class="title-accent">Vehicle Import/Export</span>
+          <span class="title-sub">Simple & Reliable</span>
+        </h2>
+        <p class="section-description">
+          From selection to delivery, we handle every step of your vehicle import/export journey 
+          with precision, transparency, and unmatched expertise. Experience the DriveLink difference.
+        </p>
+      </div>
+    </div>
+
+    <!-- Process Steps Navigation -->
+    <div class="process-nav" [@slideInUp]>
+      <div class="steps-indicator">
+        <div class="progress-track">
+          <div class="progress-fill" [style.width.%]="getStepProgress()"></div>
+        </div>
+        <div class="step-markers">
+          <div 
+            class="step-marker"
+            *ngFor="let step of processSteps; let i = index"
+            [class.active]="step.isActive"
+            [class.completed]="step.id < currentStep"
+            (click)="selectStep(step.id)"
+          >
+            <div class="marker-circle">
+              <i [class]="step.icon"></i>
+              <span class="step-number">{{ step.id }}</span>
+            </div>
+            <div class="marker-label">
+              <span class="step-title">{{ step.title }}</span>
+              <span class="step-duration">{{ step.duration }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Process Content -->
+    <div class="process-content">
+      <div class="content-grid">
+        <!-- Step Details -->
+        <div class="step-details" [@stepAnimation]="getCurrentStep().isActive ? 'active' : 'inactive'">
+          <div class="detail-card">
+            <div class="card-header">
+              <div class="step-icon">
+                <i [class]="getCurrentStep().icon"></i>
+              </div>
+              <div class="step-info">
+                <h3 class="step-title">{{ getCurrentStep().title }}</h3>
+                <span class="step-duration">
+                  <i class="bi bi-clock"></i>
+                  {{ getCurrentStep().duration }}
+                </span>
+              </div>
+            </div>
+            
+            <div class="card-body">
+              <p class="step-description">{{ getCurrentStep().description }}</p>
+              
+              <div class="step-features">
+                <h4>What's Included:</h4>
+                <ul class="features-list">
+                  <li 
+                    *ngFor="let feature of getCurrentStep().features; let i = index"
+                    class="feature-item"
+                    [style.animation-delay]="i * 0.1 + 's'"
+                  >
+                    <i class="bi bi-check-circle-fill"></i>
+                    <span>{{ feature }}</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="step-actions">
+                <button class="btn-primary" (click)="openQuoteModal()">
+                  <i class="bi bi-calculator"></i>
+                  Get Quote
+                </button>
+                <button class="btn-secondary" (click)="contactSupport()">
+                  <i class="bi bi-chat-dots"></i>
+                  Ask Questions
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step Visual -->
+        <div class="step-visual">
+          <div class="visual-container">
+            <div class="image-wrapper">
+              <img 
+                [src]="getCurrentStep().image" 
+                [alt]="getCurrentStep().title"
+                appImageResize
+                [resizeOptions]="{ maxWidth: 600, maxHeight: 400, quality: 0.9 }"
+                class="step-image"
+                (imageLoaded)="onImageLoaded($event)"
+                (imageError)="onImageError($event)"
+              >
+              <div class="image-overlay">
+                <div class="overlay-content">
+                  <div class="step-number-large">{{ getCurrentStep().id }}</div>
+                  <div class="overlay-text">Step {{ getCurrentStep().id }} of {{ processSteps.length }}</div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Navigation Controls -->
+            <div class="visual-controls">
+              <button class="control-btn prev" (click)="previousStep()" [disabled]="currentStep === 1">
+                <i class="bi bi-chevron-left"></i>
+              </button>
+              <div class="control-dots">
+                <span 
+                  class="dot"
+                  *ngFor="let step of processSteps"
+                  [class.active]="step.isActive"
+                  (click)="selectStep(step.id)"
+                ></span>
+              </div>
+              <button class="control-btn next" (click)="nextStep()" [disabled]="currentStep === processSteps.length">
+                <i class="bi bi-chevron-right"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Process Stats -->
+    <div class="process-stats" [@slideInUp]>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon">
+            <i class="bi bi-speedometer2"></i>
+          </div>
+          <div class="stat-content">
+            <div class="stat-number">48hrs</div>
+            <div class="stat-label">Average Processing Time</div>
+          </div>
+        </div>
+        
+        <div class="stat-card">
+          <div class="stat-icon">
+            <i class="bi bi-shield-check"></i>
+          </div>
+          <div class="stat-content">
+            <div class="stat-number">99.8%</div>
+            <div class="stat-label">Success Rate</div>
+          </div>
+        </div>
+        
+        <div class="stat-card">
+          <div class="stat-icon">
+            <i class="bi bi-globe"></i>
+          </div>
+          <div class="stat-content">
+            <div class="stat-number">50+</div>
+            <div class="stat-label">Countries Served</div>
+          </div>
+        </div>
+        
+        <div class="stat-card">
+          <div class="stat-icon">
+            <i class="bi bi-people"></i>
+          </div>
+          <div class="stat-content">
+            <div class="stat-number">5000+</div>
+            <div class="stat-label">Happy Customers</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Call to Action -->
+    <div class="process-cta" [@fadeInScale]>
+      <div class="cta-content">
+        <h3>Ready to Start Your Journey?</h3>
+        <p>Get in touch with our experts and let us handle your vehicle import/export needs.</p>
+        <div class="cta-actions">
+          <button class="btn-cta-primary" (click)="openQuoteModal()">
+            <i class="bi bi-calculator"></i>
+            Get Free Quote
+          </button>
+          <button class="btn-cta-secondary" (click)="openWhatsApp()">
+            <i class="bi bi-whatsapp"></i>
+            Chat on WhatsApp
+          </button>
+          <button class="btn-cta-secondary" (click)="callUs()">
+            <i class="bi bi-telephone"></i>
+            Call Now
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

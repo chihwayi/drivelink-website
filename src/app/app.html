@@ -1,0 +1,58 @@
+<!-- app.component.html -->
+<div class="app-container">
+  <!-- Header/Navigation -->
+  <app-header></app-header>
+  
+  <!-- Main Content -->
+  <main>
+    <!-- Hero Section -->
+    <app-hero></app-hero>
+    
+    <!-- Services Section -->
+    <app-services></app-services>
+    
+    <!-- About Section -->
+    <app-about></app-about>
+    
+    <!-- Process Section -->
+    <app-process></app-process>
+    
+    <!-- Vehicles Section -->
+    <app-vehicles></app-vehicles>
+    
+    <!-- Testimonials Section -->
+    <app-testimonials></app-testimonials>
+    
+    <!-- Contact Section -->
+    <app-contact></app-contact>
+  </main>
+  
+  <!-- Footer -->
+  <app-footer></app-footer>
+  
+  <!-- Floating Action Buttons -->
+  <div class="floating-actions">
+    <button class="fab whatsapp-fab" (click)="openWhatsApp()" title="Chat on WhatsApp">
+      <i class="bi bi-whatsapp"></i>
+    </button>
+    <button class="fab phone-fab" (click)="callUs()" title="Call Us">
+      <i class="bi bi-telephone-fill"></i>
+    </button>
+    <button class="fab messenger-fab" (click)="openMessenger()" title="Facebook Messenger">
+      <i class="bi bi-messenger"></i>
+    </button>
+  </div>
+  
+  <!-- Back to Top Button -->
+  <button class="back-to-top" (click)="scrollToTop()" [class.show]="showBackToTop">
+    <i class="bi bi-arrow-up"></i>
+  </button>
+</div>
+
+<!-- Loading Overlay -->
+<div class="loading-overlay" *ngIf="isLoading">
+  <div class="loading-spinner">
+    <div class="spinner"></div>
+    <p>Loading DriveLink...</p>
+  </div>
+</div>

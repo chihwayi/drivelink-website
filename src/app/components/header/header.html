@@ -1,0 +1,83 @@
+<header class="header" [class.scrolled]="isScrolled">
+  <nav class="navbar">
+    <div class="nav-container">
+      <!-- Logo -->
+      <div class="nav-brand">
+        <a href="#" class="brand-link">
+          <div class="logo">
+            <i class="bi bi-car-front-fill"></i>
+            <span class="brand-text">DriveLink</span>
+          </div>
+        </a>
+      </div>
+
+      <!-- Desktop Navigation -->
+      <ul class="nav-menu">
+        <li class="nav-item">
+          <a (click)="scrollToSection('home')" class="nav-link">Home</a>
+        </li>
+        <li class="nav-item">
+          <a (click)="scrollToSection('services')" class="nav-link">Services</a>
+        </li>
+        <li class="nav-item">
+          <a (click)="scrollToSection('about')" class="nav-link">About</a>
+        </li>
+        <li class="nav-item">
+          <a (click)="scrollToSection('process')" class="nav-link">Process</a>
+        </li>
+        <li class="nav-item">
+          <a (click)="scrollToSection('vehicles')" class="nav-link">Vehicles</a>
+        </li>
+        <li class="nav-item">
+          <a (click)="scrollToSection('testimonials')" class="nav-link">Testimonials</a>
+        </li>
+        <li class="nav-item">
+          <a (click)="scrollToSection('contact')" class="nav-link">Contact</a>
+        </li>
+      </ul>
+
+      <!-- CTA Buttons -->
+      <div class="nav-actions">
+        <button class="btn-outline" (click)="callUs()">
+          <i class="bi bi-telephone"></i>
+          Call Now
+        </button>
+        <button class="btn-primary" (click)="openWhatsApp()">
+          <i class="bi bi-whatsapp"></i>
+          Get Quote
+        </button>
+      </div>
+
+      <!-- Mobile Menu Toggle -->
+      <div class="mobile-menu-toggle" (click)="toggleMenu()">
+        <span class="hamburger" [class.active]="isMenuOpen"></span>
+      </div>
+    </div>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu" [class.active]="isMenuOpen">
+      <div class="mobile-menu-content">
+        <ul class="mobile-nav-menu">
+          <li><a (click)="scrollToSection('home')" class="mobile-nav-link">Home</a></li>
+          <li><a (click)="scrollToSection('services')" class="mobile-nav-link">Services</a></li>
+          <li><a (click)="scrollToSection('about')" class="mobile-nav-link">About</a></li>
+          <li><a (click)="scrollToSection('process')" class="mobile-nav-link">Process</a></li>
+          <li><a (click)="scrollToSection('vehicles')" class="mobile-nav-link">Vehicles</a></li>
+          <li><a (click)="scrollToSection('testimonials')" class="mobile-nav-link">Vehicles</a></li>
+          <li><a (click)="scrollToSection('contact')" class="mobile-nav-link">Contact</a></li>
+        </ul>
+        
+        <div class="mobile-actions">
+          <button class="mobile-btn-outline" (click)="callUs()">
+            <i class="bi bi-telephone"></i>
+            Call Now
+          </button>
+          <button class="mobile-btn-primary" (click)="openWhatsApp()">
+            <i class="bi bi-whatsapp"></i>
+            Get Quote
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>

@@ -1,0 +1,264 @@
+<!-- src/app/components/about/about.component.html -->
+<section class="about-section" id="about" #aboutSection>
+  <!-- Animated Background -->
+  <div class="about-background">
+    <div class="about-overlay"></div>
+    <div class="animated-bg">
+      <div class="floating-car car-1"></div>
+      <div class="floating-car car-2"></div>
+      <div class="floating-car car-3"></div>
+      <div class="floating-car car-4"></div>
+    </div>
+    
+    <!-- Particles Animation -->
+    <div class="particles">
+      <div class="particle" *ngFor="let i of [1,2,3,4,5,6,7,8,9,10]"></div>
+    </div>
+  </div>
+
+  <div class="about-container">
+    <!-- Section Header -->
+    <div class="section-header" data-animate>
+      <span class="section-tag">About DriveLink</span>
+      <h2 class="section-title">
+        <span class="title-main">Connecting Markets</span>
+        <span class="title-accent">Worldwide</span>
+      </h2>
+      <p class="section-description">
+        With over 15 years of experience in automotive import and export, DriveLink has become 
+        the trusted partner for businesses and individuals looking to navigate the global vehicle market.
+      </p>
+    </div>
+
+    <!-- Tab Navigation -->
+    <div class="tab-navigation" data-animate>
+      <button 
+        class="tab-btn" 
+        [class.active]="activeTab === 'story'"
+        (click)="setActiveTab('story')">
+        <i class="bi bi-book"></i>
+        Our Story
+      </button>
+      <button 
+        class="tab-btn" 
+        [class.active]="activeTab === 'values'"
+        (click)="setActiveTab('values')">
+        <i class="bi bi-heart"></i>
+        Our Values
+      </button>
+      <button 
+        class="tab-btn" 
+        [class.active]="activeTab === 'team'"
+        (click)="setActiveTab('team')">
+        <i class="bi bi-people"></i>
+        Our Team
+      </button>
+    </div>
+
+    <!-- Tab Content -->
+    <div class="tab-content">
+      
+      <!-- Our Story Tab -->
+      <div class="tab-pane" [class.active]="activeTab === 'story'">
+        <div class="story-content">
+          <div class="story-grid">
+            <div class="story-text" data-animate>
+              <h3>Founded on Excellence</h3>
+              <p>
+                DriveLink was born from a simple vision: to make vehicle import and export 
+                accessible, transparent, and reliable for everyone. What started as a small 
+                family business has grown into a global network spanning over 50 countries.
+              </p>
+              <p>
+                Our journey began when our founder, Michael Johnson, experienced firsthand 
+                the challenges of importing a vehicle from overseas. The complex paperwork, 
+                hidden fees, and lack of transparency motivated him to create a better solution.
+              </p>
+              
+              <div class="story-highlights">
+                <div class="highlight-item">
+                  <i class="bi bi-check-circle-fill"></i>
+                  <span>Transparent pricing with no hidden fees</span>
+                </div>
+                <div class="highlight-item">
+                  <i class="bi bi-check-circle-fill"></i>
+                  <span>End-to-end logistics management</span>
+                </div>
+                <div class="highlight-item">
+                  <i class="bi bi-check-circle-fill"></i>
+                  <span>Expert documentation handling</span>
+                </div>
+                <div class="highlight-item">
+                  <i class="bi bi-check-circle-fill"></i>
+                  <span>24/7 customer support</span>
+                </div>
+              </div>
+
+              <div class="story-cta">
+                <button class="btn-primary" (click)="openWhatsApp()">
+                  <i class="bi bi-whatsapp"></i>
+                  Get Started Today
+                </button>
+                <button class="btn-secondary" (click)="callUs()">
+                  <i class="bi bi-telephone"></i>
+                  Speak with Expert
+                </button>
+              </div>
+            </div>
+
+            <div class="story-visual" data-animate>
+              <div class="office-showcase">
+                <img 
+                  src="../../../../assets/images/about/office.jpg" 
+                  alt="DriveLink Office"
+                  class="office-image"
+                  appImageResize
+                  [resizeOptions]="{maxWidth: 600, maxHeight: 400, quality: 0.9}"
+                  [autoResize]="true"
+                  [showLoader]="true">
+                
+                <div class="office-details">
+                  <div class="detail-badge">
+                    <i class="bi bi-geo-alt"></i>
+                    <span>Global Headquarters</span>
+                  </div>
+                  <div class="detail-badge">
+                    <i class="bi bi-people"></i>
+                    <span>150+ Employees</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Company Timeline -->
+              <div class="timeline">
+                <div class="timeline-item">
+                  <div class="timeline-year">2008</div>
+                  <div class="timeline-content">
+                    <h4>Company Founded</h4>
+                    <p>Started as a small vehicle import business</p>
+                  </div>
+                </div>
+                <div class="timeline-item">
+                  <div class="timeline-year">2015</div>
+                  <div class="timeline-content">
+                    <h4>Global Expansion</h4>
+                    <p>Expanded operations to 25+ countries</p>
+                  </div>
+                </div>
+                <div class="timeline-item">
+                  <div class="timeline-year">2020</div>
+                  <div class="timeline-content">
+                    <h4>Digital Innovation</h4>
+                    <p>Launched our digital platform and automation</p>
+                  </div>
+                </div>
+                <div class="timeline-item">
+                  <div class="timeline-year">2024</div>
+                  <div class="timeline-content">
+                    <h4>Market Leader</h4>
+                    <p>Recognized as industry leader with 10K+ vehicles delivered</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Our Values Tab -->
+      <div class="tab-pane" [class.active]="activeTab === 'values'" id="values-section">
+        <div class="values-content">
+          <div class="values-grid">
+            <div class="value-card" *ngFor="let value of companyValues; let i = index" [attr.data-animate]="i" [style.animation-delay.s]="i * 0.1">
+              <div class="value-icon" [style.background-color]="value.color">
+                <i [class]="value.icon"></i>
+              </div>
+              <div class="value-content">
+                <h3>{{ value.title }}</h3>
+                <p>{{ value.description }}</p>
+              </div>
+              <div class="value-hover-effect"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Our Team Tab -->
+      <div class="tab-pane" [class.active]="activeTab === 'team'" id="team-section">
+        <div class="team-content">
+          <div class="team-intro" data-animate>
+            <h3>Meet Our Leadership Team</h3>
+            <p>
+              Our experienced team combines decades of automotive industry expertise with 
+              innovative technology solutions to deliver exceptional results.
+            </p>
+          </div>
+
+          <div class="team-grid">
+            <div class="team-card" *ngFor="let member of teamMembers; let i = index" [attr.data-animate]="i">
+              <div class="team-image-container">
+                <img 
+                  [src]="member.image" 
+                  [alt]="member.name"
+                  class="team-image"
+                  appImageResize
+                  [resizeOptions]="{maxWidth: 300, maxHeight: 300, quality: 0.9}"
+                  [autoResize]="true"
+                  [showLoader]="true">
+                
+                <div class="team-overlay">
+                  <div class="social-links">
+                    <button 
+                      class="social-btn linkedin" 
+                      *ngIf="member.social?.linkedin"
+                      (click)="openLinkedIn(member.social?.linkedin)"
+                      title="LinkedIn">
+                      <i class="bi bi-linkedin"></i>
+                    </button>
+                    <button 
+                      class="social-btn email" 
+                      *ngIf="member.social?.email"
+                      (click)="sendEmail(member.social?.email)"
+                      title="Email">
+                      <i class="bi bi-envelope"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="team-info">
+                <h4>{{ member.name }}</h4>
+                <p class="team-position">{{ member.position }}</p>
+                <p class="team-bio">{{ member.bio }}</p>
+                
+                <div class="expertise-tags">
+                  <span class="expertise-tag" *ngFor="let skill of member.expertise">
+                    {{ skill }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Company Achievements -->
+    <div class="achievements-section" data-animate>
+      <h3 class="achievements-title">Our Achievements</h3>
+      <div class="achievements-grid">
+        <div class="achievement-card" *ngFor="let achievement of achievements; let i = index" [style.animation-delay.s]="i * 0.1">
+          <div class="achievement-icon">
+            <i [class]="achievement.icon"></i>
+          </div>
+          <div class="achievement-content">
+            <div class="achievement-number">{{ achievement.number }}</div>
+            <div class="achievement-label">{{ achievement.label }}</div>
+            <p class="achievement-description">{{ achievement.description }}</p>
+          </div>
+          <div class="achievement-glow"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

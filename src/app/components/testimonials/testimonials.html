@@ -1,0 +1,239 @@
+<!-- src/app/components/testimonials/testimonials.component.html -->
+<section class="testimonials-section" id="testimonials">
+  <!-- Background and Animated Elements -->
+  <div class="testimonials-background">
+    <div class="testimonials-overlay"></div>
+    <div class="animated-testimonial-bg">
+      <div class="floating-testimonial-car car-1"></div>
+      <div class="floating-testimonial-car car-2"></div>
+      <div class="floating-testimonial-car car-3"></div>
+      <div class="floating-testimonial-car car-4"></div>
+      <div class="floating-testimonial-car car-5"></div>
+    </div>
+    
+    <!-- Particles -->
+    <div class="testimonial-particles">
+      <div class="particle" *ngFor="let p of [1,2,3,4,5,6,7,8,9,10]"></div>
+    </div>
+  </div>
+
+  <div class="testimonials-container">
+    <!-- Section Header -->
+    <div class="testimonials-header" data-aos="fade-up">
+      <div class="section-badge">
+        <i class="bi bi-chat-heart"></i>
+        <span>Client Testimonials</span>
+      </div>
+      
+      <h2 class="section-title">
+        <span class="title-main">What Our</span>
+        <span class="title-accent">Clients Say</span>
+        <span class="title-sub">About DriveLink</span>
+      </h2>
+      
+      <p class="section-description">
+        Don't just take our word for it. Here's what our satisfied clients have to say about 
+        their experience with DriveLink's premium vehicle import and export services.
+      </p>
+      
+      <!-- Trust Indicators -->
+      <div class="trust-indicators">
+        <div class="trust-item">
+          <div class="trust-icon">
+            <i class="bi bi-star-fill"></i>
+          </div>
+          <div class="trust-content">
+            <div class="trust-number">4.9</div>
+            <div class="trust-label">Average Rating</div>
+          </div>
+        </div>
+        
+        <div class="trust-item">
+          <div class="trust-icon">
+            <i class="bi bi-people-fill"></i>
+          </div>
+          <div class="trust-content">
+            <div class="trust-number">500+</div>
+            <div class="trust-label">Happy Clients</div>
+          </div>
+        </div>
+        
+        <div class="trust-item">
+          <div class="trust-icon">
+            <i class="bi bi-check-circle-fill"></i>
+          </div>
+          <div class="trust-content">
+            <div class="trust-number">98%</div>
+            <div class="trust-label">Success Rate</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Testimonials Carousel -->
+    <div class="testimonials-carousel" data-aos="fade-up" data-aos-delay="200">
+      <div class="swiper" #testimonialsSwiper>
+        <div class="swiper-wrapper">
+          <div class="swiper-slide" *ngFor="let testimonial of testimonials">
+            <div class="testimonial-card">
+              <!-- Card Header -->
+              <div class="testimonial-header">
+                <div class="client-avatar">
+                  <img 
+                    [src]="testimonial.image" 
+                    [alt]="testimonial.name"
+                    appImageResize
+                    [resizeOptions]="{maxWidth: 80, maxHeight: 80, quality: 0.9}"
+                    class="avatar-image"
+                  />
+                  <div class="avatar-status"></div>
+                </div>
+                
+                <div class="client-info">
+                  <h4 class="client-name">{{ testimonial.name }}</h4>
+                  <p class="client-position">{{ testimonial.position }}</p>
+                  <p class="client-company">{{ testimonial.company }}</p>
+                </div>
+                
+                <div class="testimonial-actions">
+                  <button 
+                    class="action-btn share-btn" 
+                    (click)="shareTestimonial(testimonial)"
+                    title="Share testimonial"
+                  >
+                    <i class="bi bi-share"></i>
+                  </button>
+                  
+                  <button 
+                    class="action-btn profile-btn" 
+                    (click)="openClientProfile(testimonial)"
+                    title="View client profile"
+                  >
+                    <i class="bi bi-person-circle"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Rating -->
+              <div class="testimonial-rating">
+                <div class="stars">
+                  <i 
+                    class="bi" 
+                    [class.bi-star-fill]="star === 1"
+                    [class.bi-star]="star === 0"
+                    *ngFor="let star of generateStars(testimonial.rating)"
+                  ></i>
+                </div>
+                <span class="rating-text">{{ testimonial.rating }}.0 out of 5</span>
+              </div>
+
+              <!-- Testimonial Content -->
+              <div class="testimonial-content">
+                <div class="quote-icon">
+                  <i class="bi bi-quote"></i>
+                </div>
+                <p class="testimonial-text">{{ testimonial.content }}</p>
+              </div>
+
+              <!-- Service Info -->
+              <div class="service-info">
+                <div class="service-badge">
+                  <i class="bi bi-gear-fill"></i>
+                  <span>{{ testimonial.service }}</span>
+                </div>
+                
+                <div class="location-info">
+                  <i class="bi bi-geo-alt-fill"></i>
+                  <span>{{ testimonial.location }}</span>
+                </div>
+              </div>
+
+              <!-- Card Footer -->
+              <div class="testimonial-footer">
+                <div class="testimonial-date">
+                  <i class="bi bi-calendar3"></i>
+                  <span>{{ formatDate(testimonial.date) }}</span>
+                </div>
+                
+                <button 
+                  class="contact-service-btn"
+                  (click)="contactForService(testimonial.service)"
+                >
+                  <i class="bi bi-chat-dots"></i>
+                  <span>Get This Service</span>
+                </button>
+              </div>
+
+              <!-- Decorative Elements -->
+              <div class="card-glow"></div>
+              <div class="card-pattern"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Swiper Navigation -->
+        <div class="swiper-button-next">
+          <i class="bi bi-chevron-right"></i>
+        </div>
+        <div class="swiper-button-prev">
+          <i class="bi bi-chevron-left"></i>
+        </div>
+
+        <!-- Swiper Pagination -->
+        <div class="swiper-pagination"></div>
+      </div>
+    </div>
+
+    <!-- Call to Action -->
+    <div class="testimonials-cta" data-aos="fade-up" data-aos-delay="400">
+      <div class="cta-content">
+        <h3 class="cta-title">Ready to Join Our Success Stories?</h3>
+        <p class="cta-description">
+          Experience the DriveLink difference and become our next satisfied client
+        </p>
+        
+        <div class="cta-actions">
+          <button class="btn-cta-primary">
+            <i class="bi bi-telephone-fill"></i>
+            <span>Get Your Quote</span>
+          </button>
+          
+          <button class="btn-cta-secondary">
+            <i class="bi bi-chat-dots-fill"></i>
+            <span>Start Conversation</span>
+          </button>
+        </div>
+      </div>
+      
+      <!-- Floating Trust Badges -->
+      <div class="floating-badges">
+        <div class="trust-badge badge-1">
+          <i class="bi bi-shield-check"></i>
+          <span>100% Secure</span>
+        </div>
+        
+        <div class="trust-badge badge-2">
+          <i class="bi bi-clock"></i>
+          <span>24/7 Support</span>
+        </div>
+        
+        <div class="trust-badge badge-3">
+          <i class="bi bi-award"></i>
+          <span>Licensed & Insured</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Background Pattern -->
+  <div class="testimonials-pattern">
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <pattern id="testimonial-grid" width="10" height="10" patternUnits="userSpaceOnUse">
+          <circle cx="5" cy="5" r="1" fill="rgba(255,255,255,0.1)"/>
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#testimonial-grid)"/>
+    </svg>
+  </div>
+</section>

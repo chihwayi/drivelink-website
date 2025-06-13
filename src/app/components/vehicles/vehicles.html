@@ -1,0 +1,384 @@
+<section class="vehicles-section" id="vehicles">
+  <!-- Animated Background -->
+  <div class="vehicles-background">
+    <div class="vehicles-overlay"></div>
+    <div class="animated-bg">
+      <div class="floating-car car-1"></div>
+      <div class="floating-car car-2"></div>
+      <div class="floating-car car-3"></div>
+      <div class="floating-car car-4"></div>
+      <div class="floating-car car-5"></div>
+    </div>
+    <div class="particles">
+      <div class="particle" *ngFor="let particle of [1,2,3,4,5,6,7,8,9,10]"></div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="vehicles-container">
+    <!-- Section Header -->
+    <div class="section-header" data-aos="fade-up">
+      <div class="header-content">
+        <span class="header-tagline">
+          <i class="bi bi-car-front-fill"></i>
+          Premium Vehicle Collection
+        </span>
+        <h2 class="section-title">
+          <span class="title-main">Discover Your</span>
+          <span class="title-accent">Perfect Vehicle</span>
+        </h2>
+        <p class="section-description">
+          Explore our extensive collection of premium vehicles, from luxury sedans to powerful SUVs.
+          Each vehicle is carefully selected and thoroughly inspected to ensure the highest quality standards.
+        </p>
+      </div>
+    </div>
+
+    <!-- Vehicle Categories Filter -->
+    <div class="categories-section" data-aos="fade-up" data-aos-delay="100">
+      <div class="categories-header">
+        <h3>Browse by Category</h3>
+        <div class="category-navigation">
+          <button class="category-swiper-button-prev" type="button">
+            <i class="bi bi-chevron-left"></i>
+          </button>
+          <button class="category-swiper-button-next" type="button">
+            <i class="category-swiper-button-next"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Fixed swiper structure -->
+      <div class="swiper categories-swiper" #categorySwiper>
+        <div class="swiper-wrapper">
+          <div class="swiper-slide" *ngFor="let category of vehicleCategories; trackBy: trackByCategoryId">
+            <div class="category-card" [class.active]="category.active" (click)="selectCategory(category.id)">
+              <div class="category-image">
+                <img [src]="category.image" [alt]="category.name" appImageResize
+                  [resizeOptions]="{ maxWidth: 300, maxHeight: 200 }" class="category-img" loading="lazy" />
+                <div class="category-overlay">
+                  <i [class]="category.icon"></i>
+                </div>
+              </div>
+              <div class="category-info">
+                <h4>{{ category.name }}</h4>
+                <p>{{ category.description }}</p>
+                <span class="category-count">{{ category.count }} vehicles</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Search and Filter Controls (unchanged) -->
+    <div class="filter-controls" data-aos="fade-up" data-aos-delay="200">
+      <div class="search-section">
+        <div class="search-input-wrapper">
+          <i class="bi bi-search search-icon"></i>
+          <input type="text" placeholder="Search vehicles by name, make, or model..." [(ngModel)]="searchQuery"
+            (input)="onSearchChange($any($event.target).value)" class="search-input" />
+          <button class="clear-search" *ngIf="searchQuery" (click)="onSearchChange('')" type="button">
+            <i class="bi bi-x"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="filter-section">
+        <div class="filter-group">
+          <label>Sort by:</label>
+          <select (change)="onSortChange($any($event.target).value)" class="filter-select">
+            <option value="name">Name</option>
+            <option value="price">Price</option>
+            <option value="year">Year</option>
+            <option value="mileage">Mileage</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label>View:</label>
+          <div class="view-toggle">
+            <button class="view-btn" [class.active]="currentView === 'grid'" (click)="toggleView()" type="button">
+              <i class="bi bi-grid-3x3-gap"></i>
+            </button>
+            <button class="view-btn" [class.active]="currentView === 'list'" (click)="toggleView()" type="button">
+              <i class="bi bi-list"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="results-count">
+          <span>{{ filteredVehicles.length }} vehicles found</span>
+        </div>
+      </div>
+    </div>
+    <!-- Featured Vehicles Carousel -->
+    <div class="featured-section" *ngIf="featuredVehicles.length > 0" data-aos="fade-up" data-aos-delay="300">
+      <div class="featured-header">
+        <h3>Featured Vehicles</h3>
+        <p>Handpicked premium vehicles with exceptional value</p>
+      </div>
+
+      <div class="featured-swiper" #vehicleSwiper>
+        <div class="swiper-wrapper">
+          <div class="swiper-slide" *ngFor="let vehicle of featuredVehicles">
+            <div class="featured-vehicle-card" (click)="openVehicleDetails(vehicle)">
+              <div class="vehicle-image-container">
+                <img [src]="vehicle.image" [alt]="vehicle.name" appImageResize [resizeOptions]="imageResizeOptions"
+                  class="vehicle-image" />
+                <div class="vehicle-badges">
+                  <span class="badge new-badge" *ngIf="vehicle.isNew">New</span>
+                  <span class="badge featured-badge">Featured</span>
+                  <span class="badge availability-badge" [class]="getAvailabilityClass(vehicle.availability)">
+                    {{ getAvailabilityText(vehicle.availability) }}
+                  </span>
+                </div>
+                <div class="vehicle-overlay">
+                  <div class="vehicle-actions">
+                    <button class="action-btn" (click)="$event.stopPropagation(); addToWishlist(vehicle)"
+                      title="Add to Wishlist">
+                      <i class="bi bi-heart"></i>
+                    </button>
+                    <button class="action-btn" (click)="$event.stopPropagation(); shareVehicle(vehicle)" title="Share">
+                      <i class="bi bi-share"></i>
+                    </button>
+                    <button class="action-btn" (click)="$event.stopPropagation(); compareVehicles(vehicle)"
+                      title="Compare">
+                      <i class="bi bi-bar-chart"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="vehicle-content">
+                <div class="vehicle-header">
+                  <h4 class="vehicle-name">{{ vehicle.name }}</h4>
+                  <div class="vehicle-rating">
+                    <div class="stars">
+                      <i class="bi" [class.bi-star-fill]="star === 1" [class.bi-star]="star === 0"
+                        *ngFor="let star of getStarArray(vehicle.rating)">
+                      </i>
+                    </div>
+                    <span class="rating-text">({{ vehicle.reviews }})</span>
+                  </div>
+                </div>
+
+                <div class="vehicle-details">
+                  <div class="detail-item">
+                    <i class="bi bi-calendar"></i>
+                    <span>{{ vehicle.year }}</span>
+                  </div>
+                  <div class="detail-item">
+                    <i class="bi bi-speedometer2"></i>
+                    <span>{{ vehicle.mileage }}</span>
+                  </div>
+                  <div class="detail-item">
+                    <i class="bi bi-fuel-pump"></i>
+                    <span>{{ vehicle.fuelType }}</span>
+                  </div>
+                  <div class="detail-item">
+                    <i class="bi bi-gear"></i>
+                    <span>{{ vehicle.transmission }}</span>
+                  </div>
+                </div>
+
+                <div class="vehicle-price">
+                  <span class="price">{{ formatPrice(vehicle.price) }}</span>
+                </div>
+
+                <div class="vehicle-actions-bottom">
+                  <button class="btn btn-primary" (click)="$event.stopPropagation(); requestQuote(vehicle)">
+                    <i class="bi bi-file-text"></i>
+                    Get Quote
+                  </button>
+                  <button class="btn btn-outline" (click)="$event.stopPropagation(); contactDealer(vehicle)">
+                    <i class="bi bi-telephone"></i>
+                    Contact
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+      </div>
+    </div>
+
+    <!-- Main Vehicles Grid/List -->
+    <div class="vehicles-main" data-aos="fade-up" data-aos-delay="400">
+      <div class="vehicles-grid" [class.list-view]="currentView === 'list'" [class.grid-view]="currentView === 'grid'">
+        <div class="vehicle-card" *ngFor="let vehicle of filteredVehicles; trackBy: trackByVehicleId" [@slideInUp]
+          (click)="openVehicleDetails(vehicle)">
+          <div class="vehicle-image-container">
+            <img [src]="vehicle.image" [alt]="vehicle.name" appImageResize [resizeOptions]="imageResizeOptions"
+              class="vehicle-image" loading="lazy" />
+            <div class="vehicle-badges">
+              <span class="badge new-badge" *ngIf="vehicle.isNew">New</span>
+              <span class="badge featured-badge" *ngIf="vehicle.isFeatured">Featured</span>
+              <span class="badge availability-badge" [class]="getAvailabilityClass(vehicle.availability)">
+                {{ getAvailabilityText(vehicle.availability) }}
+              </span>
+            </div>
+            <div class="vehicle-overlay">
+              <div class="vehicle-actions">
+                <button class="action-btn" (click)="$event.stopPropagation(); addToWishlist(vehicle)"
+                  title="Add to Wishlist">
+                  <i class="bi bi-heart"></i>
+                </button>
+                <button class="action-btn" (click)="$event.stopPropagation(); shareVehicle(vehicle)" title="Share">
+                  <i class="bi bi-share"></i>
+                </button>
+                <button class="action-btn" (click)="$event.stopPropagation(); compareVehicles(vehicle)" title="Compare">
+                  <i class="bi bi-bar-chart"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="vehicle-content">
+            <div class="vehicle-header">
+              <h4 class="vehicle-name">{{ vehicle.name }}</h4>
+              <div class="vehicle-rating">
+                <div class="stars">
+                  <i class="bi" [class.bi-star-fill]="star === 1" [class.bi-star]="star === 0"
+                    *ngFor="let star of getStarArray(vehicle.rating)">
+                  </i>
+                </div>
+                <span class="rating-text">({{ vehicle.reviews }})</span>
+              </div>
+            </div>
+
+            <div class="vehicle-meta">
+              <span class="vehicle-make">{{ vehicle.make }} {{ vehicle.model }}</span>
+              <span class="vehicle-location">
+                <i class="bi bi-geo-alt"></i>
+                {{ vehicle.location }}
+              </span>
+            </div>
+
+            <div class="vehicle-details">
+              <div class="detail-item">
+                <i class="bi bi-calendar"></i>
+                <span>{{ vehicle.year }}</span>
+              </div>
+              <div class="detail-item">
+                <i class="bi bi-speedometer2"></i>
+                <span>{{ vehicle.mileage }}</span>
+              </div>
+              <div class="detail-item">
+                <i class="bi bi-fuel-pump"></i>
+                <span>{{ vehicle.fuelType }}</span>
+              </div>
+              <div class="detail-item">
+                <i class="bi bi-gear"></i>
+                <span>{{ vehicle.transmission }}</span>
+              </div>
+            </div>
+
+            <div class="vehicle-features" *ngIf="currentView === 'list'">
+              <span class="feature" *ngFor="let feature of vehicle.features.slice(0, 3)">
+                {{ feature }}
+              </span>
+            </div>
+
+            <div class="vehicle-description" *ngIf="currentView === 'list'">
+              <p>{{ vehicle.description }}</p>
+            </div>
+
+            <div class="vehicle-footer">
+              <div class="vehicle-price">
+                <span class="price">{{ formatPrice(vehicle.price) }}</span>
+                <span class="price-label">Starting from</span>
+              </div>
+
+              <div class="vehicle-actions-bottom">
+                <button class="btn btn-primary" (click)="$event.stopPropagation(); requestQuote(vehicle)">
+                  <i class="bi bi-file-text"></i>
+                  Get Quote
+                </button>
+                <button class="btn btn-outline" (click)="$event.stopPropagation(); contactDealer(vehicle)">
+                  <i class="bi bi-telephone"></i>
+                  Contact
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- No Results Message -->
+      <div class="no-results" *ngIf="filteredVehicles.length === 0 && !isLoading">
+        <div class="no-results-content">
+          <i class="bi bi-search"></i>
+          <h3>No vehicles found</h3>
+          <p>Try adjusting your search criteria or browse all categories</p>
+          <button class="btn btn-primary" (click)="selectCategory('all'); onSearchChange('')">
+            Browse All Vehicles
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pagination (if needed) -->
+    <div class="pagination-section" *ngIf="filteredVehicles.length > 12">
+      <nav class="pagination">
+        <button class="page-btn prev-btn">
+          <i class="bi bi-chevron-left"></i>
+          Previous
+        </button>
+        <div class="page-numbers">
+          <button class="page-btn active">1</button>
+          <button class="page-btn">2</button>
+          <button class="page-btn">3</button>
+          <span class="page-dots">...</span>
+          <button class="page-btn">10</button>
+        </div>
+        <button class="page-btn next-btn">
+          Next
+          <i class="bi bi-chevron-right"></i>
+        </button>
+      </nav>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="quick-stats" data-aos="fade-up" data-aos-delay="500">
+      <div class="stat-item">
+        <div class="stat-number">{{ vehicles.length }}+</div>
+        <div class="stat-label">Vehicles Available</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">{{ vehicleCategories.length - 1 }}</div>
+        <div class="stat-label">Categories</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">{{ featuredVehicles.length }}</div>
+        <div class="stat-label">Featured Vehicles</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">100%</div>
+        <div class="stat-label">Quality Guarantee</div>
+      </div>
+    </div>
+
+    <!-- Call to Action -->
+    <div class="cta-section" data-aos="fade-up" data-aos-delay="600">
+      <div class="cta-content">
+        <h3>Can't Find What You're Looking For?</h3>
+        <p>Our team of experts can help you find the perfect vehicle that matches your needs and budget.</p>
+        <div class="cta-actions">
+          <button class="btn btn-primary">
+            <i class="bi bi-telephone"></i>
+            Contact Our Experts
+          </button>
+          <button class="btn btn-outline">
+            <i class="bi bi-envelope"></i>
+            Request Custom Quote
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

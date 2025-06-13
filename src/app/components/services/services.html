@@ -1,0 +1,211 @@
+<!-- src/app/components/services/services.component.html -->
+<section class="services-section" id="services">
+  <!-- Background Elements -->
+  <div class="services-background">
+    <div class="services-overlay"></div>
+    <div class="animated-bg">
+      <div class="floating-element element-1">🚛</div>
+      <div class="floating-element element-2">📄</div>
+      <div class="floating-element element-3">🌍</div>
+      <div class="floating-element element-4">📦</div>
+      <div class="floating-element element-5">🚗</div>
+    </div>
+    <div class="particles">
+      <div class="particle" *ngFor="let p of [1,2,3,4,5,6,7,8,9,10]"></div>
+    </div>
+  </div>
+
+  <div class="services-container">
+    <!-- Section Header -->
+    <div class="section-header" [@slideInUp]>
+      <div class="section-badge">
+        <i class="bi bi-gear-fill"></i>
+        <span>Our Services</span>
+      </div>
+      <h2 class="section-title">
+        <span class="title-main">Complete Vehicle</span>
+        <span class="title-accent">Import & Export</span>
+        <span class="title-sub">Solutions</span>
+      </h2>
+      <p class="section-description">
+        From documentation to delivery, we handle every aspect of your vehicle import and export needs 
+        with professional expertise and unmatched reliability.
+      </p>
+    </div>
+
+    <!-- Services Grid -->
+    <div class="services-grid" [@staggerAnimation]>
+      <div 
+        class="service-card" 
+        *ngFor="let service of services; trackBy: trackByServiceId"
+        [class.popular]="service.popular"
+        [@hoverScale]="'default'"
+        (mouseenter)="selectService(service)"
+        (mouseleave)="activeService = null"
+      >
+        <!-- Popular Badge -->
+        <div class="popular-badge" *ngIf="service.popular">
+          <i class="bi bi-star-fill"></i>
+          <span>Most Popular</span>
+        </div>
+
+        <!-- Service Image -->
+        <div class="service-image">
+          <img 
+            [src]="service.image" 
+            [alt]="service.title"
+            appImageResize
+            [resizeOptions]="{maxWidth: 400, maxHeight: 250, quality: 0.9}"
+            (imageLoaded)="onImageLoaded($event)"
+            loading="lazy"
+          >
+          <div class="image-overlay">
+            <div class="service-icon">
+              <i [class]="service.icon"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Service Content -->
+        <div class="service-content">
+          <div class="service-header">
+            <h3 class="service-title">{{ service.title }}</h3>
+            <div class="service-meta">
+              <div class="service-price">{{ service.price }}</div>
+              <div class="service-duration">
+                <i class="bi bi-clock"></i>
+                {{ service.duration }}
+              </div>
+            </div>
+          </div>
+
+          <p class="service-description">{{ service.description }}</p>
+
+          <!-- Service Features -->
+          <div class="service-features">
+            <div class="features-header">
+              <i class="bi bi-check-circle-fill"></i>
+              <span>What's Included:</span>
+            </div>
+            <ul class="features-list">
+              <li *ngFor="let feature of service.features" class="feature-item">
+                <i class="bi bi-check2"></i>
+                <span>{{ feature }}</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Service Actions -->
+          <div class="service-actions">
+            <button 
+              class="btn btn-primary service-btn"
+              (click)="requestQuote(service)"
+            >
+              <i class="bi bi-file-earmark-plus"></i>
+              Get Quote
+            </button>
+            <button 
+              class="btn btn-outline service-btn"
+              (click)="openWhatsApp(service)"
+            >
+              <i class="bi bi-whatsapp"></i>
+              Chat Now
+            </button>
+          </div>
+        </div>
+
+        <!-- Service Hover Effect -->
+        <div class="service-glow"></div>
+      </div>
+    </div>
+
+    <!-- Additional Services -->
+    <div class="additional-services" [@slideInUp]>
+      <h3 class="additional-title">Additional Services</h3>
+      <div class="additional-grid">
+        <div class="additional-item">
+          <div class="additional-icon">
+            <i class="bi bi-shield-check"></i>
+          </div>
+          <div class="additional-content">
+            <h4>Insurance Coverage</h4>
+            <p>Comprehensive insurance for your vehicle during transport</p>
+          </div>
+        </div>
+        
+        <div class="additional-item">
+          <div class="additional-icon">
+            <i class="bi bi-tools"></i>
+          </div>
+          <div class="additional-content">
+            <h4>Vehicle Inspection</h4>
+            <p>Thorough pre-shipment and post-arrival inspections</p>
+          </div>
+        </div>
+        
+        <div class="additional-item">
+          <div class="additional-icon">
+            <i class="bi bi-headset"></i>
+          </div>
+          <div class="additional-content">
+            <h4>24/7 Support</h4>
+            <p>Round-the-clock customer support and assistance</p>
+          </div>
+        </div>
+        
+        <div class="additional-item">
+          <div class="additional-icon">
+            <i class="bi bi-geo-alt"></i>
+          </div>
+          <div class="additional-content">
+            <h4>GPS Tracking</h4>
+            <p>Real-time tracking of your vehicle's location</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Call to Action -->
+    <div class="services-cta" [@slideInUp]>
+      <div class="cta-content">
+        <h3 class="cta-title">Ready to Get Started?</h3>
+        <p class="cta-description">
+          Contact us today for a personalized quote and let us handle all your vehicle import/export needs.
+        </p>
+        <div class="cta-actions">
+          <button class="btn btn-primary cta-btn" (click)="requestQuote(services[0])">
+            <i class="bi bi-calculator"></i>
+            Get Free Quote
+          </button>
+          <button class="btn btn-outline cta-btn" (click)="callUs()">
+            <i class="bi bi-telephone"></i>
+            Call Now
+          </button>
+        </div>
+      </div>
+      
+      <div class="cta-stats">
+        <div class="stat-item">
+          <div class="stat-number">500+</div>
+          <div class="stat-label">Vehicles Shipped</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">50+</div>
+          <div class="stat-label">Countries Served</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">99%</div>
+          <div class="stat-label">Success Rate</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" *ngIf="isLoading">
+    <div class="loading-spinner">
+      <div class="spinner"></div>
+      <p>Loading Services...</p>
+    </div>
+  </div>
+</section>

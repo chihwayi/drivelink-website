@@ -1,0 +1,497 @@
+<!-- src/app/components/modals/quote-modal/quote-modal.component.html -->
+<div class="quote-modal-overlay" 
+     [class.visible]="isVisible" 
+     (click)="closeModal()"
+     *ngIf="isVisible">
+  
+  <!-- Animated Background -->
+  <div class="modal-background">
+    <div class="animated-bg">
+      <div class="floating-car car-1"></div>
+      <div class="floating-car car-2"></div>
+      <div class="floating-car car-3"></div>
+      <div class="floating-car car-4"></div>
+      <div class="floating-car car-5"></div>
+    </div>
+    
+    <!-- Particles -->
+    <div class="particles">
+      <div class="particle" *ngFor="let i of [1,2,3,4,5,6,7,8,9,10]"></div>
+    </div>
+  </div>
+
+  <!-- Modal Content -->
+  <div class="quote-modal-content" 
+       #modalContent
+       (click)="$event.stopPropagation()"
+       [class.success-state]="isSuccess">
+    
+    <!-- Close Button -->
+    <button class="modal-close-btn" 
+            (click)="closeModal()" 
+            [disabled]="isSubmitting"
+            aria-label="Close modal">
+      <i class="bi bi-x-lg"></i>
+    </button>
+
+    <!-- Success State -->
+    <div class="success-content" *ngIf="isSuccess">
+      <div class="success-animation">
+        <div class="success-checkmark">
+          <i class="bi bi-check-circle-fill"></i>
+        </div>
+        <div class="success-cars">
+          <div class="success-car"></div>
+          <div class="success-car"></div>
+        </div>
+      </div>
+      
+      <h2 class="success-title">Quote Request Submitted!</h2>
+      <p class="success-message">
+        Thank you for choosing DriveLink! We've received your quote request and our team will get back to you within 24 hours with a personalized quote.
+      </p>
+      
+      <div class="success-actions">
+        <button class="btn btn-primary" (click)="closeModal()">
+          <i class="bi bi-check"></i>
+          Great, Thanks!
+        </button>
+        <button class="btn btn-outline" (click)="openWhatsApp()">
+          <i class="bi bi-whatsapp"></i>
+          Chat with Us
+        </button>
+      </div>
+    </div>
+
+    <!-- Form Content -->
+    <div class="form-content" *ngIf="!isSuccess">
+      
+      <!-- Header -->
+      <div class="modal-header">
+        <div class="header-content">
+          <h2 class="modal-title">
+            <i class="bi bi-calculator"></i>
+            Get Your Quote
+          </h2>
+          <p class="modal-subtitle">
+            {{ getStepTitle(currentStep) }}
+          </p>
+        </div>
+        
+        <!-- Progress Bar -->
+        <div class="progress-container">
+          <div class="progress-bar">
+            <div class="progress-fill" [style.width.%]="getProgressPercentage()"></div>
+          </div>
+          <div class="progress-steps">
+            <div class="progress-step" 
+                 *ngFor="let step of [1,2,3,4]" 
+                 [class.active]="step === currentStep"
+                 [class.completed]="isStepCompleted(step)"
+                 (click)="goToStep(step)">
+              <span class="step-number">{{ step }}</span>
+              <span class="step-label">{{ getStepTitle(step) }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Form Steps -->
+      <form [formGroup]="quoteForm$" 
+            #quoteForm
+            class="quote-form"
+            (ngSubmit)="submitQuote()"
+            [class.animating]="isAnimating"
+            [class.slide-left]="slideDirection === 'left'"
+            [class.slide-right]="slideDirection === 'right'">
+
+        <!-- Step 1: Personal Information -->
+        <div class="form-step" *ngIf="currentStep === 1">
+          <div class="step-content">
+            <div class="step-header">
+              <i class="bi bi-person-circle step-icon"></i>
+              <h3>Tell us about yourself</h3>
+              <p>We need your contact information to send you the quote</p>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="firstName">
+                  First Name <span class="required">*</span>
+                </label>
+                <input 
+                  type="text" 
+                  id="firstName" 
+                  formControlName="firstName"
+                  class="form-input"
+                  [class.error]="hasError('firstName')"
+                  placeholder="Your first name">
+                <div class="error-message" *ngIf="hasError('firstName')">
+                  {{ getError('firstName') }}
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="lastName">
+                  Last Name <span class="required">*</span>
+                </label>
+                <input 
+                  type="text" 
+                  id="lastName" 
+                  formControlName="lastName"
+                  class="form-input"
+                  [class.error]="hasError('lastName')"
+                  placeholder="Your last name">
+                <div class="error-message" *ngIf="hasError('lastName')">
+                  {{ getError('lastName') }}
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="email">
+                  Email Address <span class="required">*</span>
+                </label>
+                <input 
+                  type="email" 
+                  id="email" 
+                  formControlName="email"
+                  class="form-input"
+                  [class.error]="hasError('email')"
+                  placeholder="your.email@example.com">
+                <div class="error-message" *ngIf="hasError('email')">
+                  {{ getError('email') }}
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="phone">
+                  Phone Number <span class="required">*</span>
+                </label>
+                <input 
+                  type="tel" 
+                  id="phone" 
+                  formControlName="phone"
+                  class="form-input"
+                  [class.error]="hasError('phone')"
+                  placeholder="+27 123 456 7890">
+                <div class="error-message" *ngIf="hasError('phone')">
+                  {{ getError('phone') }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2: Vehicle Information -->
+        <div class="form-step" *ngIf="currentStep === 2">
+          <div class="step-content">
+            <div class="step-header">
+              <i class="bi bi-car-front step-icon"></i>
+              <h3>Vehicle Details</h3>
+              <p>Tell us about the vehicle you want to import/export</p>
+            </div>
+
+            <!-- Vehicle Type Selection -->
+            <div class="form-group">
+              <label>Vehicle Type <span class="required">*</span></label>
+              <div class="vehicle-type-grid">
+                <div class="vehicle-type-card" 
+                     *ngFor="let type of vehicleTypes"
+                     [class.selected]="quoteForm$.get('vehicleType')?.value === type.value"
+                     (click)="quoteForm$.patchValue({vehicleType: type.value})">
+                  <i [class]="type.icon"></i>
+                  <span>{{ type.label }}</span>
+                </div>
+              </div>
+              <div class="error-message" *ngIf="hasError('vehicleType')">
+                {{ getError('vehicleType') }}
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="make">
+                  Make <span class="required">*</span>
+                </label>
+                <input 
+                  type="text" 
+                  id="make" 
+                  formControlName="make"
+                  class="form-input"
+                  [class.error]="hasError('make')"
+                  placeholder="e.g., Toyota"
+                  list="popularMakes">
+                <datalist id="popularMakes">
+                  <option *ngFor="let make of popularMakes" [value]="make">
+                </datalist>
+                <div class="error-message" *ngIf="hasError('make')">
+                  {{ getError('make') }}
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="model">
+                  Model <span class="required">*</span>
+                </label>
+                <input 
+                  type="text" 
+                  id="model" 
+                  formControlName="model"
+                  class="form-input"
+                  [class.error]="hasError('model')"
+                  placeholder="e.g., Camry">
+                <div class="error-message" *ngIf="hasError('model')">
+                  {{ getError('model') }}
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="year">
+                  Year <span class="required">*</span>
+                </label>
+                <input 
+                  type="number" 
+                  id="year" 
+                  formControlName="year"
+                  class="form-input"
+                  [class.error]="hasError('year')"
+                  placeholder="2023"
+                  min="1990"
+                  [max]="maxYear">
+                <div class="error-message" *ngIf="hasError('year')">
+                  {{ getError('year') }}
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="condition">
+                  Condition <span class="required">*</span>
+                </label>
+                <select 
+                  id="condition" 
+                  formControlName="condition"
+                  class="form-select"
+                  [class.error]="hasError('condition')">
+                  <option value="">Select condition</option>
+                  <option *ngFor="let condition of vehicleConditions" [value]="condition">
+                    {{ condition }}
+                  </option>
+                </select>
+                <div class="error-message" *ngIf="hasError('condition')">
+                  {{ getError('condition') }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3: Service Information -->
+        <div class="form-step" *ngIf="currentStep === 3">
+          <div class="step-content">
+            <div class="step-header">
+              <i class="bi bi-gear step-icon"></i>
+              <h3>Service Requirements</h3>
+              <p>What service do you need and where?</p>
+            </div>
+
+            <!-- Service Type Selection -->
+            <div class="form-group">
+              <label>Service Type <span class="required">*</span></label>
+              <div class="service-type-grid">
+                <div class="service-type-card" 
+                     *ngFor="let service of serviceTypes"
+                     [class.selected]="quoteForm$.get('serviceType')?.value === service.value"
+                     (click)="quoteForm$.patchValue({serviceType: service.value})">
+                  <i [class]="service.icon"></i>
+                  <span>{{ service.label }}</span>
+                </div>
+              </div>
+              <div class="error-message" *ngIf="hasError('serviceType')">
+                {{ getError('serviceType') }}
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="origin">
+                  Origin <span class="required">*</span>
+                </label>
+                <input 
+                  type="text" 
+                  id="origin" 
+                  formControlName="origin"
+                  class="form-input"
+                  [class.error]="hasError('origin')"
+                  placeholder="Where is the vehicle located?">
+                <div class="error-message" *ngIf="hasError('origin')">
+                  {{ getError('origin') }}
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="destination">
+                  Destination <span class="required">*</span>
+                </label>
+                <input 
+                  type="text" 
+                  id="destination" 
+                  formControlName="destination"
+                  class="form-input"
+                  [class.error]="hasError('destination')"
+                  placeholder="Where should it go?">
+                <div class="error-message" *ngIf="hasError('destination')">
+                  {{ getError('destination') }}
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="preferredTimeframe">
+                Preferred Timeframe <span class="required">*</span>
+              </label>
+              <select 
+                id="preferredTimeframe" 
+                formControlName="preferredTimeframe"
+                class="form-select"
+                [class.error]="hasError('preferredTimeframe')">
+                <option value="">Select timeframe</option>
+                <option *ngFor="let timeframe of timeframes" [value]="timeframe">
+                  {{ timeframe }}
+                </option>
+              </select>
+              <div class="error-message" *ngIf="hasError('preferredTimeframe')">
+                {{ getError('preferredTimeframe') }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 4: Additional Information -->
+        <div class="form-step" *ngIf="currentStep === 4">
+          <div class="step-content">
+            <div class="step-header">
+              <i class="bi bi-chat-dots step-icon"></i>
+              <h3>Additional Details</h3>
+              <p>Any special requirements or preferences?</p>
+            </div>
+
+            <div class="form-group">
+              <label for="additionalRequests">
+                Special Requirements or Questions
+              </label>
+              <textarea 
+                id="additionalRequests" 
+                formControlName="additionalRequests"
+                class="form-textarea"
+                rows="4"
+                placeholder="Any special handling requirements, insurance needs, or questions you have..."></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="budget">
+                Estimated Budget (Optional)
+              </label>
+              <input 
+                type="text" 
+                id="budget" 
+                formControlName="budget"
+                class="form-input"
+                placeholder="e.g., $5,000 - $10,000">
+            </div>
+
+            <!-- Contact Preference -->
+            <div class="form-group">
+              <label>How would you prefer to be contacted? <span class="required">*</span></label>
+              <div class="contact-preference-grid">
+                <div class="contact-preference-card" 
+                     *ngFor="let preference of contactPreferences"
+                     [class.selected]="quoteForm$.get('contactPreference')?.value === preference.value"
+                     (click)="quoteForm$.patchValue({contactPreference: preference.value})">
+                  <i [class]="preference.icon"></i>
+                  <span>{{ preference.label }}</span>
+                </div>
+              </div>
+              <div class="error-message" *ngIf="hasError('contactPreference')">
+                {{ getError('contactPreference') }}
+              </div>
+            </div>
+
+            <!-- Newsletter Subscription -->
+            <div class="form-group">
+              <div class="checkbox-group">
+                <input 
+                  type="checkbox" 
+                  id="newsletter" 
+                  formControlName="newsletter"
+                  class="form-checkbox">
+                <label for="newsletter" class="checkbox-label">
+                  <i class="bi bi-envelope"></i>
+                  Subscribe to our newsletter for vehicle import/export tips and updates
+                </label>
+              </div>
+            </div>
+
+            <!-- Quick Contact Options -->
+            <div class="quick-contact-section">
+              <h4>Need immediate assistance?</h4>
+              <div class="quick-contact-buttons">
+                <button type="button" class="quick-contact-btn whatsapp" (click)="openWhatsApp()">
+                  <i class="bi bi-whatsapp"></i>
+                  WhatsApp
+                </button>
+                <button type="button" class="quick-contact-btn phone" (click)="callUs()">
+                  <i class="bi bi-telephone"></i>
+                  Call Us
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Error Message -->
+        <div class="form-error" *ngIf="submitError">
+          <i class="bi bi-exclamation-triangle"></i>
+          {{ submitError }}
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="form-navigation">
+          <button 
+            type="button" 
+            class="btn btn-secondary" 
+            (click)="previousStep()"
+            [disabled]="currentStep === 1 || isSubmitting">
+            <i class="bi bi-arrow-left"></i>
+            Previous
+          </button>
+
+          <div class="nav-spacer"></div>
+
+          <button 
+            type="button" 
+            class="btn btn-primary" 
+            (click)="nextStep()"
+            *ngIf="currentStep < totalSteps"
+            [disabled]="isSubmitting">
+            Next
+            <i class="bi bi-arrow-right"></i>
+          </button>
+
+          <button 
+            type="submit" 
+            class="btn btn-success" 
+            *ngIf="currentStep === totalSteps"
+            [disabled]="!quoteForm$.valid || isSubmitting">
+            <i class="bi bi-send" *ngIf="!isSubmitting"></i>
+            <i class="bi bi-hourglass-split spinner" *ngIf="isSubmitting"></i>
+            {{ isSubmitting ? 'Submitting...' : 'Submit Quote Request' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
