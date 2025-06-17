@@ -1,0 +1,689 @@
+<section class="import-export-section" id="import-export">
+  <!-- Hero Section -->
+  <div class="import-export-hero">
+    <div class="hero-background">
+      <div class="hero-overlay"></div>
+      <div class="animated-bg">
+        <div class="floating-car car-1"></div>
+        <div class="floating-car car-2"></div>
+        <div class="floating-car car-3"></div>
+        <div class="floating-car car-4"></div>
+        <div class="floating-car car-5"></div>
+      </div>
+      <div class="particles">
+        <div class="particle" *ngFor="let i of [1,2,3,4,5,6,7,8,9,10]"></div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="hero-content" data-aos="fade-up">
+        <h1 class="hero-title">
+          <span class="title-main">Global Vehicle</span>
+          <span class="title-accent">Import & Export</span>
+          <span class="title-sub">Solutions</span>
+        </h1>
+        <p class="hero-description">
+          Based in South Africa, we specialize in seamless vehicle import and export services 
+          across SADC countries and beyond. From passenger cars to heavy machinery, we handle 
+          everything with precision and care.
+        </p>
+        
+        <div class="hero-stats">
+          <div class="stats-grid">
+            <div class="stat-item" *ngFor="let stat of statistics" [@countUp]>
+              <div class="stat-icon">
+                <i [class]="stat.icon"></i>
+              </div>
+              <div class="stat-content">
+                <h3 class="stat-number">{{ stat.number }}</h3>
+                <p class="stat-label">{{ stat.label }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-actions">
+          <button class="btn-hero-primary" (click)="openQuoteModal()">
+            <span>Get Free Quote</span>
+            <i class="bi bi-arrow-right"></i>
+          </button>
+          <button class="btn-hero-secondary" (click)="scrollToSection('services')">
+            <span>Explore Services</span>
+            <i class="bi bi-chevron-down"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Services Section -->
+  <div class="services-section" id="services">
+    <div class="container">
+      <div class="section-header" data-aos="fade-up">
+        <h2 class="section-title">Our Import & Export Services</h2>
+        <p class="section-description">
+          Comprehensive solutions for all your vehicle import and export needs
+        </p>
+      </div>
+
+      <!-- Service Tabs -->
+      <div class="service-tabs" data-aos="fade-up" data-aos-delay="200">
+        <button 
+          class="tab-button" 
+          [class.active]="activeTab === 'import'"
+          (click)="switchTab('import')">
+          <i class="bi bi-arrow-down-circle"></i>
+          <span>Import Services</span>
+        </button>
+        <button 
+          class="tab-button" 
+          [class.active]="activeTab === 'export'"
+          (click)="switchTab('export')">
+          <i class="bi bi-arrow-up-circle"></i>
+          <span>Export Services</span>
+        </button>
+      </div>
+
+      <!-- Services Grid -->
+      <div class="services-grid" [@staggerAnimation]>
+        <div 
+          class="service-card" 
+          *ngFor="let service of getCurrentServices()"
+          [class.popular]="service.popular"
+          data-aos="fade-up"
+          data-aos-delay="300">
+          
+          <div class="service-badge" *ngIf="service.popular">
+            <i class="bi bi-star-fill"></i>
+            <span>Popular</span>
+          </div>
+
+          <div class="service-image">
+            <img [src]="service.image" [alt]="service.title" />
+            <div class="service-overlay">
+              <button class="btn-service-details" (click)="selectService(service)">
+                <i class="bi bi-eye"></i>
+                <span>View Details</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="service-content">
+            <div class="service-header">
+              <div class="service-icon">
+                <i [class]="service.icon"></i>
+              </div>
+              <h3 class="service-title">{{ service.title }}</h3>
+            </div>
+            
+            <p class="service-description">{{ service.description }}</p>
+            
+            <ul class="service-features">
+              <li *ngFor="let feature of service.features.slice(0, 3)">
+                <i class="bi bi-check-circle-fill"></i>
+                <span>{{ feature }}</span>
+              </li>
+            </ul>
+
+            <div class="service-actions">
+              <button class="btn-quote" (click)="openQuoteModal(service)">
+                <i class="bi bi-envelope"></i>
+                <span>Get Quote</span>
+              </button>
+              <button class="btn-details" (click)="selectService(service)">
+                <i class="bi bi-info-circle"></i>
+                <span>Details</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Service Details Modal -->
+  <div class="service-modal" *ngIf="selectedService" (click)="selectedService = null">
+    <div class="modal-content" (click)="$event.stopPropagation()" data-aos="zoom-in">
+      <button class="modal-close" (click)="selectedService = null">
+        <i class="bi bi-x-lg"></i>
+      </button>
+      
+      <div class="modal-header">
+        <div class="modal-icon">
+          <i [class]="selectedService.icon"></i>
+        </div>
+        <h3>{{ selectedService.title }}</h3>
+        <p>{{ selectedService.description }}</p>
+      </div>
+
+      <div class="modal-body">
+        <div class="modal-image">
+          <img [src]="selectedService.image" [alt]="selectedService.title" />
+        </div>
+        
+        <div class="modal-features">
+          <h4>What's Included:</h4>
+          <ul>
+            <li *ngFor="let feature of selectedService.features">
+              <i class="bi bi-check-circle-fill"></i>
+              <span>{{ feature }}</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-modal-quote" (click)="openQuoteModal(selectedService)">
+          <i class="bi bi-envelope"></i>
+          <span>Request Quote</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Import Process Section -->
+  <div class="process-section" id="process">
+    <div class="container">
+      <div class="section-header" data-aos="fade-up">
+        <h2 class="section-title">6 Simple Steps to Import Your Vehicle</h2>
+        <p class="section-description">
+          Our streamlined process ensures hassle-free vehicle imports
+        </p>
+      </div>
+
+      <div class="process-timeline">
+        <div 
+          class="process-step" 
+          *ngFor="let step of importSteps; let i = index"
+          [class.active]="i === 0"
+          data-aos="fade-up"
+          [attr.data-aos-delay]="i * 100">
+          
+          <div class="step-number">{{ step.step }}</div>
+          
+          <div class="step-content">
+            <div class="step-header">
+              <div class="step-icon">
+                <i [class]="step.icon"></i>
+              </div>
+              <div class="step-info">
+                <h4 class="step-title">{{ step.title }}</h4>
+                <span class="step-duration">{{ step.duration }}</span>
+              </div>
+            </div>
+            <p class="step-description">{{ step.description }}</p>
+          </div>
+
+          <div class="step-connector" *ngIf="i < importSteps.length - 1"></div>
+        </div>
+      </div>
+
+      <div class="process-cta" data-aos="fade-up">
+        <button class="btn-start-process" (click)="openQuoteModal()">
+          <i class="bi bi-play-circle"></i>
+          <span>Start Your Import Process</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Target Countries Section -->
+  <div class="countries-section" id="countries">
+    <div class="container">
+      <div class="section-header" data-aos="fade-up">
+        <h2 class="section-title">Where We Serve</h2>
+        <p class="section-description">
+          Connecting South Africa with SADC countries and beyond
+        </p>
+      </div>
+
+      <!-- High Priority Countries -->
+      <div class="countries-group" data-aos="fade-up" data-aos-delay="200">
+        <h3 class="group-title">
+          <i class="bi bi-star-fill"></i>
+          <span>Primary Markets</span>
+        </h3>
+        <div class="countries-grid">
+          <div 
+            class="country-card priority-high" 
+            *ngFor="let country of getCountriesByPopularity('high')"
+            data-aos="zoom-in"
+            data-aos-delay="300">
+            
+            <div class="country-header">
+              <div class="country-flag">{{ country.flag }}</div>
+              <div class="country-info">
+                <h4 class="country-name">{{ country.name }}</h4>
+                <span class="country-badge">{{ getPopularityBadge(country.popularity) }}</span>
+              </div>
+            </div>
+            
+            <p class="country-description">{{ country.description }}</p>
+            
+            <div class="country-specialties">
+              <h5>Specialties:</h5>
+              <ul>
+                <li *ngFor="let specialty of country.specialties">
+                  <i class="bi bi-check-circle"></i>
+                  <span>{{ specialty }}</span>
+                </li>
+              </ul>
+            </div>
+            
+            <div class="country-footer">
+              <div class="processing-time">
+                <i class="bi bi-clock"></i>
+                <span>{{ formatProcessingTime(country.processingTime) }}</span>
+              </div>
+              <button class="btn-country-quote" (click)="openQuoteModal()">
+                <i class="bi bi-envelope"></i>
+                <span>Get Quote</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Medium Priority Countries -->
+      <div class="countries-group" data-aos="fade-up" data-aos-delay="400">
+        <h3 class="group-title">
+          <i class="bi bi-graph-up"></i>
+          <span>Growing Markets</span>
+        </h3>
+        <div class="countries-grid">
+          <div 
+            class="country-card priority-medium" 
+            *ngFor="let country of getCountriesByPopularity('medium')"
+            data-aos="zoom-in"
+            data-aos-delay="500">
+            
+            <div class="country-header">
+              <div class="country-flag">{{ country.flag }}</div>
+              <div class="country-info">
+                <h4 class="country-name">{{ country.name }}</h4>
+                <span class="country-badge">{{ getPopularityBadge(country.popularity) }}</span>
+              </div>
+            </div>
+            
+            <p class="country-description">{{ country.description }}</p>
+            
+            <div class="country-specialties">
+              <h5>Specialties:</h5>
+              <ul>
+                <li *ngFor="let specialty of country.specialties.slice(0, 2)">
+                  <i class="bi bi-check-circle"></i>
+                  <span>{{ specialty }}</span>
+                </li>
+              </ul>
+            </div>
+            
+            <div class="country-footer">
+              <div class="processing-time">
+                <i class="bi bi-clock"></i>
+                <span>{{ formatProcessingTime(country.processingTime) }}</span>
+              </div>
+              <button class="btn-country-quote" (click)="openQuoteModal()">
+                <i class="bi bi-envelope"></i>
+                <span>Get Quote</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="countries-cta" data-aos="fade-up">
+        <p>Don't see your country? We serve many more destinations worldwide.</p>
+        <button class="btn-contact" (click)="openQuoteModal()">
+          <i class="bi bi-globe"></i>
+          <span>Contact Us for Your Location</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quote Modal -->
+  <div class="quote-modal" *ngIf="showQuoteModal" (click)="closeQuoteModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()" data-aos="zoom-in">
+      <div class="modal-header">
+        <h3>Get Your Free Quote</h3>
+        <button class="modal-close" (click)="closeQuoteModal()">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+
+      <form class="quote-form" (ngSubmit)="submitQuoteRequest()" #quoteForm="ngForm">
+        <div class="form-grid">
+          <!-- Personal Information -->
+          <div class="form-section">
+            <h4 class="form-section-title">
+              <i class="bi bi-person"></i>
+              Personal Information
+            </h4>
+            
+            <div class="form-group">
+              <label for="quoteName">Full Name <span class="required">*</span></label>
+              <input 
+                type="text" 
+                id="quoteName" 
+                class="form-control"
+                [(ngModel)]="quoteRequest.name"
+                name="name"
+                required
+                placeholder="Enter your full name">
+            </div>
+
+            <div class="form-group">
+              <label for="quoteEmail">Email Address <span class="required">*</span></label>
+              <input 
+                type="email" 
+                id="quoteEmail" 
+                class="form-control"
+                [(ngModel)]="quoteRequest.email"
+                name="email"
+                required
+                placeholder="your.email@example.com">
+            </div>
+
+            <div class="form-group">
+              <label for="quotePhone">Phone Number <span class="required">*</span></label>
+              <input 
+                type="tel" 
+                id="quotePhone" 
+                class="form-control"
+                [(ngModel)]="quoteRequest.phone"
+                name="phone"
+                required
+                placeholder="+27 XXX XXX XXXX">
+            </div>
+          </div>
+
+          <!-- Service Details -->
+          <div class="form-section">
+            <h4 class="form-section-title">
+              <i class="bi bi-gear"></i>
+              Service Details
+            </h4>
+
+            <div class="form-group">
+              <label for="quoteCountry">Target Country <span class="required">*</span></label>
+              <select 
+                id="quoteCountry" 
+                class="form-control"
+                [(ngModel)]="quoteRequest.country"
+                name="country"
+                required>
+                <option value="">Select destination country</option>
+                <optgroup label="Primary Markets">
+                  <option 
+                    *ngFor="let country of getCountriesByPopularity('high')" 
+                    [value]="country.name">
+                    {{ country.flag }} {{ country.name }}
+                  </option>
+                </optgroup>
+                <optgroup label="Growing Markets">
+                  <option 
+                    *ngFor="let country of getCountriesByPopularity('medium')" 
+                    [value]="country.name">
+                    {{ country.flag }} {{ country.name }}
+                  </option>
+                </optgroup>
+                <option value="other">Other (Please specify in additional info)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="quoteServiceType">Service Type <span class="required">*</span></label>
+              <select 
+                id="quoteServiceType" 
+                class="form-control"
+                [(ngModel)]="quoteRequest.serviceType"
+                name="serviceType"
+                required>
+                <option value="">Select service type</option>
+                <optgroup label="Import Services">
+                  <option *ngFor="let service of importServices" [value]="service.title">
+                    {{ service.title }}
+                  </option>
+                </optgroup>
+                <optgroup label="Export Services">
+                  <option *ngFor="let service of exportServices" [value]="service.title">
+                    {{ service.title }}
+                  </option>
+                </optgroup>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="quoteVehicleType">Vehicle Type</label>
+              <select 
+                id="quoteVehicleType" 
+                class="form-control"
+                [(ngModel)]="quoteRequest.vehicleType"
+                name="vehicleType">
+                <option value="">Select vehicle type</option>
+                <option value="sedan">Sedan</option>
+                <option value="suv">SUV / 4x4</option>
+                <option value="hatchback">Hatchback</option>
+                <option value="pickup">Pickup / Bakkie</option>
+                <option value="truck">Truck</option>
+                <option value="trailer">Trailer</option>
+                <option value="motorcycle">Motorcycle</option>
+                <option value="luxury">Luxury Vehicle</option>
+                <option value="commercial">Commercial Vehicle</option>
+                <option value="agricultural">Agricultural Equipment</option>
+                <option value="construction">Construction Equipment</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Budget and Timeline -->
+          <div class="form-section">
+            <h4 class="form-section-title">
+              <i class="bi bi-calendar-check"></i>
+              Budget & Timeline
+            </h4>
+
+            <div class="form-group">
+              <label for="quoteBudget">Budget Range (USD)</label>
+              <select 
+                id="quoteBudget" 
+                class="form-control"
+                [(ngModel)]="quoteRequest.budget"
+                name="budget">
+                <option value="">Select budget range</option>
+                <option value="under-10k">Under $10,000</option>
+                <option value="10k-25k">$10,000 - $25,000</option>
+                <option value="25k-50k">$25,000 - $50,000</option>
+                <option value="50k-100k">$50,000 - $100,000</option>
+                <option value="100k-250k">$100,000 - $250,000</option>
+                <option value="over-250k">Over $250,000</option>
+                <option value="flexible">Flexible / Open to discussion</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="quoteTimeframe">Required Timeframe</label>
+              <select 
+                id="quoteTimeframe" 
+                class="form-control"
+                [(ngModel)]="quoteRequest.timeframe"
+                name="timeframe">
+                <option value="">Select timeframe</option>
+                <option value="urgent">Urgent (ASAP)</option>
+                <option value="1-month">Within 1 month</option>
+                <option value="2-3-months">2-3 months</option>
+                <option value="3-6-months">3-6 months</option>
+                <option value="6-plus-months">6+ months</option>
+                <option value="flexible">Flexible</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Additional Information -->
+          <div class="form-section full-width">
+            <h4 class="form-section-title">
+              <i class="bi bi-chat-text"></i>
+              Additional Information
+            </h4>
+
+            <div class="form-group">
+              <label for="quoteAdditionalInfo">
+                Additional Details 
+                <span class="helper-text">(Optional - Please include any specific requirements, preferred brands, or other relevant information)</span>
+              </label>
+              <textarea 
+                id="quoteAdditionalInfo" 
+                class="form-control"
+                [(ngModel)]="quoteRequest.additionalInfo"
+                name="additionalInfo"
+                rows="4"
+                placeholder="Please provide any additional information about your requirements, specific vehicle models, features needed, or any questions you may have..."></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- Form Actions -->
+        <div class="form-actions">
+          <button type="button" class="btn-cancel" (click)="closeQuoteModal()">
+            <i class="bi bi-x-circle"></i>
+            <span>Cancel</span>
+          </button>
+          <button 
+            type="submit" 
+            class="btn-submit" 
+            [disabled]="isLoading || !quoteForm.valid">
+            <div class="btn-content">
+              <i class="bi bi-send" *ngIf="!isLoading"></i>
+              <div class="spinner" *ngIf="isLoading"></div>
+              <span>{{ isLoading ? 'Sending...' : 'Send Quote Request' }}</span>
+            </div>
+          </button>
+        </div>
+
+        <!-- Form Footer -->
+        <div class="form-footer">
+          <p class="privacy-note">
+            <i class="bi bi-shield-check"></i>
+            Your information is secure and will only be used to provide you with a personalized quote. 
+            We typically respond within 24 hours.
+          </p>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Contact Section -->
+  <div class="contact-section" id="contact">
+    <div class="container">
+      <div class="section-header" data-aos="fade-up">
+        <h2 class="section-title">Ready to Start Your Import/Export Journey?</h2>
+        <p class="section-description">
+          Get in touch with our experts today for personalized assistance
+        </p>
+      </div>
+
+      <div class="contact-grid" data-aos="fade-up" data-aos-delay="200">
+        <div class="contact-card">
+          <div class="contact-icon">
+            <i class="bi bi-whatsapp"></i>
+          </div>
+          <h4>WhatsApp</h4>
+          <p>Chat with us instantly for quick questions and immediate assistance</p>
+          <button class="btn-contact-action" (click)="openWhatsApp()">
+            <i class="bi bi-whatsapp"></i>
+            <span>Start Chat</span>
+          </button>
+        </div>
+
+        <div class="contact-card">
+          <div class="contact-icon">
+            <i class="bi bi-telephone"></i>
+          </div>
+          <h4>Phone Call</h4>
+          <p>Speak directly with our import/export specialists</p>
+          <button class="btn-contact-action" (click)="callUs()">
+            <i class="bi bi-telephone"></i>
+            <span>Call Now</span>
+          </button>
+        </div>
+
+        <div class="contact-card">
+          <div class="contact-icon">
+            <i class="bi bi-envelope"></i>
+          </div>
+          <h4>Get Quote</h4>
+          <p>Submit your requirements for a detailed personalized quote</p>
+          <button class="btn-contact-action" (click)="openQuoteModal()">
+            <i class="bi bi-envelope"></i>
+            <span>Request Quote</span>
+          </button>
+        </div>
+
+        <div class="contact-card">
+          <div class="contact-icon">
+            <i class="bi bi-geo-alt"></i>
+          </div>
+          <h4>Visit Us</h4>
+          <p>Visit our offices in Johannesburg for in-person consultations</p>
+          <button class="btn-contact-action" (click)="openGoogleMaps()">
+            <i class="bi bi-geo-alt"></i>
+            <span>Get Directions</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAQ Section -->
+  <div class="faq-section" id="faq">
+    <div class="container">
+      <div class="section-header" data-aos="fade-up">
+        <h2 class="section-title">Frequently Asked Questions</h2>
+        <p class="section-description">
+          Common questions about our import and export services
+        </p>
+      </div>
+
+      <div class="faq-grid" data-aos="fade-up" data-aos-delay="200">
+        <div class="faq-item">
+          <h4>How long does the import process take?</h4>
+          <p>Import times vary by destination country, typically ranging from 2-8 weeks. Our process timeline above shows the detailed breakdown for each step.</p>
+        </div>
+
+        <div class="faq-item">
+          <h4>What documents are required for importing?</h4>
+          <p>We handle all documentation including export permits, shipping documents, import permits, and customs clearance. You'll need to provide identification and proof of funds.</p>
+        </div>
+
+        <div class="faq-item">
+          <h4>Can you help with financing?</h4>
+          <p>Yes, we work with financing partners and can assist with payment plans for qualifying customers. Contact us to discuss your financing options.</p>
+        </div>
+
+        <div class="faq-item">
+          <h4>Do you provide vehicle inspections?</h4>
+          <p>Absolutely! We offer comprehensive vehicle inspections and quality assurance before shipping to ensure you receive exactly what you ordered.</p>
+        </div>
+
+        <div class="faq-item">
+          <h4>What about warranty and after-sales support?</h4>
+          <p>We provide warranty coverage on applicable vehicles and offer ongoing support for parts, service, and maintenance assistance.</p>
+        </div>
+
+        <div class="faq-item">
+          <h4>Can you source specific vehicle models?</h4>
+          <p>Yes! We specialize in sourcing specific vehicle models, colors, and specifications according to your exact requirements.</p>
+        </div>
+      </div>
+
+      <div class="faq-cta" data-aos="fade-up">
+        <p>Have more questions?</p>
+        <button class="btn-faq-contact" (click)="openQuoteModal()">
+          <i class="bi bi-question-circle"></i>
+          <span>Ask Our Experts</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>

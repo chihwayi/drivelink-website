@@ -1,0 +1,284 @@
+<!-- src/app/components/gallery/gallery.component.html -->
+<section class="gallery-section" id="gallery" (keydown)="onKeydown($event)">
+  <!-- Background and Overlay -->
+  <div class="gallery-background">
+    <div class="gallery-overlay"></div>
+    <div class="animated-bg">
+      <div class="floating-car car-1"></div>
+      <div class="floating-car car-2"></div>
+      <div class="floating-car car-3"></div>
+      <div class="floating-car car-4"></div>
+      <div class="floating-car car-5"></div>
+    </div>
+    
+    <!-- Floating particles -->
+    <div class="particles">
+      <div class="particle" *ngFor="let p of [1,2,3,4,5,6,7,8,9,10]"></div>
+    </div>
+  </div>
+
+  <div class="gallery-container" #galleryContainer>
+    <!-- Section Header -->
+    <div class="section-header" [@slideInUp]>
+      <div class="header-content">
+        <h2 class="section-title">
+          <span class="title-main">Happy Clients</span>
+          <span class="title-accent">Delivery Gallery</span>
+          <span class="title-sub">Celebrating Every Successful Delivery</span>
+        </h2>
+        <p class="section-description">
+          See the joy on our clients' faces as they receive their dream vehicles. 
+          Each delivery represents our commitment to excellence and customer satisfaction.
+        </p>
+      </div>
+      
+      <!-- Stats -->
+      <div class="delivery-stats">
+        <div class="stat-item">
+          <div class="stat-icon">
+            <i class="bi bi-people-fill"></i>
+          </div>
+          <div class="stat-content">
+            <div class="stat-number">500+</div>
+            <div class="stat-label">Happy Clients</div>
+          </div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-icon">
+            <i class="bi bi-car-front-fill"></i>
+          </div>
+          <div class="stat-content">
+            <div class="stat-number">750+</div>
+            <div class="stat-label">Vehicles Delivered</div>
+          </div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-icon">
+            <i class="bi bi-star-fill"></i>
+          </div>
+          <div class="stat-content">
+            <div class="stat-number">4.9</div>
+            <div class="stat-label">Average Rating</div>
+          </div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-icon">
+            <i class="bi bi-geo-alt-fill"></i>
+          </div>
+          <div class="stat-content">
+            <div class="stat-number">9</div>
+            <div class="stat-label">Provinces Covered</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filter Buttons -->
+    <div class="filter-container" [@slideInUp]>
+      <div class="filter-buttons">
+        <button 
+          *ngFor="let category of categories"
+          class="filter-btn"
+          [class.active]="activeFilter === category.key"
+          (click)="filterGallery(category.key)"
+        >
+          <i [class]="category.icon"></i>
+          <span>{{ category.label }}</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Loading Indicator -->
+    <div class="loading-container" *ngIf="isLoading">
+      <div class="loading-spinner">
+        <div class="spinner"></div>
+        <p>Loading gallery...</p>
+      </div>
+    </div>
+
+    <!-- Gallery Grid -->
+    <div class="gallery-grid" [@filterAnimation]="filteredItems.length" *ngIf="!isLoading">
+      <div 
+        *ngFor="let item of filteredItems; trackBy: trackByFn"
+        class="gallery-item"
+        [@zoomIn]
+        (click)="openModal(item)"
+      >
+        <!-- Image Container -->
+        <div class="image-container">
+          <img 
+            [src]="item.imagePath" 
+            [alt]="item.title"
+            class="gallery-image"
+            loading="lazy"
+            onerror="this.src='assets/images/gallery/placeholder.jpg'"
+          >
+          <div class="image-overlay">
+            <div class="overlay-content">
+              <button class="zoom-btn" title="View Details">
+                <i class="bi bi-zoom-in"></i>
+              </button>
+              <button class="share-btn" (click)="shareOnWhatsApp(item); $event.stopPropagation()" title="Share on WhatsApp">
+                <i class="bi bi-whatsapp"></i>
+              </button>
+              <button class="contact-btn" (click)="contactForSimilar(item); $event.stopPropagation()" title="Find Similar">
+                <i class="bi bi-chat-dots"></i>
+              </button>
+            </div>
+          </div>
+          
+          <!-- Category Badge -->
+          <div class="category-badge">
+            <i [class]="getCategoryIcon(item.category)"></i>
+            <span>{{ item.category | titlecase }}</span>
+          </div>
+        </div>
+
+        <!-- Item Info -->
+        <div class="item-info">
+          <h3 class="item-title">{{ item.title }}</h3>
+          <p class="item-description">{{ item.description }}</p>
+          
+          <div class="item-details">
+            <div class="detail-item">
+              <i class="bi bi-person-fill"></i>
+              <span>{{ item.clientName }}</span>
+            </div>
+            <div class="detail-item">
+              <i class="bi bi-calendar-event"></i>
+              <span>{{ formatDate(item.deliveryDate) }}</span>
+            </div>
+            <div class="detail-item">
+              <i class="bi bi-geo-alt-fill"></i>
+              <span>{{ item.location }}</span>
+            </div>
+          </div>
+
+          <!-- Tags -->
+          <div class="item-tags">
+            <span *ngFor="let tag of item.tags" class="tag">{{ tag }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div class="empty-state" *ngIf="!isLoading && filteredItems.length === 0">
+      <div class="empty-content">
+        <i class="bi bi-images"></i>
+        <h3>No deliveries found</h3>
+        <p>No deliveries match your current filter. Try selecting a different category.</p>
+        <button class="btn-primary" (click)="filterGallery('all')">
+          Show All Deliveries
+        </button>
+      </div>
+    </div>
+
+    <!-- Call to Action -->
+    <div class="cta-section" [@slideInUp]>
+      <div class="cta-content">
+        <h3>Ready to Be Our Next Happy Client?</h3>
+        <p>Join hundreds of satisfied customers who trust DriveLink for their vehicle import and export needs.</p>
+        <div class="cta-buttons">
+          <button class="btn-cta-primary" (click)="contactForSimilar(null)">
+            <i class="bi bi-whatsapp"></i>
+            <span>Get Your Quote</span>
+          </button>
+          <button class="btn-cta-secondary" onclick="window.location.href='#contact'">
+            <i class="bi bi-envelope"></i>
+            <span>Contact Us</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal-overlay" *ngIf="isModalOpen" (click)="closeModal()">
+    <div class="modal-container" (click)="$event.stopPropagation()">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h3>{{ selectedItem?.title }}</h3>
+        <button class="close-btn" (click)="closeModal()">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="modal-body" *ngIf="selectedItem">
+        <div class="modal-image-container">
+          <img 
+            [src]="selectedItem.imagePath" 
+            [alt]="selectedItem.title"
+            class="modal-image"
+          >
+        <!--
+          <img [src]="selectedItem.imagePath" [alt]="selectedItem.title" appImageResize [resizeOptions]="imageResizeOptions"
+                  class="modal-image" />
+          -->
+          
+          <!-- Navigation Buttons -->
+          <button class="nav-btn prev-btn" (click)="prevImage()">
+            <i class="bi bi-chevron-left"></i>
+          </button>
+          <button class="nav-btn next-btn" (click)="nextImage()">
+            <i class="bi bi-chevron-right"></i>
+          </button>
+        </div>
+
+        <div class="modal-info">
+          <h4>{{ selectedItem.title }}</h4>
+          <p class="modal-description">{{ selectedItem.description }}</p>
+          
+          <div class="modal-details">
+            <div class="detail-row">
+              <strong>Client:</strong>
+              <span>{{ selectedItem.clientName }}</span>
+            </div>
+            <div class="detail-row">
+              <strong>Delivery Date:</strong>
+              <span>{{ formatDate(selectedItem.deliveryDate) }}</span>
+            </div>
+            <div class="detail-row">
+              <strong>Location:</strong>
+              <span>{{ selectedItem.location }}</span>
+            </div>
+            <div class="detail-row">
+              <strong>Category:</strong>
+              <span>{{ selectedItem.category | titlecase }}</span>
+            </div>
+          </div>
+
+          <div class="modal-tags">
+            <span *ngFor="let tag of selectedItem.tags" class="modal-tag">{{ tag }}</span>
+          </div>
+
+          <div class="modal-actions">
+            <button class="btn-modal-primary" (click)="contactForSimilar(selectedItem)">
+              <i class="bi bi-chat-dots"></i>
+              Find Similar Vehicle
+            </button>
+            <button class="btn-modal-secondary" (click)="shareOnWhatsApp(selectedItem)">
+              <i class="bi bi-whatsapp"></i>
+              Share
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="modal-footer">
+        <div class="image-counter">
+          {{ currentImageIndex + 1 }} of {{ galleryItems.length }}
+        </div>
+        <div class="modal-navigation">
+          <button class="nav-dot" 
+            *ngFor="let item of galleryItems; let i = index"
+            [class.active]="i === currentImageIndex"
+            (click)="currentImageIndex = i; selectedItem = galleryItems[i]">
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
