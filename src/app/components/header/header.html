@@ -2,14 +2,15 @@
   <nav class="navbar">
     <div class="nav-container">
       <!-- Logo -->
-      <div class="nav-brand">
+<div class="nav-brand">
         <a href="#" class="brand-link">
-          <div class="logo">
-            <i class="bi bi-car-front-fill"></i>
-            <span class="brand-text">DriveLink</span>
-          </div>
+            <div class="logo">
+                <span class="brand-text">
+                    <span class="drive">Drive</span><span class="link">Link</span>
+                </span>
+            </div>
         </a>
-      </div>
+    </div>
 
       <!-- Desktop Navigation -->
       <ul class="nav-menu">
@@ -17,20 +18,31 @@
           <a (click)="scrollToSection('home')" class="nav-link">Home</a>
         </li>
         <li class="nav-item">
+          <a (click)="scrollToSection('process')" class="nav-link">Process</a>
+        </li>
+        <!--
+        <li class="nav-item">
           <a (click)="scrollToSection('services')" class="nav-link">Services</a>
         </li>
+        
         <li class="nav-item">
           <a (click)="scrollToSection('about')" class="nav-link">About</a>
+        </li>
+        -->
+        <li class="nav-item">
+          <a (click)="scrollToSection('import-export')" class="nav-link">Where to Export?</a>
         </li>
         <li class="nav-item">
           <a (click)="scrollToSection('gallery')" class="nav-link">Gallery</a>
         </li>
         <li class="nav-item">
-          <a (click)="scrollToSection('import-export')" class="nav-link">Where do you want to import/export</a>
+          <a (click)="scrollToSection('faq')" class="nav-link">FAQ</a>
         </li>
+        <!--
         <li class="nav-item">
           <a (click)="scrollToSection('contact')" class="nav-link">Contact</a>
         </li>
+        -->
       </ul>
 
       <!-- CTA Buttons -->
@@ -56,11 +68,18 @@
       <div class="mobile-menu-content">
         <ul class="mobile-nav-menu">
           <li><a (click)="scrollToSection('home')" class="mobile-nav-link">Home</a></li>
+          <li><a (click)="scrollToSection('process')" class="mobile-nav-link">Process</a></li>
+          <!--
           <li><a (click)="scrollToSection('services')" class="mobile-nav-link">Services</a></li>
+          
           <li><a (click)="scrollToSection('about')" class="mobile-nav-link">About</a></li>
-          <li><a (click)="scrollToSection('import-export')" class="mobile-nav-link">Where do you want to import/export</a></li>
-           <li><a (click)="scrollToSection('gallery')" class="mobile-nav-link">Gallery</a></li>
+          -->
+          <li><a (click)="scrollToSection('import-export')" class="mobile-nav-link">Where to Export?</a></li>
+          <li><a (click)="scrollToSection('gallery')" class="mobile-nav-link">Gallery</a></li>
+          <li><a (click)="scrollToSection('faq')" class="mobile-nav-link">FAQ</a></li>
+           <!--
           <li><a (click)="scrollToSection('contact')" class="mobile-nav-link">Contact</a></li>
+          -->
         </ul>
         
         <div class="mobile-actions">

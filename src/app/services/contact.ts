@@ -271,9 +271,9 @@ export class Contact {
    */
   private getDefaultContactInfo(): ContactInfo {
     return {
-      phone: '+1-800-DRIVELINK',
-      whatsapp: '+1-800-374-8354',
-      email: 'info@drivelink.com',
+      phone: '+27 74 696 4384',
+      whatsapp: '+27 74 696 4384',
+      email: 'info@drivelinkauto.co.za',
       address: '123 Auto Drive, Car City, CC 12345',
       coordinates: {
         lat: 40.7128,
@@ -307,8 +307,8 @@ private getDefaultBranches(): Branch[] {
       id: 'main',
       name: 'DriveLink Main Branch',
       address: '123 Auto Drive, Car City, CC 12345',
-      phone: '+1-800-DRIVELINK',
-      email: 'main@drivelink.com',
+      phone: '+27 74 696 4384',
+      email: 'info@drivelinkauto.com',
       coordinates: { lat: 40.7128, lng: -74.0060 },
       manager: 'John Smith',
       services: ['Sales', 'Service', 'Parts', 'Financing'],

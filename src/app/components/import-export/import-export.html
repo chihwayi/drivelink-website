@@ -3,13 +3,6 @@
   <div class="import-export-hero">
     <div class="hero-background">
       <div class="hero-overlay"></div>
-      <div class="animated-bg">
-        <div class="floating-car car-1"></div>
-        <div class="floating-car car-2"></div>
-        <div class="floating-car car-3"></div>
-        <div class="floating-car car-4"></div>
-        <div class="floating-car car-5"></div>
-      </div>
       <div class="particles">
         <div class="particle" *ngFor="let i of [1,2,3,4,5,6,7,8,9,10]"></div>
       </div>
@@ -52,177 +45,6 @@
             <i class="bi bi-chevron-down"></i>
           </button>
         </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Services Section -->
-  <div class="services-section" id="services">
-    <div class="container">
-      <div class="section-header" data-aos="fade-up">
-        <h2 class="section-title">Our Import & Export Services</h2>
-        <p class="section-description">
-          Comprehensive solutions for all your vehicle import and export needs
-        </p>
-      </div>
-
-      <!-- Service Tabs -->
-      <div class="service-tabs" data-aos="fade-up" data-aos-delay="200">
-        <button 
-          class="tab-button" 
-          [class.active]="activeTab === 'import'"
-          (click)="switchTab('import')">
-          <i class="bi bi-arrow-down-circle"></i>
-          <span>Import Services</span>
-        </button>
-        <button 
-          class="tab-button" 
-          [class.active]="activeTab === 'export'"
-          (click)="switchTab('export')">
-          <i class="bi bi-arrow-up-circle"></i>
-          <span>Export Services</span>
-        </button>
-      </div>
-
-      <!-- Services Grid -->
-      <div class="services-grid" [@staggerAnimation]>
-        <div 
-          class="service-card" 
-          *ngFor="let service of getCurrentServices()"
-          [class.popular]="service.popular"
-          data-aos="fade-up"
-          data-aos-delay="300">
-          
-          <div class="service-badge" *ngIf="service.popular">
-            <i class="bi bi-star-fill"></i>
-            <span>Popular</span>
-          </div>
-
-          <div class="service-image">
-            <img [src]="service.image" [alt]="service.title" />
-            <div class="service-overlay">
-              <button class="btn-service-details" (click)="selectService(service)">
-                <i class="bi bi-eye"></i>
-                <span>View Details</span>
-              </button>
-            </div>
-          </div>
-
-          <div class="service-content">
-            <div class="service-header">
-              <div class="service-icon">
-                <i [class]="service.icon"></i>
-              </div>
-              <h3 class="service-title">{{ service.title }}</h3>
-            </div>
-            
-            <p class="service-description">{{ service.description }}</p>
-            
-            <ul class="service-features">
-              <li *ngFor="let feature of service.features.slice(0, 3)">
-                <i class="bi bi-check-circle-fill"></i>
-                <span>{{ feature }}</span>
-              </li>
-            </ul>
-
-            <div class="service-actions">
-              <button class="btn-quote" (click)="openQuoteModal(service)">
-                <i class="bi bi-envelope"></i>
-                <span>Get Quote</span>
-              </button>
-              <button class="btn-details" (click)="selectService(service)">
-                <i class="bi bi-info-circle"></i>
-                <span>Details</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Service Details Modal -->
-  <div class="service-modal" *ngIf="selectedService" (click)="selectedService = null">
-    <div class="modal-content" (click)="$event.stopPropagation()" data-aos="zoom-in">
-      <button class="modal-close" (click)="selectedService = null">
-        <i class="bi bi-x-lg"></i>
-      </button>
-      
-      <div class="modal-header">
-        <div class="modal-icon">
-          <i [class]="selectedService.icon"></i>
-        </div>
-        <h3>{{ selectedService.title }}</h3>
-        <p>{{ selectedService.description }}</p>
-      </div>
-
-      <div class="modal-body">
-        <div class="modal-image">
-          <img [src]="selectedService.image" [alt]="selectedService.title" />
-        </div>
-        
-        <div class="modal-features">
-          <h4>What's Included:</h4>
-          <ul>
-            <li *ngFor="let feature of selectedService.features">
-              <i class="bi bi-check-circle-fill"></i>
-              <span>{{ feature }}</span>
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="modal-footer">
-        <button class="btn-modal-quote" (click)="openQuoteModal(selectedService)">
-          <i class="bi bi-envelope"></i>
-          <span>Request Quote</span>
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Import Process Section -->
-  <div class="process-section" id="process">
-    <div class="container">
-      <div class="section-header" data-aos="fade-up">
-        <h2 class="section-title">6 Simple Steps to Import Your Vehicle</h2>
-        <p class="section-description">
-          Our streamlined process ensures hassle-free vehicle imports
-        </p>
-      </div>
-
-      <div class="process-timeline">
-        <div 
-          class="process-step" 
-          *ngFor="let step of importSteps; let i = index"
-          [class.active]="i === 0"
-          data-aos="fade-up"
-          [attr.data-aos-delay]="i * 100">
-          
-          <div class="step-number">{{ step.step }}</div>
-          
-          <div class="step-content">
-            <div class="step-header">
-              <div class="step-icon">
-                <i [class]="step.icon"></i>
-              </div>
-              <div class="step-info">
-                <h4 class="step-title">{{ step.title }}</h4>
-                <span class="step-duration">{{ step.duration }}</span>
-              </div>
-            </div>
-            <p class="step-description">{{ step.description }}</p>
-          </div>
-
-          <div class="step-connector" *ngIf="i < importSteps.length - 1"></div>
-        </div>
-      </div>
-
-      <div class="process-cta" data-aos="fade-up">
-        <button class="btn-start-process" (click)="openQuoteModal()">
-          <i class="bi bi-play-circle"></i>
-          <span>Start Your Import Process</span>
-        </button>
       </div>
     </div>
   </div>
@@ -285,6 +107,7 @@
       </div>
 
       <!-- Medium Priority Countries -->
+        <!-- 
       <div class="countries-group" data-aos="fade-up" data-aos-delay="400">
         <h3 class="group-title">
           <i class="bi bi-graph-up"></i>
@@ -330,6 +153,7 @@
           </div>
         </div>
       </div>
+    -->
 
       <div class="countries-cta" data-aos="fade-up">
         <p>Don't see your country? We serve many more destinations worldwide.</p>
@@ -570,120 +394,6 @@
           </p>
         </div>
       </form>
-    </div>
-  </div>
-
-  <!-- Contact Section -->
-  <div class="contact-section" id="contact">
-    <div class="container">
-      <div class="section-header" data-aos="fade-up">
-        <h2 class="section-title">Ready to Start Your Import/Export Journey?</h2>
-        <p class="section-description">
-          Get in touch with our experts today for personalized assistance
-        </p>
-      </div>
-
-      <div class="contact-grid" data-aos="fade-up" data-aos-delay="200">
-        <div class="contact-card">
-          <div class="contact-icon">
-            <i class="bi bi-whatsapp"></i>
-          </div>
-          <h4>WhatsApp</h4>
-          <p>Chat with us instantly for quick questions and immediate assistance</p>
-          <button class="btn-contact-action" (click)="openWhatsApp()">
-            <i class="bi bi-whatsapp"></i>
-            <span>Start Chat</span>
-          </button>
-        </div>
-
-        <div class="contact-card">
-          <div class="contact-icon">
-            <i class="bi bi-telephone"></i>
-          </div>
-          <h4>Phone Call</h4>
-          <p>Speak directly with our import/export specialists</p>
-          <button class="btn-contact-action" (click)="callUs()">
-            <i class="bi bi-telephone"></i>
-            <span>Call Now</span>
-          </button>
-        </div>
-
-        <div class="contact-card">
-          <div class="contact-icon">
-            <i class="bi bi-envelope"></i>
-          </div>
-          <h4>Get Quote</h4>
-          <p>Submit your requirements for a detailed personalized quote</p>
-          <button class="btn-contact-action" (click)="openQuoteModal()">
-            <i class="bi bi-envelope"></i>
-            <span>Request Quote</span>
-          </button>
-        </div>
-
-        <div class="contact-card">
-          <div class="contact-icon">
-            <i class="bi bi-geo-alt"></i>
-          </div>
-          <h4>Visit Us</h4>
-          <p>Visit our offices in Johannesburg for in-person consultations</p>
-          <button class="btn-contact-action" (click)="openGoogleMaps()">
-            <i class="bi bi-geo-alt"></i>
-            <span>Get Directions</span>
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- FAQ Section -->
-  <div class="faq-section" id="faq">
-    <div class="container">
-      <div class="section-header" data-aos="fade-up">
-        <h2 class="section-title">Frequently Asked Questions</h2>
-        <p class="section-description">
-          Common questions about our import and export services
-        </p>
-      </div>
-
-      <div class="faq-grid" data-aos="fade-up" data-aos-delay="200">
-        <div class="faq-item">
-          <h4>How long does the import process take?</h4>
-          <p>Import times vary by destination country, typically ranging from 2-8 weeks. Our process timeline above shows the detailed breakdown for each step.</p>
-        </div>
-
-        <div class="faq-item">
-          <h4>What documents are required for importing?</h4>
-          <p>We handle all documentation including export permits, shipping documents, import permits, and customs clearance. You'll need to provide identification and proof of funds.</p>
-        </div>
-
-        <div class="faq-item">
-          <h4>Can you help with financing?</h4>
-          <p>Yes, we work with financing partners and can assist with payment plans for qualifying customers. Contact us to discuss your financing options.</p>
-        </div>
-
-        <div class="faq-item">
-          <h4>Do you provide vehicle inspections?</h4>
-          <p>Absolutely! We offer comprehensive vehicle inspections and quality assurance before shipping to ensure you receive exactly what you ordered.</p>
-        </div>
-
-        <div class="faq-item">
-          <h4>What about warranty and after-sales support?</h4>
-          <p>We provide warranty coverage on applicable vehicles and offer ongoing support for parts, service, and maintenance assistance.</p>
-        </div>
-
-        <div class="faq-item">
-          <h4>Can you source specific vehicle models?</h4>
-          <p>Yes! We specialize in sourcing specific vehicle models, colors, and specifications according to your exact requirements.</p>
-        </div>
-      </div>
-
-      <div class="faq-cta" data-aos="fade-up">
-        <p>Have more questions?</p>
-        <button class="btn-faq-contact" (click)="openQuoteModal()">
-          <i class="bi bi-question-circle"></i>
-          <span>Ask Our Experts</span>
-        </button>
-      </div>
     </div>
   </div>
 </section>

@@ -1,18 +1,14 @@
-import { Component, OnInit, OnDestroy, ElementRef, ViewChild, AfterViewInit, Inject, PLATFORM_ID } from '@angular/core';
-import { trigger, state, style, transition, animate, query, stagger } from '@angular/animations';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ImageResize } from '../../directives/image-resize';
-import { isPlatformBrowser } from '@angular/common';
 
-interface ProcessStep {
+interface ExportStep {
   id: number;
   title: string;
+  subtitle: string;
   description: string;
   icon: string;
-  image: string;
-  duration: string;
-  features: string[];
-  isActive: boolean;
+  isActive?: boolean;
 }
 
 
@@ -20,254 +16,80 @@ interface ProcessStep {
   selector: 'app-process',
   imports: [CommonModule, ImageResize],
   templateUrl: './process.html',
-  styleUrl: './process.scss',
-  animations: [
-    trigger('slideInUp', [
-      transition('* => *', [
-        query(':enter', [
-          style({ opacity: 0, transform: 'translateY(50px)' }),
-          stagger(200, [
-            animate('0.6s ease-out', style({ opacity: 1, transform: 'translateY(0)' }))
-          ])
-        ], { optional: true })
-      ])
-    ]),
-    trigger('stepAnimation', [
-      state('inactive', style({
-        transform: 'scale(1)',
-        opacity: 0.7
-      })),
-      state('active', style({
-        transform: 'scale(1.05)',
-        opacity: 1
-      })),
-      transition('inactive => active', [
-        animate('0.3s ease-in-out')
-      ]),
-      transition('active => inactive', [
-        animate('0.3s ease-in-out')
-      ])
-    ]),
-    trigger('fadeInScale', [
-      transition(':enter', [
-        style({ opacity: 0, transform: 'scale(0.8)' }),
-        animate('0.5s ease-out', style({ opacity: 1, transform: 'scale(1)' }))
-      ])
-    ])
-  ]
+  styleUrl: './process.scss'
 })
-export class Process implements OnInit, OnDestroy, AfterViewInit {
-  @ViewChild('processSection', { static: false }) processSectionRef!: ElementRef;
+export class Process implements OnInit {
 
-  processSteps: ProcessStep[] = [
+  exportSteps: ExportStep[] = [
     {
       id: 1,
-      title: 'Vehicle Selection & Quotation',
-      description: 'Browse our extensive inventory or request a specific vehicle. Get detailed quotations including all costs, specifications, and delivery timelines.',
-      icon: 'bi-search',
-      image: 'assets/images/gallery/process-1.jpg',
-      duration: '1-2 Days',
-      features: [
-        'Comprehensive vehicle inspection',
-        'Detailed cost breakdown',
-        'Multiple financing options',
-        'Custom vehicle sourcing'
-      ],
-      isActive: true
+      title: 'Choose Your Vehicle',
+      subtitle: 'Vehicle Selection',
+      description: 'Browse our extensive inventory and select the perfect vehicle that meets your requirements and budget.',
+      icon: 'fas fa-car'
     },
     {
       id: 2,
-      title: 'Documentation & Legal',
-      description: 'We handle all paperwork, customs clearance, and legal requirements. Our team ensures compliance with all international trade regulations.',
-      icon: 'bi-file-earmark-text',
-      image: 'assets/images/services/documentation-service.jpg',
-      duration: '3-5 Days',
-      features: [
-        'Export/Import permits',
-        'Insurance documentation',
-        'Customs clearance',
-        'Legal compliance checks'
-      ],
-      isActive: false
+      title: 'Get A Quotation',
+      subtitle: 'Comprehensive Quote',
+      description: 'Receive a comprehensive CIF quotation from our team, including a prompt VAT refund offered as a reduction to your overall cost.',
+      icon: 'fas fa-file-invoice-dollar'
     },
     {
       id: 3,
-      title: 'Logistics & Shipping',
-      description: 'Secure packaging and worldwide shipping through our trusted logistics partners. Real-time tracking and updates throughout the journey.',
-      icon: 'bi-truck',
-      image: 'assets/images/services/logistics-service.jpg',
-      duration: '2-6 Weeks',
-      features: [
-        'Professional packaging',
-        'Multiple shipping options',
-        'Real-time tracking',
-        'Insurance coverage'
-      ],
-      isActive: false
+      title: 'Invoice and Payment',
+      subtitle: 'Secure Transaction',
+      description: 'Get a detailed dealership quote and complete your payment through our secure payment system.',
+      icon: 'fas fa-credit-card'
     },
     {
       id: 4,
-      title: 'Delivery & Support',
-      description: 'Final delivery to your doorstep with comprehensive after-sales support. We ensure your complete satisfaction with ongoing assistance.',
-      icon: 'bi-house-check',
-      image: 'assets/images/gallery/showroom.jpg',
-      duration: '1-2 Days',
-      features: [
-        'Doorstep delivery',
-        'Quality inspection',
-        'After-sales support',
-        'Warranty assistance'
-      ],
-      isActive: false
+      title: 'Payment and Vehicle Insurance',
+      subtitle: 'Protection Coverage',
+      description: 'After payment confirmation, we initiate export preparations. Your vehicle is insured under our Motor Policy throughout the shipping process.',
+      icon: 'fas fa-shield-alt'
+    },
+    {
+      id: 5,
+      title: 'Export Preparations',
+      subtitle: 'Documentation Process',
+      description: 'We handle all necessary documentation, customs clearance, and export preparations to ensure compliance with regulations.',
+      icon: 'fas fa-clipboard-check'
+    },
+    {
+      id: 6,
+      title: 'Logistics and Dispatch',
+      subtitle: 'Shipping Coordination',
+      description: 'Your vehicle is carefully loaded and secured for shipping. Marine insurance for ocean freight is quoted separately.',
+      icon: 'fas fa-ship'
+    },
+    {
+      id: 7,
+      title: 'Delivery and Arrival',
+      subtitle: 'Final Destination',
+      description: 'Track your vehicle\'s journey and receive it at your designated port of arrival in perfect condition.',
+      icon: 'fas fa-map-marker-alt'
     }
   ];
 
-  currentStep: number = 1;
-  isVisible: boolean = false;
-  autoPlayInterval: any;
-
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) { }
+  constructor() { }
 
   ngOnInit(): void {
-    this.startAutoPlay();
+    // You can add any initialization logic here
   }
 
-  ngAfterViewInit(): void {
-    this.setupIntersectionObserver();
+  onStepClick(step: ExportStep): void {
+    // Handle step click if needed
+    console.log('Step clicked:', step.title);
   }
 
-  ngOnDestroy(): void {
-    if (this.autoPlayInterval) {
-      clearInterval(this.autoPlayInterval);
-    }
+  onContactClick(): void {
+    // Handle contact button click
+    console.log('Contact clicked');
   }
 
-  private setupIntersectionObserver(): void {
-    // Check if the code is running in a browser environment
-    if (isPlatformBrowser(this.platformId) && this.processSectionRef) {
-      if ('IntersectionObserver' in window) {
-        const observer = new IntersectionObserver(
-          (entries) => {
-            entries.forEach(entry => {
-              if (entry.isIntersecting) {
-                this.isVisible = true;
-                this.animateProgressBar();
-                // Optionally, disconnect the observer once it's intersected to save resources
-                observer.disconnect();
-              }
-            });
-          },
-          { threshold: 0.3 }
-        );
-
-        observer.observe(this.processSectionRef.nativeElement);
-      } else {
-        // Fallback for browsers that don't support IntersectionObserver
-        // You might want to implement a simpler animation or just show the element
-        console.warn('IntersectionObserver not supported in this browser.');
-        // If you still want to animate, you might consider a polyfill or a setTimeout
-        // to animate after a short delay if the element is likely in view.
-        this.isVisible = true; // Assume visible if no observer
-        this.animateProgressBar();
-      }
-    }
-  }
-
-  private startAutoPlay(): void {
-    this.autoPlayInterval = setInterval(() => {
-      this.nextStep();
-    }, 8000); // Change step every 8 seconds
-  }
-
-  selectStep(stepId: number): void {
-    this.currentStep = stepId;
-    this.updateActiveStep();
-    this.resetAutoPlay();
-  }
-
-  nextStep(): void {
-    this.currentStep = this.currentStep >= this.processSteps.length ? 1 : this.currentStep + 1;
-    this.updateActiveStep();
-  }
-
-  previousStep(): void {
-    this.currentStep = this.currentStep <= 1 ? this.processSteps.length : this.currentStep - 1;
-    this.updateActiveStep();
-  }
-
-  private updateActiveStep(): void {
-    this.processSteps.forEach(step => {
-      step.isActive = step.id === this.currentStep;
-    });
-  }
-
-  private resetAutoPlay(): void {
-    if (this.autoPlayInterval) {
-      clearInterval(this.autoPlayInterval);
-      this.startAutoPlay();
-    }
-  }
-
-  private animateProgressBar(): void {
-    // This will be handled by CSS animations
-    const progressBars = document.querySelectorAll('.progress-fill');
-    progressBars.forEach((bar, index) => {
-      setTimeout(() => {
-        (bar as HTMLElement).style.width = '100%';
-      }, index * 200);
-    });
-  }
-
-  getCurrentStep(): ProcessStep {
-    return this.processSteps.find(step => step.id === this.currentStep) || this.processSteps[0];
-  }
-
-  getStepProgress(): number {
-    return (this.currentStep / this.processSteps.length) * 100;
-  }
-
-  openQuoteModal(): void {
-    // This will trigger the quote modal
-    // Implementation depends on your modal service
-    console.log('Opening quote modal...');
-  }
-
-  contactSupport(): void {
-    // This will trigger contact options
-    console.log('Opening contact support...');
-  }
-
-  onImageLoaded(event: any): void {
-    const target = event.target as HTMLImageElement;
-
-    // Add a CSS class to animate the image smoothly after loading
-    target.classList.add('image-loaded');
-
-    // Ensure the image is fully visible
-    target.style.opacity = '1';
-    target.style.transition = 'opacity 0.5s ease-in-out';
-
-    console.log('Image successfully loaded:', target.src);
-  }
-
-  // Add this method to handle image errors
-  onImageError(event: any): void {
-    // Optionally, you can set a fallback image or log the error
-    const target = event.target as HTMLImageElement;
-    target.src = '../../../../assets/images/fallback-image.png'; // Use your fallback image path
-  }
-
-  // Method to handle WhatsApp contact
-  openWhatsApp(): void {
-    const phoneNumber = '+27123456789'; // Replace with actual number
-    const message = 'Hi DriveLink! I would like to know more about your vehicle import/export process.';
-    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-    window.open(whatsappUrl, '_blank');
-  }
-
-  // Method to handle phone call
-  callUs(): void {
-    const phoneNumber = '+27123456789'; // Replace with actual number
-    window.location.href = `tel:${phoneNumber}`;
+  onQuoteClick(): void {
+    // Handle get quote button click
+    console.log('Get quote clicked');
   }
 }

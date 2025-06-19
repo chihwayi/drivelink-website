@@ -41,10 +41,10 @@ export class Footer implements OnInit, OnDestroy {
 
   // Legal links
   legalLinks = [
-    { title: 'Privacy Policy', route: '/privacy' },
-    { title: 'Terms of Service', route: '/terms' },
-    { title: 'Cookie Policy', route: '/cookies' },
-    { title: 'Disclaimer', route: '/disclaimer' }
+    { title: 'Privacy Policy', route: '/' },
+    { title: 'Terms of Service', route: '/' },
+    { title: 'Cookie Policy', route: '/' },
+    { title: 'Disclaimer', route: '/' }
   ];
 
   constructor(

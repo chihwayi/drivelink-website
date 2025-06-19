@@ -11,10 +11,11 @@ import { Contact } from "./components/contact/contact";
 import { Footer } from "./components/footer/footer";
 import { Gallery } from "./components/gallery/gallery";
 import { ImportExport } from "./components/import-export/import-export";
+import { Faq } from "./components/faq/faq";
 
 @Component({
   selector: 'app-root',
-  imports: [CommonModule, Header, Hero, Services, About, Process, Vehicles, Testimonials, Contact, Footer, Gallery, ImportExport],
+  imports: [CommonModule, Header, Hero, Services, About, Process, Vehicles, Testimonials, Contact, Footer, Gallery, ImportExport, Faq],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })

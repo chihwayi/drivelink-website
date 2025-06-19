@@ -1,12 +1,9 @@
+<!-- hero.component.html -->
 <section id="home" class="hero-section">
   <!-- Background Video/Image -->
   <div class="hero-background">
     <div class="hero-overlay"></div>
-    <div class="animated-bg">
-      <div class="floating-car car-1"></div>
-      <div class="floating-car car-2"></div>
-      <div class="floating-car car-3"></div>
-    </div>
+    
   </div>
 
   <div class="hero-container">
@@ -18,9 +15,9 @@
           <span class="title-accent">Export & Import</span>
           <span class="title-sub">Partner</span>
         </h1>
-        
+
         <p class="hero-description">
-          From luxury sedans to commercial trucks, we make international vehicle trading 
+          From luxury sedans to commercial trucks, we make international vehicle trading
           seamless, secure, and affordable. Your dream vehicle is just one click away.
         </p>
 
@@ -39,7 +36,7 @@
             Get Free Quote
             <div class="btn-glow"></div>
           </button>
-          
+
           <button class="btn-hero-secondary" (click)="openWhatsApp()">
             <i class="bi bi-whatsapp"></i>
             Chat with Expert
@@ -50,61 +47,74 @@
         <div class="quick-contact">
           <div class="contact-item">
             <i class="bi bi-telephone-fill"></i>
-            <span>+27 123 456 789</span>
+            <span>+27 74 696 4384</span>
           </div>
           <div class="contact-item">
             <i class="bi bi-envelope-fill"></i>
-            <span>info&#64;drivelink.co.za</span>
+            <span>info&#64;drivelinkauto.co.za</span>
           </div>
           <div class="contact-item">
-            <i class="bi bi-clock-fill"></i>
+            <i class="bi bi-whatsapp"></i>
             <span>24/7 Support</span>
           </div>
         </div>
-      </div>
-
-      <!-- Hero Visual -->
-      <div class="hero-visual" data-aos="fade-left" data-aos-duration="1200">
-        <div class="car-showcase">
-          <img appImageResize src="assets/images/hero/hero-car.jpg" alt="Premium Vehicle" class="hero-car-image">
-          <div class="car-details">
-            <div class="detail-card">
-              <i class="bi bi-shield-check"></i>
-              <span>Fully Insured</span>
-            </div>
-            <div class="detail-card">
-              <i class="bi bi-truck"></i>
-              <span>Safe Delivery</span>
-            </div>
-            <div class="detail-card">
-              <i class="bi bi-award"></i>
-              <span>Quality Assured</span>
-            </div>
+        <div class="quick-contact">
+          <div class="contact-item">
+            <i class="bi bi-telephone-fill"></i>
+            <span>+27 64 684 7437</span>
+          </div>
+          <div class="contact-item">
+            <i class="bi bi-telephone-fill"></i>
+            <span>+263 77 154 3738</span>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- Stats Section -->
-    <div class="hero-stats" data-aos="fade-up" data-aos-delay="300">
-      <div class="stats-container">
-        <div class="stat-item" *ngFor="let stat of stats; let i = index" 
-             data-aos="zoom-in" [attr.data-aos-delay]="400 + (i * 100)">
-          <div class="stat-icon">
-            <i [class]="stat.icon"></i>
+      <!-- Hero Visual with Car Slider -->
+      <div class="hero-visual" data-aos="fade-left" data-aos-duration="1200">
+        <div class="car-slider">
+          <!-- Slider Container -->
+          <div class="slider-container">
+            <div class="slider-wrapper" [style.transform]="getSliderTransform()">
+              <div class="slide" *ngFor="let car of carBrands; let i = index" [class.active]="i === currentSlide">
+                <div class="car-card">
+                  <img [src]="car.image" [alt]="car.brand + ' ' + car.model" class="car-image">
+                  <div class="car-overlay">
+                    <div class="car-info">
+                      <h3 class="car-brand">{{ car.brand }}</h3>
+                      <h4 class="car-model">{{ car.model }}</h4>
+                      <p class="car-description">{{ car.description }}</p>
+                      <div class="car-price">{{ car.price }}</div>
+                    </div>
+                  </div>
+                  <div class="car-shine"></div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="stat-content">
-            <h3 class="stat-number">{{ stat.number }}</h3>
-            <p class="stat-label">{{ stat.label }}</p>
+
+          <!-- Navigation Arrows -->
+          <button class="slider-nav prev" (click)="prevSlide()">
+            <i class="bi bi-chevron-left"></i>
+          </button>
+          <button class="slider-nav next" (click)="nextSlide()">
+            <i class="bi bi-chevron-right"></i>
+          </button>
+
+          <!-- Slider Indicators -->
+          <div class="slider-indicators">
+            <button class="indicator" *ngFor="let car of carBrands; let i = index" [class.active]="i === currentSlide"
+              (click)="goToSlide(i)">
+              <span class="indicator-dot"></span>
+            </button>
           </div>
-          <div class="stat-glow"></div>
         </div>
       </div>
     </div>
 
     <!-- Scroll Indicator -->
     <div class="scroll-indicator" (click)="scrollToServices()">
-      <div class="scroll-text">Discover Our Services</div>
+      <div class="scroll-text">Discover Our Happy Clients</div>
       <div class="scroll-arrow">
         <i class="bi bi-chevron-down"></i>
       </div>

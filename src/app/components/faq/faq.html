@@ -1,0 +1,151 @@
+<section class="faq-section" id="faq">
+  <!-- Background Elements -->
+  <div class="faq-background">
+    <div class="faq-overlay"></div>
+    <div class="particles">
+      <div class="particle" *ngFor="let i of [1,2,3,4,5,6,7,8,9,10]"></div>
+    </div>
+  </div>
+
+  <div class="faq-container">
+    <!-- FAQ Header -->
+    <div class="faq-header">
+      <div class="faq-title">
+        <span class="title-main">Frequently Asked</span>
+        <span class="title-accent">Questions</span>
+        <span class="title-sub">on Vehicle Exports from South Africa</span>
+      </div>
+      <p class="faq-description">
+        Find answers to the most common questions about our vehicle export services. 
+        Can't find what you're looking for? Contact our team for personalized assistance.
+      </p>
+    </div>
+
+    <!-- Search and Filter Controls -->
+    <div class="faq-controls">
+      <div class="search-container">
+        <div class="search-box">
+          <i class="fas fa-search search-icon"></i>
+          <input 
+            type="text" 
+            placeholder="Search FAQs..." 
+            [(ngModel)]="searchQuery"
+            (input)="onSearchChange()"
+            class="search-input"
+          >
+          <button 
+            *ngIf="searchQuery" 
+            (click)="clearSearch()" 
+            class="clear-search"
+            type="button"
+          >
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="filter-tabs">
+        <button 
+          [class.active]="activeCategory === 'all'"
+          (click)="filterByCategory('all')"
+          class="filter-tab"
+        >
+          <i class="fas fa-list"></i>
+          All Questions
+        </button>
+        <button 
+          [class.active]="activeCategory === 'export'"
+          (click)="filterByCategory('export')"
+          class="filter-tab"
+        >
+          <i class="fas fa-shipping-fast"></i>
+          Export Services
+        </button>
+        <button 
+          [class.active]="activeCategory === 'general'"
+          (click)="filterByCategory('general')"
+          class="filter-tab"
+        >
+          <i class="fas fa-info-circle"></i>
+          General Info
+        </button>
+      </div>
+    </div>
+
+    <!-- FAQ Results Counter -->
+    <div class="faq-results" *ngIf="searchQuery || activeCategory !== 'all'">
+      <p class="results-text">
+        <i class="fas fa-search"></i>
+        Showing {{ filteredFaqs.length }} result{{ filteredFaqs.length !== 1 ? 's' : '' }}
+        <span *ngIf="searchQuery">for "{{ searchQuery }}"</span>
+        <span *ngIf="activeCategory !== 'all'">in {{ activeCategory === 'export' ? 'Export Services' : 'General Info' }}</span>
+      </p>
+    </div>
+
+    <!-- FAQ Items -->
+    <div class="faq-content">
+      <div class="faq-list">
+        <div 
+          *ngFor="let faq of filteredFaqs; trackBy: trackById" 
+          class="faq-item"
+          [class.active]="faq.isOpen"
+        >
+          <div class="faq-question" (click)="toggleFaq(faq.id)">
+            <div class="question-content">
+              <div class="category-badge" [class]="faq.category">
+                <i class="fas" [class.fa-shipping-fast]="faq.category === 'export'" [class.fa-info-circle]="faq.category === 'general'"></i>
+                {{ faq.category === 'export' ? 'Export' : 'General' }}
+              </div>
+              <h3 class="question-text">{{ faq.question }}</h3>
+            </div>
+            <div class="toggle-icon">
+              <i class="fas" [class.fa-plus]="!faq.isOpen" [class.fa-minus]="faq.isOpen"></i>
+            </div>
+          </div>
+          
+          <div class="faq-answer" [class.expanded]="faq.isOpen">
+            <div class="answer-content">
+              <p>{{ faq.answer }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- No Results -->
+      <div *ngIf="filteredFaqs.length === 0" class="no-results">
+        <div class="no-results-content">
+          <i class="fas fa-search"></i>
+          <h3>No FAQs Found</h3>
+          <p>We couldn't find any FAQs matching your search criteria.</p>
+          <button (click)="clearSearch(); filterByCategory('all')" class="btn-reset">
+            <i class="fas fa-redo"></i>
+            Show All FAQs
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contact Section -->
+    <div class="faq-contact">
+      <div class="contact-card">
+        <div class="contact-content">
+          <h3>Still have questions?</h3>
+          <p>Our expert team is here to help you with your vehicle export needs.</p>
+          <div class="contact-actions">
+            <a href="tel:+27123456789" class="btn-contact primary">
+              <i class="fas fa-phone"></i>
+              Call Us Now
+            </a>
+            <a href="mailto:info@goldstarauto.co.za" class="btn-contact secondary">
+              <i class="fas fa-envelope"></i>
+              Send Email
+            </a>
+          </div>
+        </div>
+        <div class="contact-decoration">
+          <i class="fas fa-headset"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -149,22 +149,6 @@ export class ImportExport implements OnInit, OnDestroy {
       ],
       image: 'assets/images/services/agri-import.jpg',
       popular: false
-    },
-    {
-      id: 'parts',
-      title: 'Parts & Components',
-      description: 'Genuine automotive parts and components sourcing',
-      icon: 'bi bi-tools',
-      features: [
-        'OEM parts only',
-        'Quality assurance',
-        'Bulk order discounts',
-        'Fast shipping',
-        'Warranty coverage',
-        'Technical specifications'
-      ],
-      image: 'assets/images/services/parts-import.jpg',
-      popular: false
     }
   ];
 
@@ -294,7 +278,7 @@ export class ImportExport implements OnInit, OnDestroy {
       description: 'Emerging market with infrastructure development focus',
       specialties: ['Construction equipment', 'Commercial vehicles', 'Marine engines'],
       processingTime: '3-6 weeks',
-      popularity: 'medium'
+      popularity: 'high'
     },
     {
       name: 'Tanzania',
@@ -303,8 +287,9 @@ export class ImportExport implements OnInit, OnDestroy {
       description: 'Growing economy with increasing vehicle demand',
       specialties: ['Public transport', 'Agricultural equipment', 'Mining vehicles'],
       processingTime: '4-6 weeks',
-      popularity: 'medium'
+      popularity: 'high'
     },
+    /*
     {
       name: 'Kenya',
       code: 'KE',
@@ -323,6 +308,7 @@ export class ImportExport implements OnInit, OnDestroy {
       processingTime: '5-8 weeks',
       popularity: 'medium'
     }
+    */
   ];
 
   // Statistics

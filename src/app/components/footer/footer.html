@@ -4,25 +4,28 @@
   <div class="footer-main">
     <div class="container">
       <div class="footer-grid">
-        
+
         <!-- Brand Section -->
         <div class="footer-brand">
           <div class="brand-logo">
-            <h2 class="brand-title">DriveLink</h2>
+            <h2 class="brand-title">
+              <span class="drive-text">Drive</span><span class="link-text">Link</span>
+            </h2>
             <div class="brand-tagline">Connecting You to Your Dream Vehicle</div>
           </div>
-          
+
           <p class="brand-description">
-            Your trusted partner for vehicle import, export, and logistics services worldwide. 
+            Your trusted partner for vehicle import, export, and logistics services worldwide.
             We make automotive dreams a reality with professional service and competitive pricing.
           </p>
-          
+
           <!-- Business Status -->
           <div class="business-status" [class.open]="businessStatus === 'Open Now'">
-            <i class="bi" [class.bi-clock]="businessStatus === 'Closed'" [class.bi-clock-fill]="businessStatus === 'Open Now'"></i>
+            <i class="bi" [class.bi-clock]="businessStatus === 'Closed'"
+              [class.bi-clock-fill]="businessStatus === 'Open Now'"></i>
             <span>{{ getBusinessStatusWithNext() }}</span>
           </div>
-          
+
           <!-- Contact Quick Actions -->
           <div class="quick-contact-actions">
             <button class="quick-btn whatsapp-btn" (click)="openWhatsApp()" title="Chat on WhatsApp">
@@ -39,7 +42,7 @@
             </button>
           </div>
         </div>
-        
+
         <!-- Quick Links Section -->
         <div class="footer-section">
           <h3 class="section-title">Quick Links</h3>
@@ -52,7 +55,7 @@
             </li>
           </ul>
         </div>
-        
+
         <!-- Services Section -->
         <div class="footer-section">
           <h3 class="section-title">Our Services</h3>
@@ -65,12 +68,12 @@
             </li>
           </ul>
         </div>
-        
+
         <!-- Contact Information Section -->
         <div class="footer-section">
           <h3 class="section-title">Contact Info</h3>
           <div class="contact-info" *ngIf="contactInfo">
-            
+
             <!-- Address -->
             <div class="contact-item" (click)="getDirections()">
               <i class="bi bi-geo-alt-fill contact-icon"></i>
@@ -79,7 +82,7 @@
                 <span class="contact-value">{{ contactInfo.address }}</span>
               </div>
             </div>
-            
+
             <!-- Phone -->
             <div class="contact-item" (click)="makePhoneCall()">
               <i class="bi bi-telephone-fill contact-icon"></i>
@@ -88,7 +91,7 @@
                 <span class="contact-value">{{ formatPhoneNumber(contactInfo.phone) }}</span>
               </div>
             </div>
-            
+
             <!-- Email -->
             <div class="contact-item" (click)="sendEmail()">
               <i class="bi bi-envelope-fill contact-icon"></i>
@@ -97,7 +100,7 @@
                 <span class="contact-value">{{ contactInfo.email }}</span>
               </div>
             </div>
-            
+
             <!-- Business Hours -->
             <div class="contact-item">
               <i class="bi bi-clock-fill contact-icon"></i>
@@ -106,48 +109,33 @@
                 <span class="contact-value">{{ getTodayHours() }}</span>
               </div>
             </div>
-            
+
           </div>
         </div>
-        
+
         <!-- Newsletter Section -->
         <div class="footer-section newsletter-section">
           <h3 class="section-title">Stay Updated</h3>
           <p class="newsletter-description">
             Subscribe to our newsletter for the latest updates on vehicles, services, and special offers.
           </p>
-          
+
           <form [formGroup]="newsletterForm" (ngSubmit)="subscribeNewsletter()" class="newsletter-form">
             <div class="form-group">
-              <input 
-                type="text" 
-                formControlName="name" 
-                placeholder="Your Name (Optional)"
-                class="form-input"
-                [class.error]="hasError('name')"
-              >
+              <input type="text" formControlName="name" placeholder="Your Name (Optional)" class="form-input"
+                [class.error]="hasError('name')">
             </div>
-            
+
             <div class="form-group">
-              <input 
-                type="email" 
-                formControlName="email" 
-                placeholder="Your Email Address *"
-                class="form-input"
-                [class.error]="hasError('email')"
-                required
-              >
+              <input type="email" formControlName="email" placeholder="Your Email Address *" class="form-input"
+                [class.error]="hasError('email')" required>
               <div class="error-message" *ngIf="hasError('email')">
                 {{ getErrorMessage('email') }}
               </div>
             </div>
-            
-            <button 
-              type="submit" 
-              class="newsletter-btn"
-              [disabled]="isSubmittingNewsletter"
-              [class.loading]="isSubmittingNewsletter"
-            >
+
+            <button type="submit" class="newsletter-btn" [disabled]="isSubmittingNewsletter"
+              [class.loading]="isSubmittingNewsletter">
               <span *ngIf="!isSubmittingNewsletter">
                 <i class="bi bi-envelope-plus"></i>
                 Subscribe
@@ -158,21 +146,21 @@
               </span>
             </button>
           </form>
-          
+
           <!-- Newsletter Message -->
-          <div class="newsletter-message" *ngIf="newsletterMessage" 
-               [class.success]="newsletterMessage.includes('success')"
-               [class.error]="!newsletterMessage.includes('success')">
+          <div class="newsletter-message" *ngIf="newsletterMessage"
+            [class.success]="newsletterMessage.includes('success')"
+            [class.error]="!newsletterMessage.includes('success')">
             <i class="bi" [class.bi-check-circle-fill]="newsletterMessage.includes('success')"
-                          [class.bi-exclamation-triangle-fill]="!newsletterMessage.includes('success')"></i>
+              [class.bi-exclamation-triangle-fill]="!newsletterMessage.includes('success')"></i>
             {{ newsletterMessage }}
           </div>
         </div>
-        
+
       </div>
     </div>
   </div>
-  
+
   <!-- Social Media Section -->
   <div class="footer-social">
     <div class="container">
@@ -181,7 +169,7 @@
           <h4>Follow Us</h4>
           <p>Stay connected for updates and automotive insights</p>
         </div>
-        
+
         <div class="social-links">
           <button class="social-btn facebook" (click)="openFacebook()" title="Follow us on Facebook">
             <i class="bi bi-facebook"></i>
@@ -205,12 +193,12 @@
       </div>
     </div>
   </div>
-  
+
   <!-- Footer Bottom -->
   <div class="footer-bottom">
     <div class="container">
       <div class="footer-bottom-content">
-        
+
         <!-- Copyright -->
         <div class="copyright">
           <p>&copy; {{ currentYear }} DriveLink. All rights reserved.</p>
@@ -218,27 +206,25 @@
             Designed & Developed with <i class="bi bi-heart-fill heart"></i> for automotive excellence
           </p>
         </div>
-        
+
         <!-- Legal Links -->
         <div class="legal-links">
-          <a *ngFor="let legal of legalLinks; let last = last" 
-             class="legal-link"
-             [attr.href]="legal.route">
+          <a *ngFor="let legal of legalLinks; let last = last" class="legal-link" [attr.href]="legal.route">
             {{ legal.title }}
             <span *ngIf="!last" class="separator">|</span>
           </a>
         </div>
-        
+
         <!-- Back to Top -->
         <button class="back-to-top-footer" (click)="scrollToTop()" title="Back to Top">
           <i class="bi bi-arrow-up"></i>
           <span>Top</span>
         </button>
-        
+
       </div>
     </div>
   </div>
-  
+
   <!-- Footer Background Elements -->
   <div class="footer-bg-elements">
     <div class="bg-element element-1"></div>
@@ -249,5 +235,5 @@
       <div class="circle circle-3"></div>
     </div>
   </div>
-  
+
 </footer>

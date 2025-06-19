@@ -34,38 +34,35 @@
   justify-content: space-between;
 }
 
-// Logo and Brand
-.nav-brand {
-  .brand-link {
-    text-decoration: none;
-    color: inherit;
-  }
-  
-  .logo {
-    display: flex;
-    align-items: center;
-    gap: var(--space-xs);
-    
-    i {
-      font-size: 2rem;
-      color: var(--primary-600);
-      background: var(--brand-gradient);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    
-    .brand-text {
-      font-family: 'Poppins', sans-serif;
-      font-size: 1.75rem;
-      font-weight: 800;
-      background: var(--brand-gradient);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-  }
-}
+/* Logo and Brand */
+        .nav-brand {
+            display: inline-block;
+        }
+
+        .nav-brand .brand-link {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .nav-brand .logo {
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+        }
+
+        .nav-brand .logo .brand-text {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 800;
+        }
+
+        .nav-brand .logo .brand-text .drive {
+            color: red;
+        }
+
+        .nav-brand .logo .brand-text .link {
+            color: blue;
+        }
 
 // Desktop Navigation
 .nav-menu {

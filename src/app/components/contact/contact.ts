@@ -37,9 +37,7 @@ export class Contact implements OnInit, OnDestroy {
       icon: 'bi-geo-alt-fill',
       title: 'Visit Our Offices',
       details: [
-        '123 Main Street, Johannesburg',
-        'Cape Town Branch: 456 Ocean Drive',
-        'Durban Office: 789 Harbor View'
+        'Johannesburg'
       ],
       action: () => this.openLocationMap()
     },
@@ -47,9 +45,9 @@ export class Contact implements OnInit, OnDestroy {
       icon: 'bi-telephone-fill',
       title: 'Call Us Directly',
       details: [
-        '+27 11 123 4567 (Johannesburg)',
-        '+27 21 987 6543 (Cape Town)',
-        '+27 31 555 0123 (Durban)'
+        '+27 74 696 4384 (Simba)',
+        '+27 64 684 7437 (Simba Chivero)',
+        '+27 77 154 3738 (Jabulani Dube)'
       ],
       action: () => this.callUs()
     },
@@ -57,9 +55,7 @@ export class Contact implements OnInit, OnDestroy {
       icon: 'bi-envelope-fill',
       title: 'Email Support',
       details: [
-        'info@drivelink.co.za',
-        'sales@drivelink.co.za',
-        'support@drivelink.co.za'
+        'info@drivelinkauto.co.za'
       ],
       action: () => this.openEmail()
     },
@@ -239,20 +235,20 @@ export class Contact implements OnInit, OnDestroy {
 
   callUs(): void {
     if (isPlatformBrowser(this.platformId)) {
-      window.open('tel:+27111234567', '_self');
+      window.open('tel:+27746964384', '_self');
     }
   }
 
   openEmail(): void {
     if (isPlatformBrowser(this.platformId)) {
-      window.open('mailto:info@drivelink.co.za', '_self');
+      window.open('mailto:info@drivelinkauto.co.za', '_self');
     }
   }
 
   openWhatsApp(): void {
     if (isPlatformBrowser(this.platformId)) {
       const message = encodeURIComponent('Hi! I would like to inquire about your services.');
-      window.open(`https://wa.me/27111234567?text=${message}`, '_blank');
+      window.open(`https://wa.me/27746964384?text=${message}`, '_blank');
     }
   }
 
