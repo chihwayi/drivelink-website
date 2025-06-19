@@ -2,12 +2,7 @@ import { CommonModule, ViewportScroller } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Header } from "./components/header/header";
 import { Hero } from "./components/hero/hero";
-import { Services } from "./components/services/services";
-import { About } from "./components/about/about";
 import { Process } from "./components/process/process";
-import { Vehicles } from "./components/vehicles/vehicles";
-import { Testimonials } from "./components/testimonials/testimonials";
-import { Contact } from "./components/contact/contact";
 import { Footer } from "./components/footer/footer";
 import { Gallery } from "./components/gallery/gallery";
 import { ImportExport } from "./components/import-export/import-export";
@@ -15,7 +10,7 @@ import { Faq } from "./components/faq/faq";
 
 @Component({
   selector: 'app-root',
-  imports: [CommonModule, Header, Hero, Services, About, Process, Vehicles, Testimonials, Contact, Footer, Gallery, ImportExport, Faq],
+  imports: [CommonModule, Header, Hero, Process, Footer, Gallery, ImportExport, Faq],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })

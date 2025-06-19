@@ -1,4 +1,3 @@
-<!-- src/app/components/gallery/gallery.component.html -->
 <section class="gallery-section" id="gallery" (keydown)="onKeydown($event)">
   <!-- Background and Overlay -->
   <div class="gallery-background">
@@ -104,6 +103,7 @@
             [alt]="item.title"
             class="gallery-image"
             loading="lazy"
+            appImageResize [resizeOptions]="imageResizeOptions"
             onerror="this.src='assets/images/gallery/placeholder.jpg'"
           >
           <div class="image-overlay">
@@ -200,15 +200,8 @@
       <!-- Modal Body -->
       <div class="modal-body" *ngIf="selectedItem">
         <div class="modal-image-container">
-          <img 
-            [src]="selectedItem.imagePath" 
-            [alt]="selectedItem.title"
-            class="modal-image"
-          >
-        <!--
           <img [src]="selectedItem.imagePath" [alt]="selectedItem.title" appImageResize [resizeOptions]="imageResizeOptions"
                   class="modal-image" />
-          -->
           
           <!-- Navigation Buttons -->
           <button class="nav-btn prev-btn" (click)="prevImage()">

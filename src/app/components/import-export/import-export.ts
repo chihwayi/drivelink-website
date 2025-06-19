@@ -4,7 +4,6 @@ import { Contact as ContactService } from '../../services/contact';
 import { Email as EmailService } from '../../services/email';
 import AOS from 'aos';
 import { isPlatformBrowser, CommonModule } from '@angular/common';
-import { ImageResize } from '../../directives/image-resize';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
@@ -50,7 +49,7 @@ interface QuoteRequest {
 
 @Component({
   selector: 'app-import-export',
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, ImageResize],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './import-export.html',
   styleUrl: './import-export.scss',
   animations: [

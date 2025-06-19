@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ImageResize } from '../../directives/image-resize';
 
 interface ExportStep {
   id: number;
@@ -14,7 +13,7 @@ interface ExportStep {
 
 @Component({
   selector: 'app-process',
-  imports: [CommonModule, ImageResize],
+  imports: [CommonModule],
   templateUrl: './process.html',
   styleUrl: './process.scss'
 })
