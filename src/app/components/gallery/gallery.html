@@ -103,8 +103,7 @@
             [alt]="item.title"
             class="gallery-image"
             loading="lazy"
-            appImageResize [resizeOptions]="imageResizeOptions"
-            onerror="this.src='assets/images/gallery/placeholder.jpg'"
+            (error)="onImageError($event, item)"
           >
           <div class="image-overlay">
             <div class="overlay-content">
@@ -200,7 +199,7 @@
       <!-- Modal Body -->
       <div class="modal-body" *ngIf="selectedItem">
         <div class="modal-image-container">
-          <img [src]="selectedItem.imagePath" [alt]="selectedItem.title" appImageResize [resizeOptions]="imageResizeOptions"
+          <img [src]="selectedItem.imagePath" [alt]="selectedItem.title"
                   class="modal-image" />
           
           <!-- Navigation Buttons -->

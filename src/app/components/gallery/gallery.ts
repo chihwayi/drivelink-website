@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser, CommonModule } from '@angular/common'; // Import isPlatformBrowser
 import { trigger, style, transition, animate, stagger, query } from '@angular/animations';
-import { ImageResize } from '../../directives/image-resize';
 import { ImageResizeOptions } from '../../services/image-resize';
 
 interface GalleryItem {
@@ -18,7 +17,7 @@ interface GalleryItem {
 
 @Component({
   selector: 'app-gallery',
-  imports: [CommonModule, ImageResize],
+  imports: [CommonModule],
   templateUrl: './gallery.html',
   styleUrl: './gallery.scss',
   animations: [
@@ -63,7 +62,7 @@ export class Gallery implements OnInit, OnDestroy {
       id: 1,
       title: 'Toyota Fortuner Delivery',
       description: 'Premium SUV delivered to satisfied client in Zimbabwe from South Africa',
-      imagePath: 'assets/images/gallery/delivery-1.jpeg',
+      imagePath: './assets/images/gallery/delivery-1.jpeg',
       category: 'luxury',
       clientName: 'Mrs. Zulu',
       deliveryDate: '2024-01-15',
@@ -74,7 +73,7 @@ export class Gallery implements OnInit, OnDestroy {
       id: 2,
       title: 'Mercedes G Wagon Handover',
       description: 'Elegant sedan successfully imported and delivered',
-      imagePath: 'assets/images/gallery/delivery-2.jpeg',
+      imagePath: './assets/images/gallery/delivery-2.jpeg',
       category: 'sedan',
       clientName: 'Mr. Smith',
       deliveryDate: '2024-01-20',
@@ -85,7 +84,7 @@ export class Gallery implements OnInit, OnDestroy {
       id: 3,
       title: 'Toyota Hilux',
       description: 'Reliable pickup truck ready for business operations',
-      imagePath: 'assets/images/gallery/delivery-3.jpeg',
+      imagePath: './assets/images/gallery/delivery-3.jpeg',
       category: 'truck',
       clientName: 'Mrs. Nkosi',
       deliveryDate: '2024-01-25',
@@ -96,7 +95,7 @@ export class Gallery implements OnInit, OnDestroy {
       id: 4,
       title: 'Ford Raptor Delivery',
       description: 'Luxury truck with full documentation and premium service',
-      imagePath: 'assets/images/gallery/delivery-4.jpeg',
+      imagePath: './assets/images/gallery/delivery-4.jpeg',
       category: 'truck',
       clientName: 'Dr. Williams',
       deliveryDate: '2024-02-01',
@@ -107,7 +106,7 @@ export class Gallery implements OnInit, OnDestroy {
       id: 5,
       title: 'Ford Ranger Delivery',
       description: 'Powerful pickup truck for agricultural operations',
-      imagePath: 'assets/images/gallery/delivery-5.png',
+      imagePath: './assets/images/gallery/delivery-5.png',
       category: 'truck',
       clientName: 'Green Valley Farms',
       deliveryDate: '2024-02-05',
@@ -118,7 +117,7 @@ export class Gallery implements OnInit, OnDestroy {
       id: 6,
       title: 'Honda Civic Handover',
       description: 'Fuel-efficient sedan for daily commuting',
-      imagePath: 'assets/images/gallery/delivery-6.png',
+      imagePath: './assets/images/gallery/delivery-6.png',
       category: 'sedan',
       clientName: 'Mr. Patel',
       deliveryDate: '2024-02-10',
@@ -179,6 +178,17 @@ export class Gallery implements OnInit, OnDestroy {
       this.isLoading = false;
     }, 300);
   }
+
+  onImageError(event: any, item: GalleryItem): void {
+  console.error(`Failed to load image: ${item.imagePath}`, event);
+  // Fallback to a placeholder image
+  event.target.src = './assets/images/gallery/placeholder.jpg';
+  
+  // Or you could try different path variations:
+  if (!event.target.src.includes('/drivelink-website/')) {
+    event.target.src = `/drivelink-website/${item.imagePath}`;
+  }
+}
 
   // Modal methods
   openModal(item: GalleryItem): void {
@@ -323,4 +333,17 @@ export class Gallery implements OnInit, OnDestroy {
       }
     }
   }
+
+  getImagePath(path: string): string {
+  // Check if we're on GitHub Pages
+  if (isPlatformBrowser(this.platformId)) {
+    const isGitHubPages = window.location.hostname === 'chihwayi.github.io';
+    if (isGitHubPages) {
+      // Remove leading './' if present and add base href
+      const cleanPath = path.replace(/^\.\//, '');
+      return `/drivelink-website/${cleanPath}`;
+    }
+  }
+  return path;
+}
 }
