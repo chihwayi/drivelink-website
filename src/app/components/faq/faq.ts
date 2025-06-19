@@ -21,15 +21,15 @@ export class Faq {
     // Export Q&A
     {
       id: 1,
-      question: "Does Goldstar's export services include pre-owned cars?",
-      answer: "Yes, Goldstar's export services include pre-owned cars. We handle the export of both new and pre-owned vehicles to various African countries, ensuring all necessary documentation and compliance requirements are met.",
+      question: "Does DriveLink's export services include pre-owned cars?",
+      answer: "Yes, DriveLink's export services include pre-owned cars. We handle the export of both new and pre-owned vehicles to various African countries, ensuring all necessary documentation and compliance requirements are met.",
       category: 'export',
       isOpen: false
     },
     {
       id: 2,
-      question: "Does Goldstar take care of all the paperwork and compliance matters related to vehicle exports?",
-      answer: "Yes, at Goldstar we take care of all the paperwork and compliance matters. This includes obtaining export permits, handling registration documents, police clearance certificates, bills of lading, and commercial invoices.",
+      question: "Does DriveLink take care of all the paperwork and compliance matters related to vehicle exports?",
+      answer: "Yes, at DriveLink we take care of all the paperwork and compliance matters. This includes obtaining export permits, handling registration documents, police clearance certificates, bills of lading, and commercial invoices.",
       category: 'export',
       isOpen: false
     },
@@ -56,8 +56,8 @@ export class Faq {
     },
     {
       id: 6,
-      question: "Why should I choose Goldstar?",
-      answer: "Choose Goldstar for our extensive experience in African vehicle exports, comprehensive service handling, competitive pricing, reliable shipping partners, and excellent customer support throughout the export process.",
+      question: "Why should I choose DriveLink?",
+      answer: "Choose DriveLink for our extensive experience in African vehicle exports, comprehensive service handling, competitive pricing, reliable shipping partners, and excellent customer support throughout the export process.",
       category: 'export',
       isOpen: false
     },
@@ -65,7 +65,7 @@ export class Faq {
     {
       id: 7,
       question: "What documents are required to export a vehicle from South Africa?",
-      answer: "You will need the vehicle's registration documents, proof of ownership, an export permit, and a police clearance certificate. Additionally, you may need a bill of lading and a commercial invoice. At Goldstar we take care of all the paperwork.",
+      answer: "You will need the vehicle's registration documents, proof of ownership, an export permit, and a police clearance certificate. Additionally, you may need a bill of lading and a commercial invoice. At DriveLink we take care of all the paperwork.",
       category: 'general',
       isOpen: false
     },
