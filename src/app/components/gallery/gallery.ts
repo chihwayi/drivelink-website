@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser, CommonModule } from '@angular/common'; // Import isPlatformBrowser
-import { trigger, state, style, transition, animate, stagger, query } from '@angular/animations';
+import { trigger, style, transition, animate, stagger, query } from '@angular/animations';
 import { ImageResize } from '../../directives/image-resize';
 import { ImageResizeOptions } from '../../services/image-resize';
 
