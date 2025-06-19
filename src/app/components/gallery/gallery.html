@@ -2,7 +2,7 @@
   <!-- Background and Overlay -->
   <div class="gallery-background">
     <div class="gallery-overlay"></div>
-    
+
     <!-- Floating particles -->
     <div class="particles">
       <div class="particle" *ngFor="let p of [1,2,3,4,5,6,7,8,9,10]"></div>
@@ -19,11 +19,11 @@
           <span class="title-sub">Celebrating Every Successful Delivery</span>
         </h2>
         <p class="section-description">
-          See the joy on our clients' faces as they receive their dream vehicles. 
+          See the joy on our clients' faces as they receive their dream vehicles.
           Each delivery represents our commitment to excellence and customer satisfaction.
         </p>
       </div>
-      
+
       <!-- Stats -->
       <div class="delivery-stats">
         <div class="stat-item">
@@ -68,12 +68,8 @@
     <!-- Filter Buttons -->
     <div class="filter-container" [@slideInUp]>
       <div class="filter-buttons">
-        <button 
-          *ngFor="let category of categories"
-          class="filter-btn"
-          [class.active]="activeFilter === category.key"
-          (click)="filterGallery(category.key)"
-        >
+        <button *ngFor="let category of categories" class="filter-btn" [class.active]="activeFilter === category.key"
+          (click)="filterGallery(category.key)">
           <i [class]="category.icon"></i>
           <span>{{ category.label }}</span>
         </button>
@@ -88,68 +84,116 @@
       </div>
     </div>
 
-    <!-- Gallery Grid -->
-    <div class="gallery-grid" [@filterAnimation]="filteredItems.length" *ngIf="!isLoading">
-      <div 
-        *ngFor="let item of filteredItems; trackBy: trackByFn"
-        class="gallery-item"
-        [@zoomIn]
-        (click)="openModal(item)"
-      >
-        <!-- Image Container -->
-        <div class="image-container">
-          <img 
-            [src]="item.imagePath" 
-            [alt]="item.title"
-            class="gallery-image"
-            loading="lazy"
-            (error)="onImageError($event, item)"
-          >
-          <div class="image-overlay">
-            <div class="overlay-content">
-              <button class="zoom-btn" title="View Details">
-                <i class="bi bi-zoom-in"></i>
-              </button>
-              <button class="share-btn" (click)="shareOnWhatsApp(item); $event.stopPropagation()" title="Share on WhatsApp">
-                <i class="bi bi-whatsapp"></i>
-              </button>
-              <button class="contact-btn" (click)="contactForSimilar(item); $event.stopPropagation()" title="Find Similar">
-                <i class="bi bi-chat-dots"></i>
-              </button>
+    <div class="gallery-slider" *ngIf="!isLoading">
+      <div class="slider-container">
+        <!-- Main Slide Display -->
+        <div class="main-slide" [@slideTransition]="currentSlideIndex">
+          <div class="slide-content" *ngFor="let item of filteredItems; let i = index"
+            [class.active]="i === currentSlideIndex"
+            [class.prev]="i === (currentSlideIndex - 1 + filteredItems.length) % filteredItems.length"
+            [class.next]="i === (currentSlideIndex + 1) % filteredItems.length">
+
+            <!-- Slide Image -->
+            <div class="slide-image-container">
+              <img [src]="item.imagePath" [alt]="item.title" class="slide-image" loading="lazy"
+                (error)="onImageError($event, item)">
+
+              <!-- Slide Overlay -->
+              <div class="slide-overlay">
+                <div class="slide-info">
+                  <div class="slide-category">
+                    <i [class]="getCategoryIcon(item.category)"></i>
+                    <span>{{ item.category | titlecase }}</span>
+                  </div>
+
+                  <h3 class="slide-title">{{ item.title }}</h3>
+                  <p class="slide-description">{{ item.description }}</p>
+
+                  <div class="slide-details">
+                    <div class="detail-item">
+                      <i class="bi bi-person-fill"></i>
+                      <span>{{ item.clientName }}</span>
+                    </div>
+                    <div class="detail-item">
+                      <i class="bi bi-calendar-event"></i>
+                      <span>{{ formatDate(item.deliveryDate) }}</span>
+                    </div>
+                    <div class="detail-item">
+                      <i class="bi bi-geo-alt-fill"></i>
+                      <span>{{ item.location }}</span>
+                    </div>
+                  </div>
+
+                  <div class="slide-actions">
+                    <button class="action-btn primary" (click)="openModal(item)">
+                      <i class="bi bi-zoom-in"></i>
+                      <span>View Details</span>
+                    </button>
+                    <button class="action-btn secondary" (click)="shareOnWhatsApp(item)">
+                      <i class="bi bi-whatsapp"></i>
+                      <span>Share</span>
+                    </button>
+                    <button class="action-btn tertiary" (click)="contactForSimilar(item)">
+                      <i class="bi bi-chat-dots"></i>
+                      <span>Find Similar</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
-          
-          <!-- Category Badge -->
-          <div class="category-badge">
-            <i [class]="getCategoryIcon(item.category)"></i>
-            <span>{{ item.category | titlecase }}</span>
           </div>
         </div>
 
-        <!-- Item Info -->
-        <div class="item-info">
-          <h3 class="item-title">{{ item.title }}</h3>
-          <p class="item-description">{{ item.description }}</p>
-          
-          <div class="item-details">
-            <div class="detail-item">
-              <i class="bi bi-person-fill"></i>
-              <span>{{ item.clientName }}</span>
-            </div>
-            <div class="detail-item">
-              <i class="bi bi-calendar-event"></i>
-              <span>{{ formatDate(item.deliveryDate) }}</span>
-            </div>
-            <div class="detail-item">
-              <i class="bi bi-geo-alt-fill"></i>
-              <span>{{ item.location }}</span>
-            </div>
-          </div>
+        <!-- Navigation Controls -->
+        <div class="slider-controls">
+          <button class="nav-btn prev-btn" (click)="previousSlide()" [disabled]="filteredItems.length <= 1">
+            <i class="bi bi-chevron-left"></i>
+          </button>
 
-          <!-- Tags -->
-          <div class="item-tags">
-            <span *ngFor="let tag of item.tags" class="tag">{{ tag }}</span>
+          <button class="nav-btn next-btn" (click)="nextSlide()" [disabled]="filteredItems.length <= 1">
+            <i class="bi bi-chevron-right"></i>
+          </button>
+        </div>
+
+        <!-- Slide Indicators -->
+        <div class="slide-indicators" *ngIf="filteredItems.length > 1">
+          <button *ngFor="let item of filteredItems; let i = index" class="indicator"
+            [class.active]="i === currentSlideIndex" (click)="goToSlide(i)">
+            <span class="indicator-inner"></span>
+          </button>
+        </div>
+
+        <!-- Slide Counter -->
+        <div class="slide-counter">
+          <span class="current">{{ currentSlideIndex + 1 }}</span>
+          <span class="separator">/</span>
+          <span class="total">{{ filteredItems.length }}</span>
+        </div>
+      </div>
+
+      <!-- Thumbnail Strip -->
+      <div class="thumbnail-strip" *ngIf="filteredItems.length > 1">
+        <div class="thumbnail-container">
+          <div class="thumbnail-track" [style.transform]="'translateX(' + thumbnailOffset + 'px)'">
+            <div *ngFor="let item of filteredItems; let i = index" class="thumbnail-item"
+              [class.active]="i === currentSlideIndex" (click)="goToSlide(i)">
+              <img [src]="item.imagePath" [alt]="item.title" class="thumbnail-image">
+              <div class="thumbnail-overlay">
+                <span class="thumbnail-title">{{ item.title }}</span>
+              </div>
+            </div>
           </div>
+        </div>
+
+        <!-- Thumbnail Navigation -->
+        <div class="thumbnail-nav">
+          <button class="thumb-nav-btn prev" (click)="scrollThumbnails('prev')" [disabled]="thumbnailOffset >= 0">
+            <i class="bi bi-chevron-left"></i>
+          </button>
+          <button class="thumb-nav-btn next" (click)="scrollThumbnails('next')"
+            [disabled]="thumbnailOffset <= -(filteredItems.length * 120 - 600)">
+            <i class="bi bi-chevron-right"></i>
+          </button>
         </div>
       </div>
     </div>
@@ -199,9 +243,8 @@
       <!-- Modal Body -->
       <div class="modal-body" *ngIf="selectedItem">
         <div class="modal-image-container">
-          <img [src]="selectedItem.imagePath" [alt]="selectedItem.title"
-                  class="modal-image" />
-          
+          <img [src]="selectedItem.imagePath" [alt]="selectedItem.title" class="modal-image" />
+
           <!-- Navigation Buttons -->
           <button class="nav-btn prev-btn" (click)="prevImage()">
             <i class="bi bi-chevron-left"></i>
@@ -214,7 +257,7 @@
         <div class="modal-info">
           <h4>{{ selectedItem.title }}</h4>
           <p class="modal-description">{{ selectedItem.description }}</p>
-          
+
           <div class="modal-details">
             <div class="detail-row">
               <strong>Client:</strong>
@@ -257,10 +300,8 @@
           {{ currentImageIndex + 1 }} of {{ galleryItems.length }}
         </div>
         <div class="modal-navigation">
-          <button class="nav-dot" 
-            *ngFor="let item of galleryItems; let i = index"
-            [class.active]="i === currentImageIndex"
-            (click)="currentImageIndex = i; selectedItem = galleryItems[i]">
+          <button class="nav-dot" *ngFor="let item of galleryItems; let i = index"
+            [class.active]="i === currentImageIndex" (click)="currentImageIndex = i; selectedItem = galleryItems[i]">
           </button>
         </div>
       </div>

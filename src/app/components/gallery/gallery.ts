@@ -1,6 +1,6 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, Inject, PLATFORM_ID, HostListener } from '@angular/core';
 import { isPlatformBrowser, CommonModule } from '@angular/common'; // Import isPlatformBrowser
-import { trigger, style, transition, animate, stagger, query } from '@angular/animations';
+import { trigger, style, state, transition, animate, stagger, query } from '@angular/animations';
 import { ImageResizeOptions } from '../../services/image-resize';
 
 interface GalleryItem {
@@ -42,11 +42,23 @@ interface GalleryItem {
           ])
         ], { optional: true })
       ])
+    ]),
+    trigger('slideTransition', [
+    transition('* => *', [
+      style({ opacity: 0 }),
+      animate('0.8s cubic-bezier(0.4, 0, 0.2, 1)', style({ opacity: 1 }))
     ])
+  ])
   ]
 })
 export class Gallery implements OnInit, OnDestroy {
   @ViewChild('galleryContainer', { static: true }) galleryContainer!: ElementRef;
+
+  currentSlideIndex: number = 0;
+  thumbnailOffset: number = 0;
+  autoPlayInterval: any;
+  autoPlayEnabled: boolean = true;
+  autoPlayDelay: number = 5000; // 5 seconds
 
    // Image resize options
     imageResizeOptions: ImageResizeOptions = {
@@ -62,7 +74,7 @@ export class Gallery implements OnInit, OnDestroy {
       id: 1,
       title: 'Toyota Fortuner Delivery',
       description: 'Premium SUV delivered to satisfied client in Zimbabwe from South Africa',
-      imagePath: './assets/images/gallery/delivery-1.jpeg',
+      imagePath: 'assets/images/gallery/delivery-1.jpeg',
       category: 'luxury',
       clientName: 'Mrs. Zulu',
       deliveryDate: '2024-01-15',
@@ -73,7 +85,7 @@ export class Gallery implements OnInit, OnDestroy {
       id: 2,
       title: 'Mercedes G Wagon Handover',
       description: 'Elegant sedan successfully imported and delivered',
-      imagePath: './assets/images/gallery/delivery-2.jpeg',
+      imagePath: 'assets/images/gallery/delivery-2.jpeg',
       category: 'sedan',
       clientName: 'Mr. Smith',
       deliveryDate: '2024-01-20',
@@ -84,7 +96,7 @@ export class Gallery implements OnInit, OnDestroy {
       id: 3,
       title: 'Toyota Hilux',
       description: 'Reliable pickup truck ready for business operations',
-      imagePath: './assets/images/gallery/delivery-3.jpeg',
+      imagePath: 'assets/images/gallery/delivery-3.jpeg',
       category: 'truck',
       clientName: 'Mrs. Nkosi',
       deliveryDate: '2024-01-25',
@@ -95,7 +107,7 @@ export class Gallery implements OnInit, OnDestroy {
       id: 4,
       title: 'Ford Raptor Delivery',
       description: 'Luxury truck with full documentation and premium service',
-      imagePath: './assets/images/gallery/delivery-4.jpeg',
+      imagePath: 'assets/images/gallery/delivery-4.jpeg',
       category: 'truck',
       clientName: 'Dr. Williams',
       deliveryDate: '2024-02-01',
@@ -106,7 +118,7 @@ export class Gallery implements OnInit, OnDestroy {
       id: 5,
       title: 'Ford Ranger Delivery',
       description: 'Powerful pickup truck for agricultural operations',
-      imagePath: './assets/images/gallery/delivery-5.png',
+      imagePath: 'assets/images/gallery/delivery-5.jpeg',
       category: 'truck',
       clientName: 'Green Valley Farms',
       deliveryDate: '2024-02-05',
@@ -117,7 +129,7 @@ export class Gallery implements OnInit, OnDestroy {
       id: 6,
       title: 'Honda Civic Handover',
       description: 'Fuel-efficient sedan for daily commuting',
-      imagePath: './assets/images/gallery/delivery-6.png',
+      imagePath: 'assets/images/gallery/delivery-6.jpeg',
       category: 'sedan',
       clientName: 'Mr. Patel',
       deliveryDate: '2024-02-10',
@@ -156,33 +168,192 @@ export class Gallery implements OnInit, OnDestroy {
       this.initializeIntersectionObserver();
       this.addScrollAnimations();
     }
+
+    this.startAutoPlay();
   }
 
   ngOnDestroy(): void {
     if (isPlatformBrowser(this.platformId) && this.intersectionObserver) { // Add platform check here too
       this.intersectionObserver.disconnect();
     }
+    this.stopAutoPlay();
   }
 
-  // Filter methods
-  filterGallery(category: string): void {
-    this.activeFilter = category;
-    this.isLoading = true;
-
-    setTimeout(() => {
-      if (category === 'all') {
-        this.filteredItems = [...this.galleryItems];
-      } else {
-        this.filteredItems = this.galleryItems.filter(item => item.category === category);
+  nextSlide(): void {
+    if (this.filteredItems.length <= 1) return;
+    
+    this.currentSlideIndex = (this.currentSlideIndex + 1) % this.filteredItems.length;
+    this.updateThumbnailPosition();
+    this.resetAutoPlay();
+  }
+  
+  previousSlide(): void {
+    if (this.filteredItems.length <= 1) return;
+    
+    this.currentSlideIndex = this.currentSlideIndex === 0 
+      ? this.filteredItems.length - 1 
+      : this.currentSlideIndex - 1;
+    this.updateThumbnailPosition();
+    this.resetAutoPlay();
+  }
+  
+  goToSlide(index: number): void {
+    if (index >= 0 && index < this.filteredItems.length) {
+      this.currentSlideIndex = index;
+      this.updateThumbnailPosition();
+      this.resetAutoPlay();
+    }
+  }
+  
+  scrollThumbnails(direction: 'prev' | 'next'): void {
+    const thumbnailWidth = 120; // 100px width + 20px gap
+    const containerWidth = 600; // Approximate visible width
+    const maxOffset = -(this.filteredItems.length * thumbnailWidth - containerWidth);
+    
+    if (direction === 'prev') {
+      this.thumbnailOffset = Math.min(this.thumbnailOffset + thumbnailWidth * 3, 0);
+    } else {
+      this.thumbnailOffset = Math.max(this.thumbnailOffset - thumbnailWidth * 3, maxOffset);
+    }
+  }
+  
+  private updateThumbnailPosition(): void {
+    const thumbnailWidth = 120;
+    const containerWidth = 600;
+    const currentPosition = this.currentSlideIndex * thumbnailWidth;
+    const maxOffset = -(this.filteredItems.length * thumbnailWidth - containerWidth);
+    
+    // Center the current thumbnail in view
+    const targetOffset = -(currentPosition - containerWidth / 2 + thumbnailWidth / 2);
+    this.thumbnailOffset = Math.max(Math.min(targetOffset, 0), maxOffset);
+  }
+  
+  startAutoPlay(): void {
+    if (!this.autoPlayEnabled || this.filteredItems.length <= 1) return;
+    
+    this.autoPlayInterval = setInterval(() => {
+      this.nextSlide();
+    }, this.autoPlayDelay);
+  }
+  
+  stopAutoPlay(): void {
+    if (this.autoPlayInterval) {
+      clearInterval(this.autoPlayInterval);
+      this.autoPlayInterval = null;
+    }
+  }
+  
+  resetAutoPlay(): void {
+    this.stopAutoPlay();
+    if (this.autoPlayEnabled) {
+      setTimeout(() => {
+        this.startAutoPlay();
+      }, 1000); // Resume after 1 second
+    }
+  }
+  
+  toggleAutoPlay(): void {
+    this.autoPlayEnabled = !this.autoPlayEnabled;
+    if (this.autoPlayEnabled) {
+      this.startAutoPlay();
+    } else {
+      this.stopAutoPlay();
+    }
+  }
+  
+  // Keyboard navigation
+  @HostListener('keydown', ['$event'])
+  onKeydown(event: KeyboardEvent): void {
+    if (this.isModalOpen) {
+      if (event && event.key) {
+        switch (event.key) {
+          case 'Escape':
+            this.closeModal();
+            break;
+          case 'ArrowRight':
+            this.nextImage();
+            break;
+          case 'ArrowLeft':
+            this.prevImage();
+            break;
+        }
       }
-      this.isLoading = false;
-    }, 300);
+    } else {
+      switch (event.key) {
+        case 'ArrowLeft':
+          event.preventDefault();
+          this.previousSlide();
+          break;
+        case 'ArrowRight':
+          event.preventDefault();
+          this.nextSlide();
+          break;
+        case ' ': // Spacebar to toggle auto-play
+          event.preventDefault();
+          this.toggleAutoPlay();
+          break;
+        case 'Escape':
+          if (this.isModalOpen) {
+            this.closeModal();
+          }
+          break;
+      }
+    }
+  }
+  
+  // Update filter method to reset slide index
+  filterGallery(category: string): void {
+    // Your existing filter logic...
+    this.activeFilter = category;
+    
+    if (category === 'all') {
+      this.filteredItems = [...this.galleryItems];
+    } else {
+      this.filteredItems = this.galleryItems.filter(item => 
+        item.category.toLowerCase() === category.toLowerCase()
+      );
+    }
+    
+    // Reset slide index when filtering
+    this.currentSlideIndex = 0;
+    this.thumbnailOffset = 0;
+    this.resetAutoPlay();
+  }
+  
+  // Touch/swipe support for mobile
+  private touchStartX: number = 0;
+  private touchEndX: number = 0;
+  
+  @HostListener('touchstart', ['$event'])
+  onTouchStart(event: TouchEvent): void {
+    this.touchStartX = event.changedTouches[0].screenX;
+  }
+  
+  @HostListener('touchend', ['$event'])
+  onTouchEnd(event: TouchEvent): void {
+    this.touchEndX = event.changedTouches[0].screenX;
+    this.handleSwipe();
+  }
+  
+  private handleSwipe(): void {
+    const swipeThreshold = 50;
+    const swipeDistance = this.touchStartX - this.touchEndX;
+    
+    if (Math.abs(swipeDistance) > swipeThreshold) {
+      if (swipeDistance > 0) {
+        // Swiped left - next slide
+        this.nextSlide();
+      } else {
+        // Swiped right - previous slide
+        this.previousSlide();
+      }
+    }
   }
 
   onImageError(event: any, item: GalleryItem): void {
   console.error(`Failed to load image: ${item.imagePath}`, event);
   // Fallback to a placeholder image
-  event.target.src = './assets/images/gallery/placeholder.jpg';
+  event.target.src = 'assets/images/gallery/placeholder.jpg';
   
   // Or you could try different path variations:
   if (!event.target.src.includes('/drivelink-website/')) {
@@ -302,48 +473,31 @@ export class Gallery implements OnInit, OnDestroy {
 
   getCategoryIcon(category: string): string {
     switch (category) {
-      case 'suv':
-        return 'bi bi-truck';
+      case 'luxury':
+        return 'bi-gem';
       case 'sedan':
-        return 'bi bi-car-front';
-      case 'motorcycle':
-        return 'bi bi-bicycle';
+        return 'bi-car-front';
+      case 'suv':
+        return 'bi-truck';
       case 'truck':
-        return 'bi bi-truck-front';
-      case 'van':
-        return 'bi bi-truck';
+        return 'bi-truck-front';
+      case 'commercial':
+        return 'bi-building';
       default:
-        return 'bi bi-car-front';
-    }
-  }
-
-  // Keyboard navigation
-  onKeydown(event: KeyboardEvent): void {
-    if (this.isModalOpen) {
-      switch (event.key) {
-        case 'Escape':
-          this.closeModal();
-          break;
-        case 'ArrowRight':
-          this.nextImage();
-          break;
-        case 'ArrowLeft':
-          this.prevImage();
-          break;
-      }
+        return 'bi-grid';
     }
   }
 
   getImagePath(path: string): string {
-  // Check if we're on GitHub Pages
-  if (isPlatformBrowser(this.platformId)) {
-    const isGitHubPages = window.location.hostname === 'chihwayi.github.io';
-    if (isGitHubPages) {
-      // Remove leading './' if present and add base href
-      const cleanPath = path.replace(/^\.\//, '');
-      return `/drivelink-website/${cleanPath}`;
+    // Check if we're on GitHub Pages
+    if (isPlatformBrowser(this.platformId)) {
+      const isGitHubPages = window.location.hostname === 'chihwayi.github.io';
+      if (isGitHubPages) {
+        // Remove leading './' if present and add base href
+        const cleanPath = path.replace(/^\.\//, '');
+        return `/drivelink-website/${cleanPath}`;
+      }
     }
+    return path;
   }
-  return path;
-}
 }
