@@ -289,7 +289,7 @@ export class Contact {
         sunday: 'Closed'
       },
       socialMedia: {
-        facebook: 'https://facebook.com/drivelink',
+        facebook: 'https://www.facebook.com/share/1Ab9JqxYcK/',
         instagram: 'https://instagram.com/drivelink',
         twitter: 'https://twitter.com/drivelink',
         linkedin: 'https://linkedin.com/company/drivelink',

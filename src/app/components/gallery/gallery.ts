@@ -112,7 +112,7 @@ export class Gallery implements OnInit, OnDestroy {
       clientName: 'Dr. Williams',
       deliveryDate: '2024-02-01',
       location: 'Pretoria',
-      tags: ['Audi', 'SUV', 'Premium', 'Import']
+      tags: ['Ford', 'truck', 'Premium', 'Import']
     },
     {
       id: 5,
@@ -136,6 +136,42 @@ export class Gallery implements OnInit, OnDestroy {
       location: 'Port Elizabeth',
       tags: ['Honda', 'Sedan', 'Efficient', 'Daily']
     }
+    ,
+    {
+      id: 7,
+      title: 'Mixed Machinery Delivery',
+      description: 'Heavy machinery delivered to a farming client',
+      imagePath: 'assets/images/gallery/delivery-7.jpeg',
+      category: 'truck',
+      clientName: 'Mr P Zulu',
+      deliveryDate: '2025-01-07',
+      location: 'Messina',
+      tags: ['Tractor', 'Combine Harvestor', 'Power', 'Farming']
+    }
+    ,
+    {
+      id: 8,
+      title: 'Toyota Hilux',
+      description: 'Reliable pickup truck ready for business operations',
+      imagePath: 'assets/images/gallery/delivery-8.jpeg',
+      category: 'truck',
+      clientName: 'Dr. Howeritz',
+      deliveryDate: '2024-12-23',
+      location: 'Cape Town',
+      tags: ['Toyota', 'Pickup', 'Commercial', 'Reliable']
+    }
+    ,
+    {
+      id: 9,
+      title: 'Toyota Hilux',
+      description: 'Reliable pickup truck ready for business operations',
+      imagePath: 'assets/images/gallery/delivery-9.jpeg',
+      category: 'truck',
+      clientName: 'Mrs Mwanza',
+      deliveryDate: '2025-03-13',
+      location: 'Lusaka, Zambia',
+      tags: ['Toyota', 'Pickup', 'Commercial', 'Reliable']
+    }
   ];
 
   // Filter and display properties
@@ -151,7 +187,7 @@ export class Gallery implements OnInit, OnDestroy {
     { key: 'luxury', label: 'Luxury', icon: 'bi-gem' },
     { key: 'sedan', label: 'Sedans', icon: 'bi-car-front' },
     { key: 'suv', label: 'SUVs', icon: 'bi-truck' },
-    { key: 'truck', label: 'Trucks', icon: 'bi-truck-front' },
+    { key: 'truck', label: 'Trucks and Machinery', icon: 'bi-truck-front' },
     { key: 'commercial', label: 'Commercial', icon: 'bi-building' }
   ];
 

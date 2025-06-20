@@ -106,7 +106,7 @@
     .title-accent {
       display: block;
       font-size: clamp(2.8rem, 5.5vw, 4.5rem);
-      background: linear-gradient(45deg, #fbbf24, #f59e0b);
+      background: linear-gradient(45deg, #d43900, #d43900);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -122,7 +122,7 @@
         transform: translateX(-50%);
         width: 100px;
         height: 4px;
-        background: linear-gradient(45deg, #fbbf24, #f59e0b);
+        background: linear-gradient(45deg, #d43900, #d43900);
         border-radius: 2px;
         animation: glow 2s ease-in-out infinite alternate;
       }
@@ -186,7 +186,7 @@
       justify-content: center;
       width: 60px;
       height: 60px;
-      background: linear-gradient(45deg, #fbbf24, #f59e0b);
+      background: linear-gradient(45deg, #d43900, #d43900);
       border-radius: 50%;
       font-size: 1.5rem;
       font-weight: 800;
@@ -224,7 +224,7 @@
       .step-subtitle {
         font-size: 1rem;
         font-weight: 600;
-        color: #fbbf24;
+        color: rgb(240, 74, 74);
         margin-bottom: var(--space-sm);
       }
 
@@ -248,11 +248,11 @@
       .connector-line {
         width: 2px;
         height: 20px;
-        background: linear-gradient(to bottom, #fbbf24, transparent);
+        background: linear-gradient(to bottom, #d43900, transparent);
       }
 
       .connector-arrow {
-        color: #fbbf24;
+        color: rgb(240, 74, 74);
         font-size: 1.2rem;
         animation: bounce 2s infinite;
       }
@@ -290,7 +290,7 @@
       justify-content: center;
       width: 50px;
       height: 50px;
-      background: linear-gradient(45deg, #fbbf24, #f59e0b);
+      background: linear-gradient(45deg, #d43900, #d43900);
       border-radius: 12px;
       
       i {
@@ -355,7 +355,7 @@
   align-items: center;
   gap: 0.5rem;
   padding: 1rem 2rem;
-  background: linear-gradient(45deg, #fbbf24, #f59e0b);
+  background: linear-gradient(45deg, #d43900, #d43900);
   color: white;
   border: none;
   border-radius: 50px;
@@ -427,7 +427,7 @@
     font-size: 0.95rem;
 
     i {
-      color: #fbbf24;
+      color: #d43900;
       font-size: 1.1rem;
     }
   }
@@ -448,7 +448,7 @@
     .thank-you-title {
       font-size: 2rem;
       font-weight: 800;
-      color: #fbbf24;
+      color: #d43900;
       margin-bottom: var(--space-md);
       letter-spacing: 2px;
     }
