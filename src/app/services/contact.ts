@@ -96,6 +96,13 @@ export class Contact {
     window.open(whatsappUrl, '_blank');
   }
 
+  openDeveloperWhatsApp(message: string = 'Hello! I would like to inquire about your services.'): void {
+    const contactInfo = this.contactInfoSubject.value;
+    const encodedMessage = encodeURIComponent(message);
+    const whatsappUrl = `https://wa.me/263738649300)}?text=${encodedMessage}`;
+    window.open(whatsappUrl, '_blank');
+  }
+
   /**
    * Open phone dialer
    */
@@ -272,7 +279,7 @@ export class Contact {
   private getDefaultContactInfo(): ContactInfo {
     return {
       phone: '+27 74 696 4384',
-      whatsapp: '+27 74 696 4384',
+      whatsapp: '27746964384',
       email: 'info@drivelinkauto.co.za',
       address: '123 Auto Drive, Car City, CC 12345',
       coordinates: {

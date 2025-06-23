@@ -148,7 +148,7 @@ export class Hero implements OnInit, OnDestroy {
   }
 
   openWhatsApp() {
-    window.open('https://wa.me/27123456789?text=Hello, I need help with vehicle export/import services', '_blank');
+    window.open('https://wa.me/27746964384?text=Hello, I need help with vehicle export/import services', '_blank');
   }
 
   scrollToServices() {

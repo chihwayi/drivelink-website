@@ -178,6 +178,10 @@ export class Footer implements OnInit, OnDestroy {
     this.contactService.openWhatsApp('Hello! I found your website and would like to know more about your services.');
   }
 
+  openDeveloperWhatsApp(): void {
+    this.contactService.openDeveloperWhatsApp('Hello! I found this website that you developed, i would like to know more about your services.');
+  }
+
   /**
    * Make phone call
    */
