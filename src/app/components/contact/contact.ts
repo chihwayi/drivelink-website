@@ -253,10 +253,8 @@ export class Contact implements OnInit, OnDestroy {
   }
 
   openMessenger(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      window.open('https://m.me/drivelink', '_blank');
-    }
-  }
+  this.contactService.openMessenger();
+}
 
   // FAQ Toggle
   toggleFaq(index: number): void {

@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { QuoteModal } from '../modals/quote-modal/quote-modal';
 import { CommonModule } from '@angular/common';
+import { Contact } from '../../services/contact';
 
 @Component({
   selector: 'app-hero',
@@ -94,7 +95,7 @@ export class Hero implements OnInit, OnDestroy {
     return 100 / this.carBrands.length;
   }
 
-  constructor(private dialog: MatDialog) { }
+  constructor(private dialog: MatDialog, private contactService: Contact) { }
 
   ngOnInit() {
     this.startAutoSlide();
@@ -147,8 +148,9 @@ export class Hero implements OnInit, OnDestroy {
     });
   }
 
-  openWhatsApp() {
-    window.open('https://wa.me/27746964384?text=Hello, I need help with vehicle export/import services', '_blank');
+  openWhatsApp(): void {
+    // Call the openWhatsApp method from your injected Contact service
+    this.contactService.openWhatsApp('Hello, I need help with vehicle export/import services');
   }
 
   scrollToServices() {

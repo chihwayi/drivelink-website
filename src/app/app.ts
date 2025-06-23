@@ -7,6 +7,7 @@ import { Footer } from "./components/footer/footer";
 import { Gallery } from "./components/gallery/gallery";
 import { ImportExport } from "./components/import-export/import-export";
 import { Faq } from "./components/faq/faq";
+import { Contact } from './services/contact';
 
 @Component({
   selector: 'app-root',
@@ -19,7 +20,7 @@ export class App implements OnInit, OnDestroy {
   showBackToTop = false;
   isLoading: boolean = false;
 
-  constructor(private viewportScroller: ViewportScroller) {}
+  constructor(private viewportScroller: ViewportScroller, private contactService: Contact) {}
 
   ngOnInit() {
     // Only initialize AOS on client side
@@ -52,16 +53,16 @@ onScroll() {
   }
 
   openMessenger() {
-    window.open('https://m.me/yourpageusername', '_blank');
+    this.contactService.openMessenger();
   }
 
   openWhatsApp() {
-    window.open('https://wa.me/your-number', '_blank');
+    window.open('https://wa.me/263771543738', '_blank');
   }
 
-  callUs() {
-    window.open('tel:+1234567890', '_self');
-  }
+  callUs(): void {
+  this.contactService.makePhoneCall('+263771543738');
+}
 
   scrollToSection(elementId: string): void {
     this.viewportScroller.scrollToAnchor(elementId);

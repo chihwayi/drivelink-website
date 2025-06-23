@@ -457,7 +457,7 @@ export class Gallery implements OnInit, OnDestroy {
   // Contact methods
   contactForSimilar(item: GalleryItem | null) {
     const message = `Hi DriveLink! I'm interested in a vehicle similar to the ${item?.title}. Can you help me find one?`;
-    const whatsappUrl = `https://wa.me/27123456789?text=${encodeURIComponent(message)}`;
+    const whatsappUrl = `https://wa.me/+27123456789?text=${encodeURIComponent(message)}`;
     if (isPlatformBrowser(this.platformId)) { // Add platform check for window.open
       window.open(whatsappUrl, '_blank');
     }
