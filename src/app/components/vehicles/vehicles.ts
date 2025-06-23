@@ -6,6 +6,7 @@ import { Navigation, Pagination, Autoplay, EffectCoverflow } from 'swiper/module
 import { ImageResize } from '../../directives/image-resize';
 import { ImageResizeOptions } from '../../services/image-resize';
 import { FormsModule } from '@angular/forms';
+import { Contact } from '../../services/contact';
 
 interface Vehicle {
   id: string;
@@ -392,7 +393,7 @@ export class Vehicles implements OnInit, OnDestroy, AfterViewInit {
   filteredVehicles: Vehicle[] = [];
   featuredVehicles: Vehicle[] = [];
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) { } // Inject PLATFORM_ID
+  constructor(@Inject(PLATFORM_ID) private platformId: Object, private contactService: Contact) { } // Inject PLATFORM_ID
 
   ngOnInit(): void {
     this.initializeComponent();
@@ -708,5 +709,10 @@ export class Vehicles implements OnInit, OnDestroy, AfterViewInit {
       case 'reserved': return 'Reserved';
       default: return '';
     }
+  }
+
+  openWhatsApp(): void {
+    // Call the openWhatsApp method from your injected Contact service
+    this.contactService.openWhatsApp('Hello, I need help with vehicle export/import services');
   }
 }

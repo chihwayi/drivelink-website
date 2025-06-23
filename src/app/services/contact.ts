@@ -297,10 +297,10 @@ export class Contact {
       },
       socialMedia: {
         facebook: 'https://www.facebook.com/share/1Ab9JqxYcK/',
-        instagram: 'https://instagram.com/drivelink',
-        twitter: 'https://twitter.com/drivelink',
-        linkedin: 'https://linkedin.com/company/drivelink',
-        youtube: 'https://youtube.com/drivelink'
+        instagram: 'https://instagram.com/drivelinkauto',
+        twitter: 'https://twitter.com/drivelinkauto',
+        linkedin: 'https://linkedin.com/company/drivelinkauto',
+        youtube: 'https://youtube.com/drivelinkauto'
       }
     };
   }

@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy, ViewChild, ElementRef, Inject, PLATFORM_I
 import { isPlatformBrowser, CommonModule } from '@angular/common'; // Import isPlatformBrowser
 import { trigger, style, state, transition, animate, stagger, query } from '@angular/animations';
 import { ImageResizeOptions } from '../../services/image-resize';
+import { Contact } from '../../services/contact';
 
 interface GalleryItem {
   id: number;
@@ -195,7 +196,7 @@ export class Gallery implements OnInit, OnDestroy {
   isLoading: boolean = false;
   intersectionObserver!: IntersectionObserver;
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {} // Inject PLATFORM_ID
+  constructor(@Inject(PLATFORM_ID) private platformId: Object, private contactService: Contact) {} // Inject PLATFORM_ID
 
   ngOnInit(): void {
     this.filteredItems = [...this.galleryItems];
@@ -445,6 +446,11 @@ export class Gallery implements OnInit, OnDestroy {
     if (isPlatformBrowser(this.platformId)) { // Add platform check for window.open
       window.open(url, '_blank');
     }
+  }
+
+  openWhatsApp(): void {
+    // Call the openWhatsApp method from your injected Contact service
+    this.contactService.openWhatsApp('Hello, I need help with vehicle export/import services');
   }
 
   shareOnFacebook(item: GalleryItem): void {
