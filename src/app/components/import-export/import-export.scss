@@ -152,7 +152,7 @@
         .title-accent {
           display: block;
           font-size: clamp(2.8rem, 5.5vw, 4.5rem);
-          background: linear-gradient(45deg, #d43900, #d43900);
+          background: linear-gradient(45deg, red, red);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
@@ -168,7 +168,7 @@
             transform: translateX(-50%);
             width: 100px;
             height: 4px;
-            background: linear-gradient(45deg, #d43900, #d43900);
+            background: linear-gradient(45deg, red, red);
             border-radius: 2px;
             animation: glow 2s ease-in-out infinite alternate;
           }
@@ -227,7 +227,7 @@
               justify-content: center;
               width: 60px;
               height: 60px;
-              background: linear-gradient(45deg, #d43900, #d43900);
+              background: linear-gradient(45deg, red, red);
               border-radius: 15px;
               font-size: 1.5rem;
               color: white;
@@ -265,7 +265,7 @@
     }
   }
   
-  // Sha#d43900 section styles
+  // Shared section styles
   .services-section,
   .process-section,
   .countries-section,
@@ -322,7 +322,7 @@
           transform: translateX(-50%);
           width: 80px;
           height: 3px;
-          background: linear-gradient(45deg, #d43900, #d43900);
+          background: linear-gradient(45deg, red, red);
           border-radius: 2px;
         }
       }
@@ -368,12 +368,12 @@
         &:hover,
         &.active {
           background: rgba(255, 255, 255, 0.2);
-          border-color: #d43900;
+          border-color: red;
           transform: translateY(-2px);
         }
         
         &.active {
-          background: linear-gradient(45deg, #d43900, #d43900);
+          background: linear-gradient(45deg, red, red);
           border-color: transparent;
         }
       }
@@ -400,7 +400,7 @@
         }
         
         &.popular {
-          border-color: #d43900;
+          border-color: red;
           box-shadow: 0 0 30px rgba(251, 191, 36, 0.3);
         }
         
@@ -412,7 +412,7 @@
           align-items: center;
           gap: 0.25rem;
           padding: 0.5rem 1rem;
-          background: linear-gradient(45deg, #d43900, #d43900);
+          background: linear-gradient(45deg, red, red);
           border-radius: 25px;
           color: white;
           font-size: 0.8rem;
@@ -450,7 +450,7 @@
               align-items: center;
               gap: 0.5rem;
               padding: 0.75rem 1.5rem;
-              background: linear-gradient(45deg, #d43900, #d43900);
+              background: linear-gradient(45deg, red, red);
               color: white;
               border: none;
               border-radius: 25px;
@@ -485,7 +485,7 @@
               justify-content: center;
               width: 50px;
               height: 50px;
-              background: linear-gradient(45deg, #d43900, #d43900);
+              background: linear-gradient(45deg, red, red);
               border-radius: 12px;
               font-size: 1.2rem;
               color: white;
@@ -547,7 +547,7 @@
             }
             
             .btn-quote {
-              background: linear-gradient(45deg, #d43900, #d43900);
+              background: linear-gradient(45deg, red, red);
               color: white;
               
               &:hover {
@@ -594,7 +594,7 @@
           justify-content: center;
           width: 60px;
           height: 60px;
-          background: linear-gradient(45deg, #d43900, #d43900);
+          background: linear-gradient(45deg, red, red);
           border-radius: 50%;
           color: white;
           font-weight: 800;
@@ -633,7 +633,7 @@
               background: rgba(255, 255, 255, 0.2);
               border-radius: 12px;
               font-size: 1.2rem;
-              color: #d43900;
+              color: red;
             }
             
             .step-info {
@@ -666,7 +666,7 @@
           top: 60px;
           width: 2px;
           height: calc(100% + var(--space-3xl));
-          background: linear-gradient(45deg, #d43900, #d43900);
+          background: linear-gradient(45deg, red, red);
           opacity: 0.5;
         }
       }
@@ -681,7 +681,7 @@
         align-items: center;
         gap: 0.5rem;
         padding: 1.25rem 2.5rem;
-        background: linear-gradient(45deg, #d43900, #d43900);
+        background: linear-gradient(45deg, red, red);
         color: white;
         border: none;
         border-radius: 50px;
@@ -716,7 +716,7 @@
         margin-bottom: var(--space-xl);
         
         i {
-          color: #d43900;
+          color: red;
           font-size: 1.3rem;
         }
       }
@@ -747,7 +747,7 @@
           }
           
           &.priority-medium {
-            border-color: #d43900;
+            border-color: red;
             box-shadow: 0 0 20px rgba(251, 191, 36, 0.2);
           }
           
@@ -775,7 +775,7 @@
               .country-badge {
                 display: inline-block;
                 padding: 0.25rem 0.75rem;
-                background: linear-gradient(45deg, #d43900, #d43900);
+                background: linear-gradient(45deg, red, red);
                 border-radius: 15px;
                 color: white;
                 font-size: 0.8rem;
@@ -842,7 +842,7 @@
               align-items: center;
               gap: 0.5rem;
               padding: 0.75rem 1.25rem;
-              background: linear-gradient(45deg, #d43900, #d43900);
+              background: linear-gradient(45deg, red, red);
               color: white;
               border: none;
               border-radius: 25px;
@@ -923,7 +923,7 @@
           justify-content: center;
           width: 80px;
           height: 80px;
-          background: linear-gradient(45deg, #d43900, #d43900);
+          background: linear-gradient(45deg, red, red);
           border-radius: 50%;
           margin: 0 auto var(--space-lg) auto;
           font-size: 2rem;
@@ -950,7 +950,7 @@
           align-items: center;
           gap: 0.5rem;
           padding: 1rem 1.5rem;
-          background: linear-gradient(45deg, #d43900, #d43900);
+          background: linear-gradient(45deg, red, red);
           color: white;
           border: none;
           border-radius: 25px;
@@ -1178,7 +1178,7 @@
           align-items: center;
           gap: 0.5rem;
           padding: 1rem 2rem;
-          background: linear-gradient(45deg, #d43900, #d43900);
+          background: linear-gradient(45deg, red, red);
           color: white;
           border: none;
           border-radius: 50px;
@@ -1279,7 +1279,7 @@
               border-bottom: 2px solid rgba(255, 255, 255, 0.2);
               
               i {
-                color: #d43900;
+                color: red;
               }
             }
             
@@ -1292,7 +1292,7 @@
                 font-weight: 500;
                 margin-bottom: 0.5rem;
                 
-                .requi#d43900 {
+                .required {
                   color: #ef4444;
                 }
                 
@@ -1320,7 +1320,7 @@
                 
                 &:focus {
                   outline: none;
-                  border-color: #d43900;
+                  border-color: red;
                   box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.2);
                   background: rgba(255, 255, 255, 0.15);
                 }
@@ -1340,7 +1340,7 @@
                 
                 optgroup {
                   background: #374151;
-                  color: #d43900;
+                  color: red;
                   font-weight: 600;
                 }
               }
@@ -1448,7 +1448,7 @@
     }
   }
   
-  // Sha#d43900 button styles
+  // Shared button styles
   .btn-hero-primary,
   .btn-hero-secondary {
     display: inline-flex;
@@ -1470,7 +1470,7 @@
   }
   
   .btn-hero-primary {
-    background: linear-gradient(45deg, #d43900, #d43900);
+    background: linear-gradient(45deg, red, red);
     color: white;
     box-shadow: 0 10px 30px rgba(251, 191, 36, 0.4);
     

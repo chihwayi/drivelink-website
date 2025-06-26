@@ -312,10 +312,10 @@ export class ImportExport implements OnInit, OnDestroy {
 
   // Statistics
   statistics = [
-    { number: '500+', label: 'Vehicles Exported', icon: 'bi bi-car-front' },
-    { number: '15+', label: 'Countries Served', icon: 'bi bi-globe' },
+    { number: '100+', label: 'Vehicles Exported', icon: 'bi bi-car-front' },
+    { number: '10+', label: 'Countries Served', icon: 'bi bi-globe' },
     { number: '98%', label: 'Client Satisfaction', icon: 'bi bi-heart' },
-    { number: '10+', label: 'Years Experience', icon: 'bi bi-award' }
+    { number: '5+', label: 'Years Experience', icon: 'bi bi-award' }
   ];
 
   constructor(

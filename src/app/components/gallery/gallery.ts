@@ -77,7 +77,7 @@ export class Gallery implements OnInit, OnDestroy {
       description: 'Premium SUV delivered to satisfied client in Zimbabwe from South Africa',
       imagePath: 'assets/images/gallery/delivery-1.jpeg',
       category: 'luxury',
-      clientName: 'Mrs. Zulu',
+      clientName: 'Chatikobo Family',
       deliveryDate: '2024-01-15',
       location: 'Bulawayo',
       tags: ['BMW', 'SUV', 'Luxury', 'Import']
@@ -132,9 +132,9 @@ export class Gallery implements OnInit, OnDestroy {
       description: 'Fuel-efficient sedan for daily commuting',
       imagePath: 'assets/images/gallery/delivery-6.jpeg',
       category: 'sedan',
-      clientName: 'Mr. Patel',
+      clientName: 'David Kiyumbi',
       deliveryDate: '2024-02-10',
-      location: 'Port Elizabeth',
+      location: 'Kabwe, Zambia',
       tags: ['Honda', 'Sedan', 'Efficient', 'Daily']
     }
     ,
