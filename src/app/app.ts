@@ -57,11 +57,11 @@ onScroll() {
   }
 
   openWhatsApp() {
-    window.open('https://wa.me/263771543738', '_blank');
+    window.open('https://wa.me/27746964384', '_blank');
   }
 
   callUs(): void {
-  this.contactService.makePhoneCall('+263771543738');
+  this.contactService.makePhoneCall('+27746964384');
 }
 
   scrollToSection(elementId: string): void {
