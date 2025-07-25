@@ -241,7 +241,25 @@ export class Contact implements OnInit, OnDestroy {
 
   openEmail(): void {
     if (isPlatformBrowser(this.platformId)) {
-      window.open('mailto:info@drivelinkauto.co.za', '_self');
+      this.contactService.sendDepartmentEmail('general', 'Website Inquiry - DriveLink Auto');
+    }
+  }
+
+  openSalesEmail(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      this.contactService.sendDepartmentEmail('sales', 'Vehicle Sales Inquiry - DriveLink Auto');
+    }
+  }
+
+  openServiceEmail(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      this.contactService.sendDepartmentEmail('service', 'Service Request - DriveLink Auto');
+    }
+  }
+
+  openSupportEmail(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      this.contactService.sendDepartmentEmail('support', 'Support Request - DriveLink Auto');
     }
   }
 
@@ -263,21 +281,28 @@ export class Contact implements OnInit, OnDestroy {
 
   // Quick Actions
   requestQuote(): void {
-    // This would typically open a quote modal
-    this.openQuoteModal();
+    if (isPlatformBrowser(this.platformId)) {
+      const customerName = this.contactForm.get('name')?.value || 'Website Visitor';
+      this.contactService.sendQuoteEmail(customerName, 'Vehicle Import/Export Services');
+    }
   }
 
   openQuoteModal(): void {
     // Implement modal opening logic here
     if (isPlatformBrowser(this.platformId)) {
-      alert('Quote modal feature coming soon!');
+      this.requestQuote();
     }
   }
 
   scheduleCallback(): void {
     const phone = this.contactForm.get('phone')?.value;
+    const name = this.contactForm.get('name')?.value || 'Website Visitor';
     if (phone) {
-      const message = `Please schedule a callback for ${phone}`;
+      const subject = 'Callback Request - DriveLink Auto';
+      const body = `Hello DriveLink Team,\n\nPlease schedule a callback for:\n\nName: ${name}\nPhone: ${phone}\n\nBest time to call: [Please specify]\n\nThank you`;
+      this.contactService.sendDepartmentEmail('general', subject, body);
+    } else {
+      const message = `Please schedule a callback for this customer`;
       this.contactForm.patchValue({ 
         subject: 'Callback Request',
         message: message,
@@ -288,9 +313,9 @@ export class Contact implements OnInit, OnDestroy {
 
   // Live Chat Simulation
   startLiveChat(): void {
-    // Simulate live chat opening
+    // Open WhatsApp as live chat alternative
     if (isPlatformBrowser(this.platformId)) {
-      alert('Live chat feature coming soon! Please use our contact form or call us directly.');
+      this.openWhatsApp();
     }
   }
 

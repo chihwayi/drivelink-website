@@ -57,12 +57,16 @@ onScroll() {
   }
 
   openWhatsApp() {
-    window.open('https://wa.me/27746964384', '_blank');
+    this.contactService.openWhatsApp('Hello! I found your website and would like to know more about your vehicle services.');
   }
 
   callUs(): void {
-  this.contactService.makePhoneCall('+27746964384');
-}
+    this.contactService.makePhoneCall();
+  }
+
+  sendEmail(): void {
+    this.contactService.sendDepartmentEmail('general', 'Website Inquiry - DriveLink Auto');
+  }
 
   scrollToSection(elementId: string): void {
     this.viewportScroller.scrollToAnchor(elementId);

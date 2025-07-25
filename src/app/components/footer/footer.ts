@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-footer',
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './footer.html',
-  styleUrl: './footer.scss'
+  styleUrls: ['./footer.scss', './footer-developer.scss']
 })
 export class Footer implements OnInit, OnDestroy {
   contactInfo: ContactInfo | null = null;
@@ -178,8 +178,15 @@ export class Footer implements OnInit, OnDestroy {
     this.contactService.openWhatsApp('Hello! I found your website and would like to know more about your services.');
   }
 
-  openDeveloperWhatsApp(): void {
-    this.contactService.openDeveloperWhatsApp('Hello! I found this website that you developed, i would like to know more about your services.');
+  contactDeveloperWhatsApp(): void {
+    const message = encodeURIComponent('Hello Ignatius! I found the DriveLink Auto website you developed. I would like to discuss a project with you.');
+    window.open(`https://wa.me/263738649300?text=${message}`, '_blank');
+  }
+
+  contactDeveloperEmail(): void {
+    const subject = encodeURIComponent('Web Development Inquiry - DriveLink Auto Project');
+    const body = encodeURIComponent('Hello Ignatius,\n\nI found the DriveLink Auto website you developed and I\'m impressed with your work. I would like to discuss a potential project with you.\n\nBest regards');
+    window.open(`mailto:ignatiouschihwayi@gmail.com?subject=${subject}&body=${body}`, '_self');
   }
 
   /**
@@ -193,7 +200,28 @@ export class Footer implements OnInit, OnDestroy {
    * Send email
    */
   sendEmail(): void {
-    this.contactService.sendEmail('General Inquiry from Website');
+    this.contactService.sendDepartmentEmail('general', 'General Inquiry from Website Footer');
+  }
+
+  /**
+   * Send sales email
+   */
+  sendSalesEmail(): void {
+    this.contactService.sendDepartmentEmail('sales', 'Sales Inquiry from Website');
+  }
+
+  /**
+   * Send service email
+   */
+  sendServiceEmail(): void {
+    this.contactService.sendDepartmentEmail('service', 'Service Inquiry from Website');
+  }
+
+  /**
+   * Send support email
+   */
+  sendSupportEmail(): void {
+    this.contactService.sendDepartmentEmail('support', 'Support Request from Website');
   }
 
   /**
@@ -288,5 +316,12 @@ export class Footer implements OnInit, OnDestroy {
       return `${status}${nextOpening ? ` - ${nextOpening}` : ''}`;
     }
     return status;
+  }
+
+  /**
+   * Get company email addresses for display
+   */
+  getCompanyEmails() {
+    return this.contactService.getCompanyEmails();
   }
 }

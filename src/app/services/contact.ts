@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { EMAIL_CONFIG, DEFAULT_EMAIL_SUBJECTS } from '../config/email.config';
 
 export interface ContactInfo {
   phone: string;
@@ -120,6 +121,39 @@ export class Contact {
     const contactInfo = this.contactInfoSubject.value;
     const mailtoUrl = `mailto:${contactInfo.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     window.open(mailtoUrl, '_self');
+  }
+
+  /**
+   * Send email to specific department
+   */
+  sendDepartmentEmail(department: 'sales' | 'service' | 'support' | 'general', subject?: string, body?: string): void {
+    const emailMap = {
+      general: EMAIL_CONFIG.companyEmails.main,
+      sales: EMAIL_CONFIG.companyEmails.sales,
+      service: EMAIL_CONFIG.companyEmails.service,
+      support: EMAIL_CONFIG.companyEmails.support
+    };
+    
+    const defaultSubjects = {
+      general: DEFAULT_EMAIL_SUBJECTS.general,
+      sales: DEFAULT_EMAIL_SUBJECTS.sales,
+      service: DEFAULT_EMAIL_SUBJECTS.service,
+      support: DEFAULT_EMAIL_SUBJECTS.support
+    };
+    
+    const emailTo = emailMap[department];
+    const emailSubject = subject || defaultSubjects[department];
+    const emailBody = body || `Hello DriveLink Auto Team,\n\nI would like to inquire about your services.\n\nBest regards`;
+    
+    const mailtoUrl = `mailto:${emailTo}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+    window.open(mailtoUrl, '_self');
+  }
+
+  /**
+   * Get company email addresses
+   */
+  getCompanyEmails() {
+    return EMAIL_CONFIG.companyEmails;
   }
 
   /**
@@ -258,8 +292,13 @@ export class Contact {
    * Format phone number for display
    */
   formatPhoneNumber(phone: string): string {
+    // Handle South African phone numbers
     const cleaned = phone.replace(/\D/g, '');
-    if (cleaned.length === 10) {
+    if (cleaned.startsWith('27') && cleaned.length === 11) {
+      // Format: +27 XX XXX XXXX
+      return `+${cleaned.slice(0,2)} ${cleaned.slice(2,4)} ${cleaned.slice(4,7)} ${cleaned.slice(7)}`;
+    } else if (cleaned.length === 10) {
+      // Format: (XXX) XXX-XXXX
       return `(${cleaned.slice(0,3)}) ${cleaned.slice(3,6)}-${cleaned.slice(6)}`;
     }
     return phone;
@@ -315,7 +354,7 @@ private getDefaultBranches(): Branch[] {
       name: 'DriveLink Main Branch',
       address: '123 Auto Drive, Car City, CC 12345',
       phone: '+27 74 696 4384',
-      email: 'info@drivelinkauto.com',
+      email: 'info@drivelinkauto.co.za',
       coordinates: { lat: 40.7128, lng: -74.0060 },
       manager: 'John Smith',
       services: ['Sales', 'Service', 'Parts', 'Financing'],
@@ -334,8 +373,8 @@ private getDefaultBranches(): Branch[] {
       id: 'north',
       name: 'DriveLink North Branch',
       address: '456 Motor Street, North City, NC 67890',
-      phone: '+1-800-DRIVE-02',
-      email: 'north@drivelink.com',
+      phone: '+27 74 696 4384',
+      email: 'north@drivelinkauto.co.za',
       coordinates: { lat: 40.7580, lng: -73.9855 },
       manager: 'Sarah Johnson',
       services: ['Sales', 'Service', 'Parts'],
@@ -354,8 +393,8 @@ private getDefaultBranches(): Branch[] {
       id: 'south',
       name: 'DriveLink South Branch',
       address: '789 Vehicle Avenue, South City, SC 54321',
-      phone: '+1-800-DRIVE-03',
-      email: 'south@drivelink.com',
+      phone: '+27 74 696 4384',
+      email: 'south@drivelinkauto.co.za',
       coordinates: { lat: 40.6892, lng: -74.0445 },
       manager: 'Mike Davis',
       services: ['Sales', 'Service', 'Financing'],
@@ -408,5 +447,23 @@ private getDefaultBranches(): Branch[] {
     // Implement saving logic here (e.g., send to backend or store locally)
     // For now, just simulate with a resolved promise
     return Promise.resolve();
+  }
+
+  /**
+   * Send quote request email
+   */
+  sendQuoteEmail(customerName: string, vehicleDetails: string): void {
+    const subject = `${DEFAULT_EMAIL_SUBJECTS.quote} - ${vehicleDetails}`;
+    const body = `Hello DriveLink Sales Team,\n\nI would like to request a quote for: ${vehicleDetails}\n\nCustomer: ${customerName}\n\nPlease contact me with pricing and availability.\n\nThank you`;
+    this.sendDepartmentEmail('sales', subject, body);
+  }
+
+  /**
+   * Send service appointment email
+   */
+  sendServiceEmail(customerName: string, serviceType: string, vehicleInfo: string): void {
+    const subject = `${DEFAULT_EMAIL_SUBJECTS.service} - ${serviceType}`;
+    const body = `Hello DriveLink Service Team,\n\nI would like to schedule a service appointment:\n\nCustomer: ${customerName}\nService Type: ${serviceType}\nVehicle: ${vehicleInfo}\n\nPlease contact me to schedule.\n\nThank you`;
+    this.sendDepartmentEmail('service', subject, body);
   }
 }
